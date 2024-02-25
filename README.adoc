@@ -1,0 +1,14 @@
+== Hellextractor
+This is a simple tool to help extract content from Helldivers 2, for whatever purpose you decide them to use for.
+
+=== Building
+1. git clone
+2. cmake -S. -Bbuild
+3. cmake --build build
+4. ???
+5. Profit
+
+=== Usage
+```
+hellextractor.exe "path/to/mesh.meshinfo"
+```
