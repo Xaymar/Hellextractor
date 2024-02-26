@@ -35,7 +35,8 @@ enum <uint64_t> datafile_type {
     //UNKNOWN_931E336D7646CC26 = 0x931E336D7646CC26, //   
     BINK_VIDEO = 0xAA5965F03029FA18, // Bink Video (.bik)
     WWISE_AUDIO = 0x504B55235D21440E, // WWise Encoded Media (.wem)
-    TRUETYPE_FONT = 0x05106B81DCD58A13, // TrueType Font (.ttf) // 0x80, 0x24 "Header" Size
+    TRUETYPE_FONT = 0x05106B81DCD58A13, // TrueType Font (.ttf) // 0x80 or 0x24 "Header" Size
+    WWISE_SOUNDBANK = 0x535A7BD3E650D799, // WWise sound Bank (.bkhd?) // 0x16 "Header" Size
 };
 
 struct datafile_t {
@@ -83,24 +84,34 @@ struct datafile_t {
             FSeek(file[i].offset);
             struct {
                 char _[file[i].size];
-                // TEXTURE_DDS: header is "exactly" 0xC0 bytes?
-                /*struct {
-                    uint32_t __unk <format=hex>;
-                    uint32_t __unk <format=hex>;
-                    struct {
-                        uint32_t __unk <format=decimal>;
-                        uint32_t __unk <format=decimal>;
-                        uint32_t __unk <format=decimal>;
-                    } __unk0[15];
-                    uint32_t __unk <format=hex>;
-                    //uint32_t __unk[48] <format=hex>;
-                    // First element of __unk is non-zero when file[i].stream_size is non-zero.
-                } header;
-                if (file[i].size > 0) {
-                    struct {
-                        char _[file[i].size - sizeof(header)];
-                    } content;
-                }*/
+                // This is the weirdest format I've encountered, and I don't understand the rules.
+                // 
+                /* Any DDS file appears to have 0xC0 prefix size.
+                */
+                /* WWise Sound Banks
+                    74 2F 76 78 8D 86 0F 00 62 88 B5 0D 9C 9F 9D 35
+                */
+                /* TrueType Font with 16MB size:
+                    EE 8A C3 3B 38 46 B8 74 87 88 08 C0 8B 88 88 3F
+                    3F 00 00 00 00 00 00 00 69 FB CF 7A 07 EB 33 C0
+                    05 00 00 00 28 00 00 00 00 40 5B 44 00 80 BA C3
+                    00 40 9C 44 80 00 00 00 00 40 5F 44 00 00 FE C2
+                    00 00 FF 44 D0 F2 00 00 00 C0 71 44 00 00 7D C3
+                    00 80 98 44 E0 3C 2C 00 00 80 6D 44 00 00 75 C3
+                    00 60 95 44 70 20 93 00 00 00 61 44 00 00 7A C3
+                    00 C0 8F 44 50 76 CA 00 00 00 00 00 00 00 00 00
+                */
+                /* TrueType Font with 4MB size
+                    C0 E7 1D 12 3C 53 27 53 87 88 08 C0 8B 88 88 3F
+                    3F 00 00 00 00 00 00 00 CC E8 77 49 D4 BD 15 22
+                    01 00 00 00 28 00 00 00 00 40 5B 44 00 80 BA C3
+                    00 40 9C 44 40 00 00 00 00 00 00 00 00 00 00 00
+                 */
+                /* TrueType Font with 4MB size
+                    7A 39 D7 8B 42 6B 14 D2 00 00 00 00 00 00 80 3F
+                    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+                    00 00 00 00 28 00 00 00
+                 */
             } entry;
         }
     } data;
