@@ -1,0 +1,182 @@
+# Copyright 2024 Michael Fabian 'Xaymar' Dirks <info@xaymar.com>
+#
+# Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+#
+# 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+# 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+
+# Thanks to:
+# - h3x3r (https://reshax.com/profile/183-h3x3r/) for providing the BMS script that this is based on.
+
+Get BASEFILENAME basename
+
+Open FDDE "" 0
+Open FDDE "stream" 1 HAS_STREAM
+Open FDDE "gpu_resources" 2 HAS_GPU_RESOURCES
+
+Endian Little
+
+Get MAGICNUMBER Long
+Get TYPES Long
+Get FILES Long
+Get DUMMY Long
+Get DUMMY Long
+Get DUMMY Long
+Get DUMMY Long
+Get DUMMY Long
+Get DUMMY Long
+Get DUMMY Long
+Get DUMMY Long
+Get DUMMY Long
+Get DUMMY Long
+Get DUMMY Long
+Get DUMMY Long
+Get DUMMY Long
+Get DUMMY Long
+Get DUMMY Long
+
+# Write out Types
+For i = 0 < TYPES
+	SavePos OFFSET
+	Get DUMMY Long
+	Get DUMMY Long
+	Get ID0 Long
+	Get ID1 Long
+	Get DUMMY Long
+	Get DUMMY Long
+	Get DUMMY Long
+	Get DUMMY Long
+
+	String NAME p= "types/%08X%08X.%s.type" ID1 ID0 BASEFILENAME
+	Append 1
+	Log NAME OFFSET 0x20 0
+	Append 0
+Next i
+
+# Write out Files
+For i = 0 < FILES
+	Get ID0 Long
+	Get ID1 Long
+	Get TYPE0 Long
+	Get TYPE1 Long
+	Get MAIN_OFFSET Long
+	Get DUMMY Long
+	Get STREAM_OFFSET Long
+	Get DUMMY Long
+	Get GPU_RESOURCES_OFFSET Long
+	Get DUMMY Long
+	Get DUMMY Long
+	Get DUMMY Long
+	Get DUMMY Long
+	Get DUMMY Long
+	Get MAIN_SIZE Long
+	Get STREAM_SIZE Long
+	Get GPU_RESOURCES_SIZE Long
+	Get DUMMY Long
+	Get DUMMY Long
+	Get INDEX Long
+	SavePos OFFSET
+
+	String LOG p= "%08lX:%08lX %08lX:%08lX (%lu, %lu) (%lu, %lu) (%lu, %lu)" ID1 ID0 TYPE1 TYPE0 MAIN_OFFSET MAIN_SIZE STREAM_OFFSET STREAM_SIZE GPU_RESOURCES_OFFSET GPU_RESOURCES_SIZE
+	Print "%LOG%"
+
+	String BASENAME p= "%08lX%08lX/%08lX%08lX.%s" TYPE1 TYPE0 ID0 ID1 BASEFILENAME
+	if TYPE1 == 0xCD4238C6 && TYPE0 == 0xA0C69E32 # Texture
+		Math DDS_SIZE = MAIN_SIZE
+		Math DDS_SIZE - 0xC0
+		GoTo MAIN_OFFSET
+		GetDString DUMMY 0xC0
+		SavePos DDS_DATA
+
+		if STREAM_SIZE != 0
+			String NAME p= "%s.stream.dds" BASENAME
+			Append 1
+			Log NAME DDS_DATA DDS_SIZE 0
+			Append 0
+			Log NAME STREAM_OFFSET STREAM_SIZE 1
+		endif
+		if GPU_RESOURCES_SIZE != 0
+			String NAME p= "%s.gpu_resources.dds" BASENAME
+			Append 1
+			Log NAME DDS_DATA DDS_SIZE 0
+			Append 0
+			Log NAME GPU_RESOURCES_OFFSET GPU_RESOURCES_SIZE 2
+		endif
+		if (STREAM_SIZE == 0) && (GPU_RESOURCES_SIZE == 0)
+			String NAME p= "%s.main.dds" BASENAME
+			Append 1
+			Log NAME DDS_DATA DDS_SIZE 0
+		endif
+	
+	elif TYPE1 == 0xE0A48D0B && TYPE0 == 0xE9A7453F # Mesh + MeshInfo
+		if MAIN_SIZE != 0
+			String NAME p= "%s.meshinfo" BASENAME
+			Append 1
+		endif
+		if STREAM_SIZE != 0
+			String NAME p= "%s.mesh2" BASENAME
+			Append 1
+			Log NAME STREAM_OFFSET STREAM_SIZE 1
+		endif
+		if GPU_RESOURCES_SIZE != 0
+			String NAME p= "%s.mesh" BASENAME
+			Append 1
+			Log NAME GPU_RESOURCES_OFFSET GPU_RESOURCES_SIZE 2
+		endif
+
+#	elif TYPE == 0xEAC0B497876ADEDF # Material
+#		Original script does the exact same as the else case.
+	
+	elif TYPE1 == 0xAA5965F0 && TYPE0 == 0x3029FA18 # Bink Video
+		# MAIN_SIZE is 16 for these
+		# Resides entirely in '.stream'.
+		String NAME p= "%s.bik" BASENAME
+		Append 1
+		if STREAM_SIZE != 0
+			Log NAME STREAM_OFFSET STREAM_SIZE 1
+			Append 0
+		endif
+		if GPU_RESOURCES_SIZE != 0
+			Log NAME GPU_RESOURCES_OFFSET GPU_RESOURCES_SIZE 2
+			Append 0
+		endif
+
+	elif TYPE1 == 0x504B5523 && TYPE0 == 0x5D21440E # WWise Encoded Media
+		if STREAM_SIZE != 0
+			String NAME p= "%s.wem" BASENAME
+			Append 1
+			Log NAME STREAM_OFFSET STREAM_SIZE 1
+		endif
+		if GPU_RESOURCES_SIZE != 0
+			String NAME p= "%s.gpu.wem" BASENAME
+			Append 1
+			Log NAME GPU_RESOURCES_OFFSET GPU_RESOURCES_SIZE 2
+		endif
+
+	else # Unknown so far.
+		if MAIN_SIZE != 0
+			String NAME p= "%s.main" BASENAME
+			Append 1
+			Log NAME MAIN_OFFSET MAIN_SIZE 0
+			Append 0
+		endif
+		if STREAM_SIZE != 0
+			String NAME p= "%s.stream" BASENAME
+			Append 1
+			Log NAME STREAM_OFFSET STREAM_SIZE 1
+			Append 0
+		endif
+		if GPU_RESOURCES_SIZE != 0
+			String NAME p= "%s.gpu_resources" BASENAME
+			Append 1
+			Log NAME GPU_RESOURCES_OFFSET GPU_RESOURCES_SIZE 2
+			Append 0
+		endif
+	endif
+
+	GoTo OFFSET
+Next i

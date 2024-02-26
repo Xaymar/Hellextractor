@@ -1,0 +1,5 @@
+*.exe
+*.dll
+/COPYING
+/README.md
+/USAGE.md
