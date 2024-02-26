@@ -49,7 +49,7 @@ EXIT /B 0
 
 :TRANSCODE
 	ECHO %~dpn1
-	"%SCRIPTROOT%\quickbms_4gb_files.exe" -Q -o -. -e "%SCRIPTROOT%\datafile.bms" "%~1" "%SCRIPTROOT%\output"
+	"%SCRIPTROOT%\quickbms.exe" -Q -o -. -e "%SCRIPTROOT%\datafile.bms" "%~1" "%SCRIPTROOT%\output"
 	if ERRORLEVEL 1 (
 		PAUSE
 	)

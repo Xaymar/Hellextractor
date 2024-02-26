@@ -115,7 +115,8 @@ For i = 0 < FILES
 			Append 0
 			Log NAME GPU_RESOURCES_OFFSET GPU_RESOURCES_SIZE 2
 			Append 0
-		endif	
+		endif
+
 	elif TYPE0 == 0x3F45A7E9 && TYPE1 == 0x0B8DA4E0 # Mesh + MeshInfo
 		if MAIN_SIZE != 0
 			String NAME p= "%s.meshinfo" BASENAME

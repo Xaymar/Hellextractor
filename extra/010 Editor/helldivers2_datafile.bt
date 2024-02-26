@@ -61,7 +61,26 @@ struct datafile_t {
 	LittleEndian();
     uint32_t types <format=decimal>;
     uint32_t files <format=decimal>;
-    uint32_t __unk[15] <format=hex>;
+    
+	uint32_t __unk <format=decimal>;
+	BigEndian();
+	uint32_t __unk <format=hex>; // This tends to be the same in files containing the same files.
+	LittleEndian();
+	uint32_t __unk <format=decimal>;
+	BigEndian();
+	uint32_t __unk <format=decimal>; // But this is different every time.
+	uint32_t __unk <format=decimal>; // But this is different every time.
+	LittleEndian();
+	uint32_t __unk <format=decimal>;
+	uint32_t __unk <format=decimal>;
+	uint32_t gpu_resources_size_aligned_256b <format=decimal>; // Size of (.gpu_resources) aligned to the next larger 256b block.
+	
+    // 2D54A00
+    // 2C89000
+    // 2D54A00
+    
+    uint8_t __unk1[7*4] <format=hex>;
+	LittleEndian();
     
     struct type_t {
         uint32_t __unk <format=hex>;
