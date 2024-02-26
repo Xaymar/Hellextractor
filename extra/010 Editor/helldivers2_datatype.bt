@@ -41,9 +41,11 @@ enum datatype_element_format {
 };
 
 struct datatype_t {
+	BigEndian();
     uint32_t magic_number <format=hex>;
+	LittleEndian();
     uint32_t __unk00 <format=hex>;
-    struct datatype_element_t {
+    struct element_t {
         datatype_element_type type <format=decimal>;
         datatype_element_format format <format=decimal>;
         uint32_t layer <format=decimal>;
@@ -52,15 +54,19 @@ struct datatype_t {
     } elements[16];
     uint32_t num_elements <format=decimal>;
     uint32_t __unk01 <format=hex>;
-    struct datatype_unk0_t {
+    struct {
+		BigEndian();
         uint32_t magic_number <format=hex>;
+		LittleEndian();
         uint32_t __unk00[3] <format=hex>;
         uint32_t vertex_count <format=decimal>;
         uint32_t vertex_stride <format=decimal>;
         uint32_t __unk01[4] <format=hex>;
     } __unk02;
-    struct datatype_unk1_t {
+    struct {
+		BigEndian();
         uint32_t magic_number <format=hex>;
+		LittleEndian();
         uint32_t __unk09[3] <format=hex>;
         uint32_t index_count <format=decimal>;
         uint32_t __unk10[5] <format=hex>;

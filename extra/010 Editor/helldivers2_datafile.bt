@@ -56,7 +56,9 @@ enum <uint64_t> datafile_type {
 };
 
 struct datafile_t {
+	BigEndian();
     uint32_t magic_number <format=hex>;
+	LittleEndian();
     uint32_t types <format=decimal>;
     uint32_t files <format=decimal>;
     uint32_t __unk[15] <format=hex>;
@@ -64,7 +66,9 @@ struct datafile_t {
     struct type_t {
         uint32_t __unk <format=hex>;
         uint32_t __unk <format=hex>;
+		BigEndian();
         datafile_type type <format=hex>;
+		LittleEndian();
         uint32_t total; // Seems to be the total amount of files using this type. Why is this needed?
         uint32_t __unk <format=hex>;
         uint32_t __unk <format=hex>; // always 0x10
@@ -72,10 +76,10 @@ struct datafile_t {
     } type[types];
         
     struct file_t {
-        //BigEndian();
+        BigEndian();
         uint64_t id <format=hex>;
-        //LittleEndian();
         datafile_type type <format=hex>;
+        LittleEndian();
         uint32_t offset <format=decimal>;
         uint32_t __unk <format=hex>;
         uint32_t stream_offset <format=decimal>;

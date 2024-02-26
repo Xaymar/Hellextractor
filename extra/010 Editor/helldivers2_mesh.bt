@@ -65,7 +65,9 @@ struct mesh_t {
     uint32_t group_offset <format=decimal>;
     
     FSeek(startof(this) + material_offset);
+	BigEndian();
     uint32_t material[materials] <format=hex>;
+	LittleEndian();
     
     FSeek(startof(this) + group_offset);
     local uint32 i;

@@ -183,7 +183,9 @@ struct meshinfo_t {
             f32mat4x4_t __unk0[count];
             f32mat4x4_t __unk1[count];
             u16vec2_t __unk2[count];
-            float __unk3[count];
+			BigEndian();
+            uint32_t __unk3[count] <format=hex>;
+			LittleEndian();
             
             uint32_t __unk <format=hex>;
             uint32_t __unk <format=hex>;
@@ -210,7 +212,9 @@ struct meshinfo_t {
         struct {
             uint32 count <format=decimal>;
             uint32 offsets[count] <format=decimal>;
+			BigEndian();
             uint32 __unk_hashes[count] <format=hex>;
+			LittleEndian();
             uint32 __unk <format=hex>;
             
             local uint32 i;
@@ -226,7 +230,9 @@ struct meshinfo_t {
         struct {
             uint32 count <format=decimal>;
             uint32 offsets[count];
+			BigEndian();
             uint32 __unk_hashes[count] <format=hex>;
+			LittleEndian();
             
             local uint32 i;
             for (i = 0; i < count; i++) {
@@ -240,8 +246,10 @@ struct meshinfo_t {
         FSeek(material_hashmap_offset);
         struct {
             uint32 count <format=decimal>;
+			BigEndian();
             uint32 keys[count] <format=hex>;
             uint64 values[count] <format=hex>;
+			LittleEndian();
         } materials;
     }
         
