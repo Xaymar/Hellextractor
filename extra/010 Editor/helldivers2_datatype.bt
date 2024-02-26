@@ -1,0 +1,68 @@
+#ifndef HELLDIVERS2_DATATYPE
+#define HELLDIVERS2_DATATYPE
+
+#ifndef IS_INCLUDE
+    #define IS_INCLUDE
+    #define HELLDIVERS2_DATATYPE_INCLUDE
+#endif
+#include "helldivers2_common.bt"
+#ifdef HELLDIVERS2_DATATYPE_INCLUDE
+    #undef IS_INCLUDE
+#endif
+
+enum datatype_element_type {
+    POSITION = 0,
+    __COLOR = 1,
+    TEXCOORD = 4,
+    
+    BONE_WEIGHT = 6,
+    BONE_INDEX = 7,
+}; 
+
+enum datatype_element_format {
+    F32VEC3 = 2,
+    
+    //XBGR = 25, or RGBA = 25, or ARGB = 25,
+    ABGR = 26,
+    
+    F16VEC2 = 29,
+    F16VEC4 = 31,
+};
+
+struct datatype_t {
+    uint32_t magic_number;
+    uint32_t __unk00;
+    struct datatype_element_t {
+        datatype_element_type type;
+        datatype_element_format format;
+        uint32_t layer;
+        uint32_t __unk00;
+        uint32_t __unk01;
+    } elements[16];
+    uint32_t num_elements;
+    uint32_t __unk01;
+    struct datatype_unk0_t {
+        uint32_t magic_number;
+        uint32_t __unk00[3];
+        uint32_t vertex_count;
+        uint32_t vertex_stride;
+        uint32_t __unk01[4];
+    } __unk02;
+    struct datatype_unk1_t {
+        uint32_t magic_number;
+        uint32_t __unk09[3];
+        uint32_t index_count;
+        uint32_t __unk10[5];
+        uint32_t vertex_offset;
+        uint32_t vertex_size;
+        uint32_t index_offset;
+        uint32_t index_size;
+        uint32_t __unk11[4];
+    } __unk03;
+};
+
+#ifndef IS_INCLUDE
+datatype_t DataType;
+#endif
+
+#endif

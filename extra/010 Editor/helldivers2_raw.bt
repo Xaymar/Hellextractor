@@ -1,0 +1,90 @@
+// Thanks to:
+// - h3x3r (https://reshax.com/profile/183-h3x3r/) for the BMS script and 010 template.
+// - Hampter49 (https://reshax.com/profile/1946-hampter49/) for somewhat explaining what I actually needed to do.
+// - GameBreaker (https://reshax.com/profile/731-gamebreaker/) for the helpful Stingray playlist video link.
+// - DKDave (https://reshax.com/profile/70-dkdave/) for finding a model with what appears to be bones and weights.
+
+OutputPaneClear();LittleEndian();
+
+#define IS_INCLUDE
+#include "helldivers2_common.bt"
+#include "helldivers2_datatype.bt"
+#include "helldivers2_mesh.bt"
+
+struct offset {
+    uint64_t datatype;
+    uint64_t mesh;
+    uint64_t vertices;
+    uint64_t indices;
+} Offsets;
+
+FSeek(Offsets.datatype);
+datatype_t DataType;
+
+FSeek(Offsets.mesh);
+mesh_t Mesh;
+
+FSeek(Offsets.vertices);
+struct vertex {
+    local uint32_t i;
+    for (i = 0; i < DataType.num_elements; i++) {
+        switch(DataType.elements[i].type) {
+        case POSITION: switch(DataType.elements[i].format) {
+            case F32VEC3: f32vec3_t position; break;
+            default: byte unknownFixMe[0x7FFFFFFF];
+            }; break;
+        case __COLOR: switch(DataType.elements[i].format) {
+            case ABGR: u8vec4_t color; break;
+            default: byte unknownFixMe[0x7FFFFFFF];
+            }; break;
+        case TEXCOORD: switch(DataType.elements[i].format) {
+            case F16VEC2: f16vec2_t texcoord; break;
+            default: byte unknownFixMe[0x7FFFFFFF];
+            }; break;
+        default:
+            struct {
+                switch(DataType.elements[i].format) {
+                    case 0: f32vec1_t _; break;
+                    case 1: f32vec2_t _; break;
+                    case 3: f32vec4_t _; break;                    
+                    case 4: byte _[4]; break;                    
+                    case 17: s32vec1_t _; break;
+                    case 18: s32vec2_t _; break;
+                    case 19: s32vec3_t _; break;
+                    case 20: s32vec4_t _; break;                    
+                    case 21: s8vec1_t _; break;
+                    case 22: s8vec2_t _; break;
+                    case 23: s8vec3_t _; break;
+                    case 24: s8vec4_t _; break;
+                    case 25: u8vec4_t _; break;
+                    case 28: f16vec1_t _; break;
+                    case 30: f16vec3_t _; break;
+                    
+                    case F32VEC3: f32vec3_t _; break;
+                    
+                    case ABGR: s8vec4_t _; break;
+                                        
+                    case F16VEC2: f16vec2_t _; break;
+                    case F16VEC4: f16vec4_t _; break;
+                    
+                    default: byte unknownFixMe[0x7FFFFFFF];
+                };
+            } el <optimize=false>;
+            break;
+        }
+    }    
+} Vertices[Mesh.DataInfo.vertex_count] <optimize=false, size=DataType.__unk02.vertex_stride>;
+    
+FSeek(Offsets.indices);
+struct face {
+    local uint32_t stride = DataType.__unk03.index_size / DataType.__unk03.index_count;
+    if (stride == 1) {
+        uint8_t idx[3];
+    } else if (stride == 2) {
+        uint16_t idx[3];
+    } else if (stride == 4) {
+        uint32_t idx[3];
+    } else if (stride == 8) {
+        uint64_t idx[3];
+    }
+} Faces[Mesh.DataInfo.index_count / 3] <optimize=false>;

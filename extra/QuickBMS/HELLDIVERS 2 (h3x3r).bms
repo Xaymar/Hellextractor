@@ -1,0 +1,75 @@
+######################################################
+#  Helldivers 2 - Texture / Mesh / Material  Dumper  #
+######################################################
+get BaseFileName basename
+
+Open FDDE "" 0
+
+get Magic long
+get UnknownCount long
+get Files long
+getdstring Dummy 0x3C
+getdstring Dummy UnknownCount*32
+
+for i = 0 < Files
+	endian big
+	get FileNameCRC0 long
+	get FileNameCRC1 long
+	endian little
+	get FileTypeCRC64 longlong
+	get MainFileOffset long
+    get Unknown_0 long
+    get StreamFileOffset long
+    get Unknown_1 long
+    get GpuResourcesFileOffset long
+    get Unknown_2 long
+    get Unknown_3 long
+    get Unknown_4 long
+    get Unknown_5 long
+    get Unknown_6 long
+    get MainFileSize long
+    get StreamFileSize long
+    get GpuResourcesFileSize long
+    get Unknown_7 long
+    get Unknown_8 long
+    get FileNum long
+	savepos EndTable
+	
+	if FileTypeCRC64 == 14790446551990181426
+		if StreamFileSize != 0
+			Open FDDE stream 1
+			goto MainFileOffset
+			getdstring Dummy 0xC0
+			savepos MainFileOffset
+			string Name p= "textures/0x%04X%04X.dds" FileNameCRC0 FileNameCRC1
+			append 0
+			log Name MainFileOffset 148 0
+			log Name StreamFileOffset StreamFileSize 1
+		else
+			Open FDDE gpu_resources 2
+			goto MainFileOffset
+			getdstring Dummy 0xC0
+			savepos MainFileOffset
+			string Name p= "textures/0x%04X%04X.dds" FileNameCRC0 FileNameCRC1
+			append 0
+			log Name MainFileOffset 148 0
+			log Name GpuResourcesFileOffset GpuResourcesFileSize 2
+		endif
+		
+	elif FileTypeCRC64 == 16187218042980615487
+		if GpuResourcesFileSize != 0 && MainFileSize != 0
+			Open FDDE gpu_resources 2
+			string MdlInfoName p= "meshes/0x%04X%04X.meshinfo" FileNameCRC0 FileNameCRC1
+			string MdlDataName p= "meshes/0x%04X%04X.mesh" FileNameCRC0 FileNameCRC1
+			log MdlInfoName MainFileOffset MainFileSize 0
+			log MdlDataName GpuResourcesFileOffset GpuResourcesFileSize 2
+		endif
+		
+	elif FileTypeCRC64 == 16915718763308572383
+		if MainFileSize != 0
+			string MatInfoName p= "materials/0x%04X%04X.mat" FileNameCRC0 FileNameCRC1
+			log MatInfoName MainFileOffset MainFileSize 0
+		endif
+	endif
+	goto EndTable
+next i

@@ -1,0 +1,102 @@
+#ifndef HELLDIVERS2_COMMON
+#define HELLDIVERS2_COMMON
+
+typedef uint64 uint64_t;
+typedef uint32 uint32_t;
+typedef uint16 uint16_t;
+typedef ubyte   uint8_t;
+typedef int64   int64_t;
+typedef int32   int32_t;
+typedef int16   int16_t;
+typedef byte    int8_t;
+typedef float  single;
+typedef hfloat half;
+
+typedef int8_t s8vec1_t;
+struct s8vec2_t { int8_t _; int8_t _; };
+struct s8vec3_t { int8_t _; int8_t _; int8_t _; };
+struct s8vec4_t { int8_t _; int8_t _; int8_t _; int8_t _; };
+typedef uint8_t u8vec1_t;
+struct u8vec2_t { uint8_t _; uint8_t _; };
+struct u8vec3_t { uint8_t _; uint8_t _; uint8_t _; };
+struct u8vec4_t { uint8_t _; uint8_t _; uint8_t _; uint8_t _; };
+
+typedef int16_t s16vec1_t;
+struct s16vec2_t { int16_t _; int16_t _; };
+struct s16vec3_t { int16_t _; int16_t _; int16_t _; };
+struct s16vec4_t { int16_t _; int16_t _; int16_t _; int16_t _; };
+typedef uint16_t u16vec1_t;
+struct u16vec2_t { uint16_t _; uint16_t _; };
+struct u16vec3_t { uint16_t _; uint16_t _; uint16_t _; };
+struct u16vec4_t { uint16_t _; uint16_t _; uint16_t _; uint16_t _; };
+
+typedef int32_t s32vec1_t;
+struct s32vec2_t { int32_t _; int32_t _; int32_t _; };
+struct s32vec3_t { int32_t _; int32_t _; int32_t _; };
+struct s32vec4_t { int32_t _; int32_t _; int32_t _; int32_t _; };
+typedef uint32_t u32vec1_t;
+struct u32vec2_t { uint32_t _; uint32_t _; };
+struct u32vec3_t { uint32_t _; uint32_t _; uint32_t _; };
+struct u32vec4_t { uint32_t _; uint32_t _; uint32_t _; uint32_t _; };
+
+typedef int64_t s64vec1_t;
+struct s64vec2_t { int64_t _; int64_t _; };
+struct s64vec3_t { int64_t _; int64_t _; int64_t _; };
+struct s64vec4_t { int64_t _; int64_t _; int64_t _; int64_t _; };
+typedef uint64_t u64vec1_t;
+struct u64vec2_t { uint64_t _; uint64_t _; };
+struct u64vec3_t { uint64_t _; uint64_t _; uint64_t _; };
+struct u64vec4_t { uint64_t _; uint64_t _; uint64_t _; uint64_t _; };
+
+typedef half f16vec1_t;
+struct f16vec2_t { half _; half _; };
+struct f16vec3_t { half _; half _; half _; };
+struct f16vec4_t { half _; half _; half _; half _; };
+
+struct f16mat2x2_t { f16vec2_t _; f16vec2_t _; };
+struct f16mat2x3_t { f16vec2_t _; f16vec2_t _; f16vec2_t _; };
+struct f16mat2x4_t { f16vec2_t _; f16vec2_t _; f16vec2_t _; f16vec2_t _; };
+
+struct f16mat3x2_t { f16vec3_t _; f16vec3_t _; };
+struct f16mat3x3_t { f16vec3_t _; f16vec3_t _; f16vec3_t _; };
+struct f16mat3x4_t { f16vec3_t _; f16vec3_t _; f16vec3_t _; f16vec3_t _; };
+
+struct f16mat4x2_t { f16vec4_t _; f16vec4_t _; };
+struct f16mat4x3_t { f16vec4_t _; f16vec4_t _; f16vec4_t _; };
+struct f16mat4x4_t { f16vec4_t _; f16vec4_t _; f16vec4_t _; f16vec4_t _; };
+
+typedef single f32vec1_t;
+struct f32vec2_t { single _; single _; };
+struct f32vec3_t { single _; single _; single _; };
+struct f32vec4_t { single _; single _; single _; single _; };
+
+struct f32mat2x2_t { f32vec2_t _; f32vec2_t _; };
+struct f32mat2x3_t { f32vec2_t _; f32vec2_t _; f32vec2_t _; };
+struct f32mat2x4_t { f32vec2_t _; f32vec2_t _; f32vec2_t _; f32vec2_t _; };
+
+struct f32mat3x2_t { f32vec3_t _; f32vec3_t _; };
+struct f32mat3x3_t { f32vec3_t _; f32vec3_t _; f32vec3_t _; };
+struct f32mat3x4_t { f32vec3_t _; f32vec3_t _; f32vec3_t _; f32vec3_t _; };
+
+struct f32mat4x2_t { f32vec4_t _; f32vec4_t _; };
+struct f32mat4x3_t { f32vec4_t _; f32vec4_t _; f32vec4_t _; };
+struct f32mat4x4_t { f32vec4_t _; f32vec4_t _; f32vec4_t _; f32vec4_t _; };
+
+typedef double f64vec1_t;
+struct f64vec2_t { double _; double _; };
+struct f64vec3_t { double _; double _; double _; };
+struct f64vec4_t { double _; double _; double _; double _; };
+
+struct f64mat2x2_t { f64vec2_t _; f64vec2_t _; };
+struct f64mat2x3_t { f64vec2_t _; f64vec2_t _; f64vec2_t _; };
+struct f64mat2x4_t { f64vec2_t _; f64vec2_t _; f64vec2_t _; f64vec2_t _; };
+
+struct f64mat3x2_t { f64vec3_t _; f64vec3_t _; };
+struct f64mat3x3_t { f64vec3_t _; f64vec3_t _; f64vec3_t _; };
+struct f64mat3x4_t { f64vec3_t _; f64vec3_t _; f64vec3_t _; f64vec3_t _; };
+
+struct f64mat4x2_t { f64vec4_t _; f64vec4_t _; };
+struct f64mat4x3_t { f64vec4_t _; f64vec4_t _; f64vec4_t _; };
+struct f64mat4x4_t { f64vec4_t _; f64vec4_t _; f64vec4_t _; f64vec4_t _; };
+
+#endif

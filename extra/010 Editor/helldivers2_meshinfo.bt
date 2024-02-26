@@ -1,0 +1,350 @@
+// Thanks to:
+// - h3x3r (https://reshax.com/profile/183-h3x3r/) for the BMS script and 010 template.
+// - Hampter49 (https://reshax.com/profile/1946-hampter49/) for somewhat explaining what I actually needed to do.
+// - GameBreaker (https://reshax.com/profile/731-gamebreaker/) for the helpful Stingray playlist video link.
+// - DKDave (https://reshax.com/profile/70-dkdave/) for pointing me at a file that revealed so much more about the mesh structure than we had known until now.
+
+#ifndef HELLDIVERS2_MESHINFO
+#define HELLDIVERS2_MESHINFO
+
+#ifndef IS_INCLUDE
+    #define IS_INCLUDE
+    #define HELLDIVERS2_MESHINFO_INCLUDE
+#endif
+#include "helldivers2_common.bt"
+#include "helldivers2_datatype.bt"
+#include "helldivers2_mesh.bt"
+#ifdef HELLDIVERS2_MESHINFO_INCLUDE
+    #undef IS_INCLUDE
+#endif
+
+struct meshinfo_t {
+    uint32_t __unk;
+    uint32_t __unk;
+    uint32_t __unk;
+    uint32_t __unk;
+    
+    uint32_t __unk;
+    uint32_t __unk;
+    uint32_t __unk;
+    uint32_t __unk;
+    
+    uint32_t __unk;
+    uint32_t __unk;
+    uint32_t __unk;
+    uint32_t __unk;
+    
+    uint32_t __unkoffset;
+    uint32_t __unkoffset;
+    uint32_t __unkoffset;
+    uint32_t __unkoffset;
+    
+    uint32_t __unk;
+    uint32_t __unk;
+    uint32_t __unk;
+    uint32_t __unkoffset;
+    
+    uint32_t __unkoffset;
+    uint32_t __unk;
+    uint32_t __unkoffset;
+    uint32_t datatype_list_offset;
+    
+    uint32_t __unkoffset;
+    uint32_t mesh_list_offset;
+    uint32_t __unk;
+    uint32_t __unk;
+    
+    uint32_t material_hashmap_offset;
+    
+    if (__unkoffset[3] != 0) {
+        FSeek(__unkoffset[3]);
+        struct {
+            uint32_t count;
+            uint32_t __unk;
+            uint32_t __unk;
+            uint32_t __unk;
+        } __unk3;
+    }
+    
+    if (__unkoffset[2] != 0) {
+        FSeek(__unkoffset[2]);
+        struct {
+            uint32_t count;
+            uint32_t __unk;
+            uint32_t __unk;
+            uint32_t __unk;
+            
+            struct {                
+                uint32_t __unk;
+                float width;
+                float height;
+                float depth;
+                
+                uint32_t __unk;
+                uint32_t __unk;
+                uint32_t __unk;
+                uint32_t __unk;
+                
+                uint32_t __unk;
+                uint32_t __unk;
+                uint32_t __unk;
+                uint32_t __unk;
+                
+                uint32_t __unk;
+                uint32_t __unk;
+                uint32_t __unk;
+                uint32_t __unk;
+                
+                uint32_t __unk;
+                uint32_t __unk;
+                uint32_t __unk;
+                uint32_t __unk;
+                
+                uint32_t __unk;
+                uint32_t __unk;
+                uint32_t __unk;
+                uint32_t __unk;
+                
+                uint32_t __unk;
+                uint32_t __unk;
+                uint32_t __unk;
+            } textures[count];
+        } __unk2;
+    }
+    
+    if (__unkoffset[0] != 0) {
+        FSeek(__unkoffset[0]);
+        struct {
+            uint32_t count;
+            uint32_t offsets[count];
+            
+            local uint32 i;
+            for (i = 0; i < count; i++) {
+                FSeek(startof(this) + offsets[i]);
+                struct {
+                    uint32_t __unk;
+                    uint32_t __unk;
+                    uint32_t __unk;
+                    uint32_t __unk;
+                                        
+                    uint32_t count;
+                    uint32_t offsets[count];
+                    uint32_t size;
+                    
+                    local uint32 i;
+                    for (i = 0; i < count; i++) {
+                        FSeek(startof(this) + offsets[i]);
+                        struct {
+                            float __unk;
+                            float __unk;
+                            
+                            uint32_t count;
+                            uint32_t data[count];
+                        } __unk;
+                    }
+                } __unk00data;
+                
+                float __unk;
+                float __unk;
+                float __unk;
+                float __unk;
+                
+                float __unk;
+                float __unk;
+                float __unk;
+                uint32_t __unk;
+                
+                float __unk;
+                uint32_t __unk;                
+            };
+        } __unk0;
+    }
+    
+    if (__unkoffset[1] != 0) { // 
+        FSeek(__unkoffset[1]);
+        struct {
+            uint32_t count;
+            uint32_t __unk;
+            uint32_t __unk;
+            uint32_t __unk;
+            
+            f32mat4x4_t __unk0[count];
+            f32mat4x4_t __unk1[count];
+            u16vec2_t __unk2[count];
+            float __unk3[count];
+            
+            uint32_t __unk;
+            uint32_t __unk;
+        } __unk1;
+    }
+        
+    if (__unkoffset[6] != 0) { // 768 bytes. Suspicious.
+        FSeek(__unkoffset[6]);
+        struct {
+            uint32_t __unk;
+            uint32_t __unk;
+            uint32_t __unk;
+            uint32_t __unk;
+            
+            /*local uint32 i;
+            for (i = 0; i < count; i++) {
+                f32mat4x4_t __unk;
+            }*/
+        } __unk6;
+    }
+    
+    if (datatype_list_offset != 0) {
+        FSeek(datatype_list_offset);
+        struct {
+            uint32 count;
+            uint32 offsets[count];
+            uint32 __unk_hashes[count];
+            uint32 __unk;
+            
+            local uint32 i;
+            for (i = 0; i < count; i++) {
+                FSeek(startof(this) + offsets[i]);
+                datatype_t datatype;
+            }
+        } datatypes;
+    }
+    
+    if(mesh_list_offset > 0) {
+        FSeek(mesh_list_offset);
+        struct {
+            uint32 count;
+            uint32 offsets[count];
+            uint32 __unk_hashes[count];
+            
+            local uint32 i;
+            for (i = 0; i < count; i++) {
+                FSeek(startof(this) + offsets[i]);
+                mesh_t mesh;
+            }
+        } meshes;
+    }
+    
+    if(material_hashmap_offset > 0) {
+        FSeek(material_hashmap_offset);
+        struct {
+            uint32 count;
+            uint32 keys[count];
+            uint64 values[count];
+        } materials;
+    }
+        
+    if (__unkoffset[7] != 0) {
+        FSeek(__unkoffset[7]);
+        struct {
+            uint32_t __unk;
+            uint32_t __unk;
+        } __unk7;
+    }
+    
+    // Never seen these?
+    if (__unkoffset[4] != 0) {
+        FSeek(__unkoffset[4]);
+        struct {
+            uint32_t __unk;
+        } __unk4;
+    }
+        
+    if (__unkoffset[5] != 0) {
+        FSeek(__unkoffset[5]);
+        struct {
+            uint32_t __unk;
+        } __unk5;
+    }
+    
+    // BMS error causes this to repeat.
+};
+
+#ifndef IS_INCLUDE
+meshinfo_t MeshInfo;
+#endif
+
+/*
+if(Header.Unknown6Offset > 0) {
+    FSeek(Header.Unknown6Offset);
+    struct Unknown6 {
+        char __unk00[16];
+    }Unknown6Info;
+}
+
+if(Header.Unknown5Offset > 0) {
+    FSeek(Header.Unknown5Offset);
+    struct Unknown5 {
+        uint32 Count;
+        char __unk00[12];
+        struct {
+            char __unk00[8];
+            float textureWidth, textureHeight, textureDepth;
+            char __unk01[92];
+        }Unknown5Data[Count];
+    }Unknown5Info;
+}
+
+if(Header.Unknown3Offset > 0) {
+    FSeek(Header.Unknown3Offset);
+    struct Unknown3 {
+        uint32 Count;
+        struct{
+            char __unk00[159];
+        }Unknown3Data[Count];
+    }Unknown3Info;
+}
+
+if(Header.Unknown4Offset > 0) {
+    FSeek(Header.Unknown4Offset);
+    struct Unknown4 {
+        uint32 Count;
+        struct {
+            uint32 __unk00[34];
+        }Unknown4Data[Count];
+        // 22192 bytes total?, 56B0
+    }Unknown4Info;
+}
+
+if(Header.Unknown1Offset > 0) {
+    FSeek(Header.Unknown1Offset);
+    struct Unknown1 {
+        uint32 Count;
+        uint32 __unk00;
+    }Unknown1Info;
+}
+
+if(Header.Unknown2Offset > 0) {
+    FSeek(Header.Unknown2Offset);
+    struct Unknown2 {
+        struct {
+            uint32 __unk00[8];
+        }Unknown2Data[3];
+    }Unknown2Info;
+}
+
+if(Header.UnknownOffset > 0) {
+    FSeek(Header.UnknownOffset);
+    struct Unknown {
+        uint32 count;
+        uint32 offsets[count];
+        struct {
+            for (i=0; i < count; i++){
+                FSeek(startof(UnknownInfo)+offsets[i]);
+                struct {
+                    uint32 __unk00[17];
+                }UnknownData;
+            }    
+        }UnknownDatas;
+    }UnknownInfo;
+}
+
+
+if(Header.Unknown7Offset > 0) {
+    FSeek(Header.Unknown7Offset);
+    struct Unknown7 {
+        uint32 __unk00[2];
+    }Unknown7Info;
+}
+*/
+
+#endif
