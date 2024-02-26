@@ -114,6 +114,7 @@ For i = 0 < FILES
 		if MAIN_SIZE != 0
 			String NAME p= "%s.meshinfo" BASENAME
 			Append 1
+			Log NAME MAIN_OFFSET MAIN_SIZE 0
 		endif
 		if STREAM_SIZE != 0
 			String NAME p= "%s.mesh2" BASENAME
