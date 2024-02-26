@@ -151,7 +151,7 @@ namespace hd2 {
 
 	enum class vertex_element_type : uint32_t {
 		_00_position = 0x00, // format = <float_type>[2..4], rest seems to be ignored
-		_01_unknown  = 0x01, // format = 0x1A
+		_01_color  = 0x01, // format = 0x1A
 		_04_texcoord = 0x04, // has index at [2]
 		_05_unknown  = 0x05, // ??
 		_06_unknown  = 0x06, // has index at [2]
@@ -261,7 +261,7 @@ namespace hd2 {
 		{
 			auto edx = elements();
 			if (idx >= edx) {
-				std::out_of_range("idx >= edx");
+				throw std::out_of_range("idx >= edx");
 			}
 
 			return _data->elements[idx];
@@ -370,7 +370,7 @@ namespace hd2 {
 		}
 	};
 
-	struct meshinfo_datatype_list {
+	struct meshinfo_datatype_list_t {
 		uint8_t const* _ptr;
 		struct data {
 			uint32_t count;
@@ -380,7 +380,7 @@ namespace hd2 {
 		} const* _data;
 
 		public:
-		meshinfo_datatype_list(uint8_t const* ptr) : _ptr(ptr), _data(reinterpret_cast<decltype(_data)>(_ptr)) {}
+		meshinfo_datatype_list_t(uint8_t const* ptr) : _ptr(ptr), _data(reinterpret_cast<decltype(_data)>(_ptr)) {}
 
 		uint32_t count() const
 		{
@@ -401,33 +401,43 @@ namespace hd2 {
 		{
 			auto edx = count();
 			if (idx >= edx) {
-				std::out_of_range("idx >= edx");
+				throw std::out_of_range("idx >= edx");
 			}
 
 			return {reinterpret_cast<uint8_t const*>(_ptr + offsets()[idx])};
 		}
 	};
 
-	struct meshinfo_mesh_modeldata {
+	struct meshinfo_mesh_modeldata_t {
 		uint8_t const* _ptr;
-		struct {
+		struct data_t {
 			uint32_t vertices_offset;
-			uint32_t vertices_count;
+			uint32_t vertices;
 			uint32_t indices_offset;
-			uint32_t indices_count;
+			uint32_t indices;
 		} const* _data;
 
 		public:
-		meshinfo_mesh_modeldata(uint8_t const* ptr) : _ptr(ptr), _data(reinterpret_cast<decltype(_data)>(_ptr)) {}
+		meshinfo_mesh_modeldata_t(uint8_t const* ptr) : _ptr(ptr), _data(reinterpret_cast<decltype(_data)>(_ptr)) {}
+
+		void const* operator&() const
+		{
+			return _ptr;
+		}
+
+		size_t size() const
+		{
+			return sizeof(data_t);
+		}
 
 		uint32_t indices_offset() const
 		{
 			return _data->indices_offset;
 		}
 
-		uint32_t indices_count() const
+		uint32_t indices() const
 		{
-			return _data->indices_count;
+			return _data->indices;
 		}
 
 		uint32_t vertices_offset() const
@@ -435,15 +445,15 @@ namespace hd2 {
 			return _data->vertices_offset;
 		}
 
-		uint32_t vertices_count() const
+		uint32_t vertices() const
 		{
-			return _data->vertices_count;
+			return _data->vertices;
 		}
 	};
 
-	struct meshinfo_mesh {
+	struct meshinfo_mesh_t {
 		uint8_t const* _ptr;
-		struct data {
+		struct data_t {
 			uint32_t __unk00;
 			uint32_t __varies00[7];
 			uint32_t __unk01;
@@ -461,49 +471,59 @@ namespace hd2 {
 		} const* _data;
 
 		public:
-		meshinfo_mesh(uint8_t const* ptr) : _ptr(ptr), _data(reinterpret_cast<decltype(_data)>(_ptr)) {}
+		meshinfo_mesh_t(uint8_t const* ptr) : _ptr(ptr), _data(reinterpret_cast<decltype(_data)>(_ptr)) {}
+
+		void const* operator&() const
+		{
+			return _ptr;
+		}
+
+		size_t size() const
+		{
+			return _data->modeldata_offset + sizeof(uint32_t) * _data->material_count + sizeof(meshinfo_mesh_modeldata_t);
+		}
 
 		uint32_t datatype_index() const
 		{
 			return _data->datatype_index;
 		}
 
-		uint32_t material_count() const
+		uint32_t materials() const
 		{
 			return _data->material_count;
 		}
 
-		uint32_t const* materials() const
+		uint32_t const* raw_materials() const
 		{
-			return reinterpret_cast<uint32_t const*>(_ptr + offsetof(data, modeldata_offset) + sizeof(uint32_t));
+			return reinterpret_cast<uint32_t const*>(_ptr + offsetof(data_t, modeldata_offset) + sizeof(uint32_t));
 		}
 
-		uint32_t material_at(size_t idx) const
+		uint32_t material(size_t idx) const
 		{
-			auto edx = material_count();
+			auto edx = materials();
 			if (idx >= edx) {
-				std::out_of_range("idx >= edx");
+				throw std::out_of_range("idx >= edx");
 			}
 
-			return materials()[idx];
+			return raw_materials()[idx];
 		}
 
-		meshinfo_mesh_modeldata modeldata() const
+		meshinfo_mesh_modeldata_t modeldata() const
 		{
 			return {_ptr + _data->modeldata_offset};
 		}
 	};
 
-	struct meshinfo_mesh_list {
+	struct meshinfo_mesh_list_t {
 		uint8_t const* _ptr;
-		struct data {
+		struct data_t {
 			uint32_t count;
 			//uint32_t offsets[count];
 			//uint32_t crcs[count];
 		} const* _data;
 
 		public:
-		meshinfo_mesh_list(uint8_t const* ptr) : _ptr(ptr), _data(reinterpret_cast<decltype(_data)>(_ptr)) {}
+		meshinfo_mesh_list_t(uint8_t const* ptr) : _ptr(ptr), _data(reinterpret_cast<decltype(_data)>(_ptr)) {}
 
 		uint32_t count() const
 		{
@@ -512,35 +532,45 @@ namespace hd2 {
 
 		uint32_t const* offsets() const
 		{
-			return reinterpret_cast<uint32_t const*>(_ptr + sizeof(data));
+			return reinterpret_cast<uint32_t const*>(_ptr + sizeof(data_t));
 		}
 
 		uint32_t const* not_crcs() const
 		{
-			return reinterpret_cast<uint32_t const*>(_ptr + sizeof(data) + sizeof(uint32_t) * count());
+			return reinterpret_cast<uint32_t const*>(_ptr + sizeof(data_t) + sizeof(uint32_t) * count());
 		}
 
-		meshinfo_mesh at(size_t idx) const
+		meshinfo_mesh_t at(size_t idx) const
 		{
 			auto edx = count();
 			if (idx >= edx) {
-				std::out_of_range("idx >= edx");
+				throw std::out_of_range("idx >= edx");
 			}
 
-			return {reinterpret_cast<uint8_t const*>(_ptr + sizeof(data) + offsets()[idx])};
+			return {reinterpret_cast<uint8_t const*>(_ptr + sizeof(data_t) + offsets()[idx])};
 		}
 	};
 
-	struct meshinfo_material_list {
+	struct meshinfo_material_list_t {
 		uint8_t const* _ptr;
-		struct data {
+		struct data_t {
 			uint32_t count;
-			//uint64_t keys[count];
+			//uint32_t keys[count];
 			//uint64_t values[count];
 		} const* _data;
 
 		public:
-		meshinfo_material_list(uint8_t const* ptr) : _ptr(ptr), _data(reinterpret_cast<decltype(_data)>(_ptr)) {}
+		meshinfo_material_list_t(uint8_t const* ptr) : _ptr(ptr), _data(reinterpret_cast<decltype(_data)>(_ptr)) {}
+
+		void const* operator&() const
+		{
+			return _ptr;
+		}
+
+		size_t size() const
+		{
+			return sizeof(data_t) + sizeof(uint32_t);
+		}
 
 		uint32_t count()
 		{
@@ -549,28 +579,28 @@ namespace hd2 {
 
 		uint32_t const* keys()
 		{
-			return reinterpret_cast<uint32_t const*>(_ptr + sizeof(data));
+			return reinterpret_cast<uint32_t const*>(_ptr + sizeof(data_t));
 		}
 
 		uint64_t const* values()
 		{
-			return reinterpret_cast<uint64_t const*>(_ptr + sizeof(data) + sizeof(uint32_t) * count());
+			return reinterpret_cast<uint64_t const*>(_ptr + sizeof(data_t) + sizeof(uint32_t) * count());
 		}
 
 		std::pair<uint32_t, uint64_t> at(size_t idx)
 		{
 			auto edx = count();
 			if (idx >= edx) {
-				std::out_of_range("idx >= edx");
+				throw std::out_of_range("idx >= edx");
 			}
 
 			return {keys()[idx], values()[idx]};
 		}
 	};
 
-	struct meshinfo {
+	struct meshinfo_t {
 		uint8_t const* _ptr;
-		struct data {
+		struct data_t {
 			uint32_t __unk00[12];
 			uint32_t __unk01;
 			uint32_t __unk02;
@@ -589,19 +619,29 @@ namespace hd2 {
 		} const* _data;
 
 		public:
-		meshinfo(uint8_t const* mi) : _ptr(mi), _data(reinterpret_cast<decltype(_data)>(_ptr)) {}
+		meshinfo_t(uint8_t const* mi) : _ptr(mi), _data(reinterpret_cast<decltype(_data)>(_ptr)) {}
 
-		meshinfo_datatype_list datatypes()
+		void const* operator&() const
+		{
+			return _ptr;
+		}
+
+		size_t size() const
+		{
+			return sizeof(data_t);
+		}
+
+		meshinfo_datatype_list_t datatypes()
 		{
 			return {_ptr + _data->datatype_offset};
 		}
 
-		meshinfo_mesh_list meshes()
+		meshinfo_mesh_list_t meshes()
 		{
 			return {_ptr + _data->mesh_offset};
 		}
 
-		meshinfo_material_list materials()
+		meshinfo_material_list_t materials()
 		{
 			return {_ptr + _data->material_offset};
 		}
@@ -621,7 +661,7 @@ int main(int argc, const char** argv)
 	auto output_path   = path.replace_extension();
 
 #ifdef WIN32
-	win32_handle_t mesh_info_file(CreateFileA(meshinfo_path.u8string().c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_RANDOM_ACCESS, NULL));
+	win32_handle_t mesh_info_file(CreateFileA(reinterpret_cast<LPCSTR>(meshinfo_path.generic_u8string().c_str()), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_RANDOM_ACCESS, NULL));
 	if (mesh_info_file.get() == INVALID_HANDLE_VALUE) {
 		return 1;
 	}
@@ -636,7 +676,7 @@ int main(int argc, const char** argv)
 		return 1;
 	}
 
-	win32_handle_t mesh_file(CreateFileA(mesh_path.u8string().c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_RANDOM_ACCESS, NULL));
+	win32_handle_t mesh_file(CreateFileA(reinterpret_cast<LPCSTR>(mesh_path.generic_u8string().c_str()), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_RANDOM_ACCESS, NULL));
 	if (mesh_file.get() == INVALID_HANDLE_VALUE) {
 		return 1;
 	}
@@ -654,10 +694,10 @@ int main(int argc, const char** argv)
 #pragma error("Not supported yet, do some work to make it work.")
 #endif
 
-	hd2::meshinfo meshinfo{reinterpret_cast<uint8_t const*>(mesh_info_ptr)};
-	auto          materials = meshinfo.materials();
-	auto          datatypes = meshinfo.datatypes();
-	auto          meshes    = meshinfo.meshes();
+	hd2::meshinfo_t meshinfo{reinterpret_cast<uint8_t const*>(mesh_info_ptr)};
+	auto            materials = meshinfo.materials();
+	auto            datatypes = meshinfo.datatypes();
+	auto            meshes    = meshinfo.meshes();
 
 	{ // Enumerate Materials
 		printf("%" PRIu32 " Materials: \n", materials.count());
@@ -690,42 +730,42 @@ int main(int argc, const char** argv)
 			auto datatype = datatypes.at(mesh.datatype_index());
 			printf("- [%zu] Data Type: %" PRIu32 ", %s\n", idx, mesh.datatype_index(), datatype.hash().c_str());
 
-			printf("  - %" PRIu32 " Vertices, Stride: %" PRIu32 ", ", mesh.modeldata().vertices_count(), datatype.vertices_stride());
+			printf("  - %" PRIu32 " Vertices, Stride: %" PRIu32 ", ", mesh.modeldata().vertices(), datatype.vertices_stride());
 			printf("Offset: %08" PRIx32 ", ", mesh.modeldata().vertices_offset());
 			printf("From: %08" PRIx32 ", ", mesh.modeldata().vertices_offset() + datatype.vertices_offset());
-			printf("To: %08" PRIx32 "\n", mesh.modeldata().vertices_offset() + datatype.vertices_offset() + mesh.modeldata().vertices_count() * datatype.vertices_stride());
+			printf("To: %08" PRIx32 "\n", mesh.modeldata().vertices_offset() + datatype.vertices_offset() + mesh.modeldata().vertices() * datatype.vertices_stride());
 
-			printf("  - %" PRIu32 " Indices, Stride: %" PRIu32 ", ", mesh.modeldata().indices_count(), datatype.indices_stride());
+			printf("  - %" PRIu32 " Indices, Stride: %" PRIu32 ", ", mesh.modeldata().indices(), datatype.indices_stride());
 			printf("Offset: %08" PRIx32 ", ", mesh.modeldata().indices_offset());
 			printf("From: %08" PRIx32 ", ", mesh.modeldata().indices_offset() + datatype.indices_offset());
-			printf("To: %08" PRIx32 "\n", mesh.modeldata().indices_offset() + datatype.indices_offset() + mesh.modeldata().indices_count() * datatype.indices_stride());
+			printf("To: %08" PRIx32 "\n", mesh.modeldata().indices_offset() + datatype.indices_offset() + mesh.modeldata().indices() * datatype.indices_stride());
 
-			printf("  - %" PRIu32 " Materials: ", mesh.material_count());
-			for (size_t jdx = 0; jdx < mesh.material_count(); jdx++) {
-				printf("%" PRIx32 ", ", mesh.material_at(jdx));
+			printf("  - %" PRIu32 " Materials: ", mesh.materials());
+			for (size_t jdx = 0; jdx < mesh.materials(); jdx++) {
+				printf("%" PRIx32 ", ", mesh.material(jdx));
 			}
 			printf("\n");
 		}
 	}
 
-	auto dt_path = std::filesystem::absolute(output_path.parent_path() / "../datatypes");
-	{ // Export raw datatypes
-		std::filesystem::create_directories(dt_path);
+	//auto dt_path = std::filesystem::absolute(output_path.parent_path() / "../datatypes");
+	//{ // Export raw datatypes
+	//	std::filesystem::create_directories(dt_path);
 
-		for (size_t idx = 0; idx < datatypes.count(); idx++) {
-			auto        datatype = datatypes.at(idx);
-			std::string dt_hash  = datatype.hash();
+	//	for (size_t idx = 0; idx < datatypes.count(); idx++) {
+	//		auto        datatype = datatypes.at(idx);
+	//		std::string dt_hash  = datatype.hash();
 
-			// Generate name.
-			std::string filename = std::format("%s/%02" PRIu32 "_%s.dt", dt_path.generic_string().c_str(), datatype.vertices_stride(), dt_hash.c_str());
+	//		// Generate name.
+	//		std::string filename = std::format("%s/%02" PRIu32 "_%s.dt", dt_path.generic_string().c_str(), datatype.vertices_stride(), dt_hash.c_str());
 
-			if (!std::filesystem::exists(filename)) {
-				auto   dtfilehandle = fopen(filename.c_str(), "w+b");
-				file_t dtfile{dtfilehandle};
-				fwrite(&datatype.unique(), 1, sizeof(hd2::meshinfo_datatype_t::data_t), dtfile.get());
-			}
-		}
-	}
+	//		if (!std::filesystem::exists(filename)) {
+	//			auto   dtfilehandle = fopen(filename.c_str(), "w+b");
+	//			file_t dtfile{dtfilehandle};
+	//			fwrite(&datatype.unique(), 1, sizeof(hd2::meshinfo_datatype_t::data_t), dtfile.get());
+	//		}
+	//	}
+	//}
 
 	{ // Export meshes.
 		std::filesystem::create_directories(output_path);
@@ -736,273 +776,290 @@ int main(int argc, const char** argv)
 			auto mesh     = meshes.at(idx);
 			auto datatype = datatypes.at(mesh.datatype_index());
 
-			/*{ // Write sample file for datatype.
-				std::string filename = std::format("%s/%02" PRIu32 "_%s.vtx", dt_path.generic_string().c_str(), datatype.vertices_stride(), datatype.hash().c_str());
+			//{ // Write sample file for datatype.
+			//	std::string filename = std::format("%s/%02" PRIu32 "_%s.vtx", dt_path.generic_string().c_str(), datatype.vertices_stride(), datatype.hash().c_str());
 
-				if (!std::filesystem::exists(filename)) {
-					auto   dtfilehandle = fopen(filename.c_str(), "w+b");
-					file_t dtfile{dtfilehandle};
+			//	if (!std::filesystem::exists(filename)) {
+			//		auto   dtfilehandle = fopen(filename.c_str(), "w+b");
+			//		file_t dtfile{dtfilehandle};
 
-					std::ptrdiff_t ptr = datatype.vertices_offset() + mesh.modeldata().vertices_offset() * datatype.vertices_stride();
+			//		std::ptrdiff_t ptr = datatype.vertices_offset() + mesh.modeldata().vertices_offset() * datatype.vertices_stride();
 
-					fwrite(reinterpret_cast<void const*>(mesh_ptr + ptr), datatype.vertices_stride(), std::min<size_t>(mesh.modeldata().vertices_count(), 128), dtfile.get());
-				}
-			}*/
+			//		fwrite(reinterpret_cast<void const*>(mesh_ptr + ptr), datatype.vertices_stride(), std::min<size_t>(mesh.modeldata().vertices_count(), 128), dtfile.get());
+			//	}
+			//}
 
-			//* Don't do any of that for now.
-			// Generate name.
-			std::string filename;
-			{
-				const char*       format = "%s/%08" PRIu32 ".obj";
-				std::vector<char> buf;
-				size_t            bufsz = snprintf(nullptr, 0, format, output_path.u8string().c_str(), idx);
-				buf.resize(bufsz + 1);
-				snprintf(buf.data(), buf.size(), format, output_path.u8string().c_str(), idx);
-				filename = {buf.data(), buf.data() + buf.size() - 1};
-			}
-
-			std::string vtxname;
-			{
-				const char*       format = "%s/%08" PRIu32 ".vtx";
-				std::vector<char> buf;
-				size_t            bufsz = snprintf(nullptr, 0, format, output_path.u8string().c_str(), idx);
-				buf.resize(bufsz + 1);
-				snprintf(buf.data(), buf.size(), format, output_path.u8string().c_str(), idx);
-				vtxname = {buf.data(), buf.data() + buf.size() - 1};
-			}
-
-			std::string idxname;
-			{
-				const char*       format = "%s/%08" PRIu32 ".idx";
-				std::vector<char> buf;
-				size_t            bufsz = snprintf(nullptr, 0, format, output_path.u8string().c_str(), idx);
-				buf.resize(bufsz + 1);
-				snprintf(buf.data(), buf.size(), format, output_path.u8string().c_str(), idx);
-				idxname = {buf.data(), buf.data() + buf.size() - 1};
-			}
-
-			// Open output files.
-			auto   filehandle = fopen(filename.c_str(), "w+b");
-			file_t file{filehandle};
-			//auto   idxfilehandle = fopen(idxname.c_str(), "w+b");
-			//file_t idxfile{idxfilehandle};
-			//auto   vtxfilehandle = fopen(vtxname.c_str(), "w+b");
-			//file_t vtxfile{vtxfilehandle};
-
-			// Write overall data.
-			fprintf(file.get(), "o %s\n", filename.c_str());
-			fprintf(file.get(), "g %s\n", filename.c_str());
-			fprintf(file.get(), "s 0\n");
-			fflush(file.get());
-
-			{ // Write all vertices.
-				std::ptrdiff_t ptr         = datatype.vertices_offset() + mesh.modeldata().vertices_offset() * datatype.vertices_stride();
-				std::ptrdiff_t max_ptr     = ptr + mesh.modeldata().vertices_count() * datatype.vertices_stride();
-				std::ptrdiff_t abs_max_ptr = datatype.vertices_offset() + datatype.vertices_size();
-
-				bool is_error_ptr = false;
-				if (ptr > abs_max_ptr) {
-					printf("  ptr > abs_max_ptr\n");
-					is_error_ptr = true;
-				} else if (max_ptr > abs_max_ptr) {
-					printf("  max_ptr > abs_max_ptr\n");
-					is_error_ptr = true;
-				}
-				if (is_error_ptr) {
-					printf("  ptr =         %08zx", ptr);
-					printf("  max_ptr =     %08zx", max_ptr);
-					printf("  abs_max_ptr = %08zx", abs_max_ptr);
-					continue;
+			{ // Write raw file.
+				std::string file_name;
+				file_t      file;
+				{
+					{
+						const char*       format = "%s/%08" PRIu32 ".raw";
+						std::vector<char> buf;
+						size_t            bufsz = snprintf(nullptr, 0, format, output_path.u8string().c_str(), idx);
+						buf.resize(bufsz + 1);
+						snprintf(buf.data(), buf.size(), format, output_path.u8string().c_str(), idx);
+						file_name = {buf.data(), buf.data() + buf.size() - 1};
+					}
+					auto file_handle = fopen(file_name.c_str(), "w+b");
+					file.reset(file_handle);
 				}
 
-				//fwrite(reinterpret_cast<uint8_t const*>(mesh_ptr + ptr), 1, max_ptr - ptr, vtxfile.get());
+				struct offsets_t {
+					size_t dt;
+					size_t mesh;
+					size_t vtx;
+					size_t idx;
+				};
 
-				for (size_t vtx = 0; vtx < mesh.modeldata().vertices_count(); vtx++) {
-					auto vtx_ptr = reinterpret_cast<uint8_t const*>(mesh_ptr + ptr + datatype.vertices_stride() * vtx);
-					fprintf(file.get(), "# %zu\n", vtx);
+				offsets_t offsets;
+				offsets.dt   = sizeof(offsets_t);
+				offsets.mesh = offsets.dt + sizeof(hd2::meshinfo_datatype_t::data_t);
+				offsets.vtx  = offsets.mesh + mesh.size();
+				offsets.idx  = offsets.vtx + (datatype.vertices_stride() * mesh.modeldata().vertices());
 
-					for (size_t el = 0; el < datatype.elements(); el++) {
-						auto element = datatype.element(el);
+				fwrite(&offsets, sizeof(offsets_t), 1, file.get());
 
-						std::string format_str;
-						switch (element.type) {
-						case hd2::vertex_element_type::_00_position: {
-							switch (element.format) {
-							case hd2::vertex_element_format::f16vec2: {
-								half const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
-								fprintf(file.get(), "v %#16.8g %#16.8g %#16.8g\n", (float)vec_ptr[0] * hd2::mesh_scale, (float)vec_ptr[1] * hd2::mesh_scale, 0.f);
+				// Write datatype information.
+				fwrite(datatype._ptr, sizeof(hd2::meshinfo_datatype_t::data_t), 1, file.get());
+
+				// Write mesh information.
+				fwrite(&mesh, mesh.size(), 1, file.get());
+
+				// Write vertex information.
+				fwrite(mesh_ptr + datatype.vertices_offset() + mesh.modeldata().vertices_offset() * datatype.vertices_stride(), datatype.vertices_stride(), mesh.modeldata().vertices(), file.get());
+
+				// Write index information.
+				fwrite(mesh_ptr + datatype.indices_offset() + mesh.modeldata().indices_offset() * datatype.indices_stride(), datatype.indices_stride(), mesh.modeldata().indices(), file.get());
+			}
+
+			{ // Write model file.
+				std::string file_name;
+				file_t      file;
+				{
+					{
+						const char*       format = "%s/%08" PRIu32 ".obj";
+						std::vector<char> buf;
+						size_t            bufsz = snprintf(nullptr, 0, format, output_path.u8string().c_str(), idx);
+						buf.resize(bufsz + 1);
+						snprintf(buf.data(), buf.size(), format, output_path.u8string().c_str(), idx);
+						file_name = {buf.data(), buf.data() + buf.size() - 1};
+					}
+					auto file_handle = fopen(file_name.c_str(), "w+b");
+					file.reset(file_handle);
+					;
+				}
+
+				// Write overall data.
+				fprintf(file.get(), "o %s\n", file_name.c_str());
+				fprintf(file.get(), "g %s\n", file_name.c_str());
+				fprintf(file.get(), "s 0\n");
+				fflush(file.get());
+
+				{ // Write all vertices.
+					std::ptrdiff_t ptr         = datatype.vertices_offset() + mesh.modeldata().vertices_offset() * datatype.vertices_stride();
+					std::ptrdiff_t max_ptr     = ptr + mesh.modeldata().vertices() * datatype.vertices_stride();
+					std::ptrdiff_t abs_max_ptr = datatype.vertices_offset() + datatype.vertices_size();
+
+					bool is_error_ptr = false;
+					if (ptr > abs_max_ptr) {
+						printf("  ptr > abs_max_ptr\n");
+						is_error_ptr = true;
+					} else if (max_ptr > abs_max_ptr) {
+						printf("  max_ptr > abs_max_ptr\n");
+						is_error_ptr = true;
+					}
+					if (is_error_ptr) {
+						printf("  ptr =         %08zx", ptr);
+						printf("  max_ptr =     %08zx", max_ptr);
+						printf("  abs_max_ptr = %08zx", abs_max_ptr);
+						continue;
+					}
+
+					for (size_t vtx = 0; vtx < mesh.modeldata().vertices(); vtx++) {
+						auto vtx_ptr = reinterpret_cast<uint8_t const*>(mesh_ptr + ptr + datatype.vertices_stride() * vtx);
+						fprintf(file.get(), "# %zu\n", vtx);
+
+						for (size_t el = 0; el < datatype.elements(); el++) {
+							auto element = datatype.element(el);
+
+							std::string format_str;
+							switch (element.type) {
+							case hd2::vertex_element_type::_00_position: {
+								switch (element.format) {
+								case hd2::vertex_element_format::f16vec2: {
+									half const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
+									fprintf(file.get(), "v %#16.8g %#16.8g %#16.8g\n", (float)vec_ptr[0] * hd2::mesh_scale, (float)vec_ptr[1] * hd2::mesh_scale, 0.f);
+									break;
+								}
+								case hd2::vertex_element_format::_01_implied_float2: {
+									float const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
+									fprintf(file.get(), "v %#16.8g %#16.8g %#16.8g\n", vec_ptr[0] * hd2::mesh_scale, vec_ptr[1] * hd2::mesh_scale, 0.f);
+									break;
+								}
+
+								case hd2::vertex_element_format::_1E_implied_half3: {
+									half const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
+									fprintf(file.get(), "v %#16.8g %#16.8g %#16.8g\n", (float)vec_ptr[0] * hd2::mesh_scale, (float)vec_ptr[1] * hd2::mesh_scale, (float)vec_ptr[2] * hd2::mesh_scale);
+									break;
+								}
+								case hd2::vertex_element_format::f32vec3: {
+									float const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
+									fprintf(file.get(), "v %#16.8g %#16.8g %#16.8g\n", vec_ptr[0] * hd2::mesh_scale, vec_ptr[1] * hd2::mesh_scale, vec_ptr[2] * hd2::mesh_scale);
+									break;
+								}
+
+								default:
+									fprintf(file.get(), "# ERROR: type+format %08x, %08x, %08x, %08x, %08x is unknown\n", element.type, element.format, element.layer, element.__unk00, element.__unk01);
+									fprintf(file.get(), "#  DUMP: ");
+									for (size_t n = 0; n < hd2::vertex_element_format_size(element.format); n++) {
+										fprintf(file.get(), "%02X", *(vtx_ptr + n));
+									}
+									fprintf(file.get(), "\n");
+								}
 								break;
 							}
-							case hd2::vertex_element_format::_01_implied_float2: {
-								float const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
-								fprintf(file.get(), "v %#16.8g %#16.8g %#16.8g\n", vec_ptr[0] * hd2::mesh_scale, vec_ptr[1] * hd2::mesh_scale, 0.f);
+
+							case hd2::vertex_element_type::_04_texcoord: {
+								if (element.layer != 0) {
+									fprintf(file.get(), "# ");
+								}
+
+								switch (element.format) {
+								case hd2::vertex_element_format::f16vec2: {
+									half const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
+									fprintf(file.get(), "vt %#16.8g %#16.8g\n", (float)vec_ptr[0], (float)vec_ptr[1]);
+									break;
+								}
+								case hd2::vertex_element_format::_01_implied_float2: {
+									float const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
+									fprintf(file.get(), "vt %#16.8g %#16.8g\n", (float)vec_ptr[0], (float)vec_ptr[1]);
+									break;
+								}
+
+								case hd2::vertex_element_format::_1E_implied_half3: {
+									half const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
+									fprintf(file.get(), "vt %#16.8g %#16.8g %#16.8g\n", (float)vec_ptr[0], (float)vec_ptr[1], (float)vec_ptr[2]);
+									break;
+								}
+								case hd2::vertex_element_format::f32vec3: {
+									float const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
+									fprintf(file.get(), "vt %#16.8g %#16.8g %#16.8g\n", (float)vec_ptr[0], (float)vec_ptr[1], (float)vec_ptr[2]);
+									break;
+								}
+
+								default:
+									fprintf(file.get(), "# ERROR: type+format %08x, %08x, %08x, %08x, %08x is unknown\n", element.type, element.format, element.layer, element.__unk00, element.__unk01);
+									fprintf(file.get(), "#  DUMP: ");
+									for (size_t n = 0; n < hd2::vertex_element_format_size(element.format); n++) {
+										fprintf(file.get(), "%02X", *(vtx_ptr + n));
+									}
+									fprintf(file.get(), "\n");
+								}
 								break;
 							}
 
-							case hd2::vertex_element_format::_1E_implied_half3: {
-								half const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
-								fprintf(file.get(), "v %#16.8g %#16.8g %#16.8g\n", (float)vec_ptr[0] * hd2::mesh_scale, (float)vec_ptr[1] * hd2::mesh_scale, (float)vec_ptr[2] * hd2::mesh_scale);
-								break;
-							}
-							case hd2::vertex_element_format::f32vec3: {
-								float const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
-								fprintf(file.get(), "v %#16.8g %#16.8g %#16.8g\n", vec_ptr[0] * hd2::mesh_scale, vec_ptr[1] * hd2::mesh_scale, vec_ptr[2] * hd2::mesh_scale);
+							case hd2::vertex_element_type::_07_normal: {
+								if (element.layer != 0) {
+									fprintf(file.get(), "# ");
+								}
+
+								switch (element.format) {
+								case hd2::vertex_element_format::_1E_implied_half3: {
+									half const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
+									fprintf(file.get(), "vn %#16.8g %#16.8g %#16.8g\n", (float)vec_ptr[0], (float)vec_ptr[1], (float)vec_ptr[2]);
+									break;
+								}
+								case hd2::vertex_element_format::f32vec3: {
+									float const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
+									fprintf(file.get(), "vn %#16.8g %#16.8g %#16.8g\n", (float)vec_ptr[0], (float)vec_ptr[1], (float)vec_ptr[2]);
+									break;
+								}
+
+								default:
+									fprintf(file.get(), "# ERROR: type+format %08x, %08x, %08x, %08x, %08x is unknown\n", element.type, element.format, element.layer, element.__unk00, element.__unk01);
+									fprintf(file.get(), "#  DUMP: ");
+									for (size_t n = 0; n < hd2::vertex_element_format_size(element.format); n++) {
+										fprintf(file.get(), "%02X", *(vtx_ptr + n));
+									}
+									fprintf(file.get(), "\n");
+								}
 								break;
 							}
 
 							default:
-								fprintf(file.get(), "# ERROR: type+format %08x, %08x, %08x, %08x, %08x is unknown\n", element.type, element.format, element.layer, element.__unk00, element.__unk01);
+								fprintf(file.get(), "# ERROR: type %08x, %08x, %08x, %08x, %08x is unknown\n", element.type, element.format, element.layer, element.__unk00, element.__unk01);
 								fprintf(file.get(), "#  DUMP: ");
 								for (size_t n = 0; n < hd2::vertex_element_format_size(element.format); n++) {
 									fprintf(file.get(), "%02X", *(vtx_ptr + n));
 								}
 								fprintf(file.get(), "\n");
 							}
-							break;
+
+							vtx_ptr += hd2::vertex_element_format_size(element.format);
 						}
-
-						case hd2::vertex_element_type::_04_texcoord: {
-							if (element.layer != 0) {
-								fprintf(file.get(), "# ");
-							}
-
-							switch (element.format) {
-							case hd2::vertex_element_format::f16vec2: {
-								half const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
-								fprintf(file.get(), "vt %#16.8g %#16.8g\n", (float)vec_ptr[0], (float)vec_ptr[1]);
-								break;
-							}
-							case hd2::vertex_element_format::_01_implied_float2: {
-								float const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
-								fprintf(file.get(), "vt %#16.8g %#16.8g\n", (float)vec_ptr[0], (float)vec_ptr[1]);
-								break;
-							}
-
-							case hd2::vertex_element_format::_1E_implied_half3: {
-								half const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
-								fprintf(file.get(), "vt %#16.8g %#16.8g %#16.8g\n", (float)vec_ptr[0], (float)vec_ptr[1], (float)vec_ptr[2]);
-								break;
-							}
-							case hd2::vertex_element_format::f32vec3: {
-								float const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
-								fprintf(file.get(), "vt %#16.8g %#16.8g %#16.8g\n", (float)vec_ptr[0], (float)vec_ptr[1], (float)vec_ptr[2]);
-								break;
-							}
-
-							default:
-								fprintf(file.get(), "# ERROR: type+format %08x, %08x, %08x, %08x, %08x is unknown\n", element.type, element.format, element.layer, element.__unk00, element.__unk01);
-								fprintf(file.get(), "#  DUMP: ");
-								for (size_t n = 0; n < hd2::vertex_element_format_size(element.format); n++) {
-									fprintf(file.get(), "%02X", *(vtx_ptr + n));
-								}
-								fprintf(file.get(), "\n");
-							}
-							break;
-						}
-
-						case hd2::vertex_element_type::_07_normal: {
-							if (element.layer != 0) {
-								fprintf(file.get(), "# ");
-							}
-
-							switch (element.format) {
-							case hd2::vertex_element_format::_1E_implied_half3: {
-								half const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
-								fprintf(file.get(), "vn %#16.8g %#16.8g %#16.8g\n", (float)vec_ptr[0], (float)vec_ptr[1], (float)vec_ptr[2]);
-								break;
-							}
-							case hd2::vertex_element_format::f32vec3: {
-								float const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
-								fprintf(file.get(), "vn %#16.8g %#16.8g %#16.8g\n", (float)vec_ptr[0], (float)vec_ptr[1], (float)vec_ptr[2]);
-								break;
-							}
-
-							default:
-								fprintf(file.get(), "# ERROR: type+format %08x, %08x, %08x, %08x, %08x is unknown\n", element.type, element.format, element.layer, element.__unk00, element.__unk01);
-								fprintf(file.get(), "#  DUMP: ");
-								for (size_t n = 0; n < hd2::vertex_element_format_size(element.format); n++) {
-									fprintf(file.get(), "%02X", *(vtx_ptr + n));
-								}
-								fprintf(file.get(), "\n");
-							}
-							break;
-						}
-
-						default:
-							fprintf(file.get(), "# ERROR: type %08x, %08x, %08x, %08x, %08x is unknown\n", element.type, element.format, element.layer, element.__unk00, element.__unk01);
-							fprintf(file.get(), "#  DUMP: ");
-							for (size_t n = 0; n < hd2::vertex_element_format_size(element.format); n++) {
-								fprintf(file.get(), "%02X", *(vtx_ptr + n));
-							}
-							fprintf(file.get(), "\n");
-						}
-
-						vtx_ptr += hd2::vertex_element_format_size(element.format);
 					}
 				}
+				fflush(file.get());
+
+				{ // Write all faces.
+					std::ptrdiff_t ptr         = datatype.indices_offset() + mesh.modeldata().indices_offset() * datatype.indices_stride();
+					std::ptrdiff_t max_ptr     = ptr + mesh.modeldata().indices() * datatype.indices_stride();
+					std::ptrdiff_t abs_max_ptr = datatype.indices_offset() + datatype.indices_size();
+
+					bool is_error_ptr = false;
+					if (ptr > abs_max_ptr) {
+						printf("  ptr > abs_max_ptr\n");
+						is_error_ptr = true;
+					} else if (max_ptr > abs_max_ptr) {
+						printf("  max_ptr > abs_max_ptr\n");
+						is_error_ptr = true;
+					}
+					if (is_error_ptr) {
+						printf("  ptr =         %08zx", ptr);
+						printf("  max_ptr =     %08zx", max_ptr);
+						printf("  abs_max_ptr = %08zx", abs_max_ptr);
+						continue;
+					}
+
+					for (size_t idx = 0; idx < mesh.modeldata().indices(); idx += 3) {
+						auto idx_ptr = reinterpret_cast<uint8_t const*>(mesh_ptr + ptr + datatype.indices_stride() * idx);
+						fprintf(file.get(), "# %zu\n", idx);
+
+						switch (datatype.indices_stride()) {
+						case 1: {
+							auto v0 = *reinterpret_cast<uint8_t const*>(idx_ptr + datatype.indices_stride() * 0) + 1;
+							auto v1 = *reinterpret_cast<uint8_t const*>(idx_ptr + datatype.indices_stride() * 1) + 1;
+							auto v2 = *reinterpret_cast<uint8_t const*>(idx_ptr + datatype.indices_stride() * 2) + 1;
+							fprintf(file.get(), "f %" PRIu8 "/%" PRIu8 "/%" PRIu8 " %" PRIu8 "/%" PRIu8 "/%" PRIu8 " %" PRIu8 "/%" PRIu8 "/%" PRIu8 "\n", v0, v0, v0, v1, v1, v1, v2, v2, v2);
+							break;
+						}
+						case 2: {
+							auto v0 = *reinterpret_cast<uint16_t const*>(idx_ptr + datatype.indices_stride() * 0) + 1;
+							auto v1 = *reinterpret_cast<uint16_t const*>(idx_ptr + datatype.indices_stride() * 1) + 1;
+							auto v2 = *reinterpret_cast<uint16_t const*>(idx_ptr + datatype.indices_stride() * 2) + 1;
+							fprintf(file.get(), "f %" PRIu16 "/%" PRIu16 "/%" PRIu16 " %" PRIu16 "/%" PRIu16 "/%" PRIu16 " %" PRIu16 "/%" PRIu16 "/%" PRIu16 "\n", v0, v0, v0, v1, v1, v1, v2, v2, v2);
+							break;
+						}
+						case 4: {
+							auto v0 = *reinterpret_cast<uint32_t const*>(idx_ptr + datatype.indices_stride() * 0) + 1;
+							auto v1 = *reinterpret_cast<uint32_t const*>(idx_ptr + datatype.indices_stride() * 1) + 1;
+							auto v2 = *reinterpret_cast<uint32_t const*>(idx_ptr + datatype.indices_stride() * 2) + 1;
+							fprintf(file.get(), "f %" PRIu32 "/%" PRIu32 "/%" PRIu32 " %" PRIu32 "/%" PRIu32 "/%" PRIu32 " %" PRIu32 "/%" PRIu32 "/%" PRIu32 "\n", v0, v0, v0, v1, v1, v1, v2, v2, v2);
+							break;
+						}
+						case 8: {
+							auto v0 = *reinterpret_cast<uint64_t const*>(idx_ptr + datatype.indices_stride() * 0) + 1;
+							auto v1 = *reinterpret_cast<uint64_t const*>(idx_ptr + datatype.indices_stride() * 1) + 1;
+							auto v2 = *reinterpret_cast<uint64_t const*>(idx_ptr + datatype.indices_stride() * 2) + 1;
+							fprintf(file.get(), "f %" PRIu64 "/%" PRIu64 "/%" PRIu64 " %" PRIu64 "/%" PRIu64 "/%" PRIu64 " %" PRIu64 "/%" PRIu64 "/%" PRIu64 "\n", v0, v0, v0, v1, v1, v1, v2, v2, v2);
+							break;
+						}
+						}
+					}
+				}
+				fflush(file.get());
 			}
-			fflush(file.get());
-
-			{ // Write all faces.
-				std::ptrdiff_t ptr         = datatype.indices_offset() + mesh.modeldata().indices_offset() * datatype.indices_stride();
-				std::ptrdiff_t max_ptr     = ptr + mesh.modeldata().indices_count() * datatype.indices_stride();
-				std::ptrdiff_t abs_max_ptr = datatype.indices_offset() + datatype.indices_size();
-
-				bool is_error_ptr = false;
-				if (ptr > abs_max_ptr) {
-					printf("  ptr > abs_max_ptr\n");
-					is_error_ptr = true;
-				} else if (max_ptr > abs_max_ptr) {
-					printf("  max_ptr > abs_max_ptr\n");
-					is_error_ptr = true;
-				}
-				if (is_error_ptr) {
-					printf("  ptr =         %08zx", ptr);
-					printf("  max_ptr =     %08zx", max_ptr);
-					printf("  abs_max_ptr = %08zx", abs_max_ptr);
-					continue;
-				}
-
-				//fwrite(reinterpret_cast<uint8_t const*>(mesh_ptr + ptr), 1, max_ptr - ptr, idxfile.get());
-
-				for (size_t idx = 0; idx < mesh.modeldata().indices_count(); idx += 3) {
-					auto idx_ptr = reinterpret_cast<uint8_t const*>(mesh_ptr + ptr + datatype.indices_stride() * idx);
-					fprintf(file.get(), "# %zu\n", idx);
-
-					switch (datatype.indices_stride()) {
-					case 1: {
-						auto v0 = *reinterpret_cast<uint8_t const*>(idx_ptr + datatype.indices_stride() * 0) + 1;
-						auto v1 = *reinterpret_cast<uint8_t const*>(idx_ptr + datatype.indices_stride() * 1) + 1;
-						auto v2 = *reinterpret_cast<uint8_t const*>(idx_ptr + datatype.indices_stride() * 2) + 1;
-						fprintf(file.get(), "f %" PRIu8 "/%" PRIu8 "/%" PRIu8 " %" PRIu8 "/%" PRIu8 "/%" PRIu8 " %" PRIu8 "/%" PRIu8 "/%" PRIu8 "\n", v0, v0, v0, v1, v1, v1, v2, v2, v2);
-						break;
-					}
-					case 2: {
-						auto v0 = *reinterpret_cast<uint16_t const*>(idx_ptr + datatype.indices_stride() * 0) + 1;
-						auto v1 = *reinterpret_cast<uint16_t const*>(idx_ptr + datatype.indices_stride() * 1) + 1;
-						auto v2 = *reinterpret_cast<uint16_t const*>(idx_ptr + datatype.indices_stride() * 2) + 1;
-						fprintf(file.get(), "f %" PRIu16 "/%" PRIu16 "/%" PRIu16 " %" PRIu16 "/%" PRIu16 "/%" PRIu16 " %" PRIu16 "/%" PRIu16 "/%" PRIu16 "\n", v0, v0, v0, v1, v1, v1, v2, v2, v2);
-						break;
-					}
-					case 4: {
-						auto v0 = *reinterpret_cast<uint32_t const*>(idx_ptr + datatype.indices_stride() * 0) + 1;
-						auto v1 = *reinterpret_cast<uint32_t const*>(idx_ptr + datatype.indices_stride() * 1) + 1;
-						auto v2 = *reinterpret_cast<uint32_t const*>(idx_ptr + datatype.indices_stride() * 2) + 1;
-						fprintf(file.get(), "f %" PRIu32 "/%" PRIu32 "/%" PRIu32 " %" PRIu32 "/%" PRIu32 "/%" PRIu32 " %" PRIu32 "/%" PRIu32 "/%" PRIu32 "\n", v0, v0, v0, v1, v1, v1, v2, v2, v2);
-						break;
-					}
-					case 8: {
-						auto v0 = *reinterpret_cast<uint64_t const*>(idx_ptr + datatype.indices_stride() * 0) + 1;
-						auto v1 = *reinterpret_cast<uint64_t const*>(idx_ptr + datatype.indices_stride() * 1) + 1;
-						auto v2 = *reinterpret_cast<uint64_t const*>(idx_ptr + datatype.indices_stride() * 2) + 1;
-						fprintf(file.get(), "f %" PRIu64 "/%" PRIu64 "/%" PRIu64 " %" PRIu64 "/%" PRIu64 "/%" PRIu64 " %" PRIu64 "/%" PRIu64 "/%" PRIu64 "\n", v0, v0, v0, v1, v1, v1, v2, v2, v2);
-						break;
-					}
-					}
-				}
-			}
-			fflush(file.get());
-			//*/
 		}
 	}
 
