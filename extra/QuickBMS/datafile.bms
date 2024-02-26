@@ -91,25 +91,20 @@ For i = 0 < FILES
 		GoTo MAIN_OFFSET
 		GetDString DUMMY 0xC0
 		SavePos DDS_DATA
-
-		if STREAM_SIZE != 0
-			String NAME p= "%s.stream.dds" BASENAME
-			Append 1
-			Log NAME DDS_DATA DDS_SIZE 0
+		
+		String NAME p= "%s.dds" BASENAME
+		Append 1
+		Log NAME DDS_DATA DDS_SIZE 0
 			Append 0
+
+		# Unclear about order.
+		if STREAM_SIZE != 0
 			Log NAME STREAM_OFFSET STREAM_SIZE 1
+			Append 0
 		endif
 		if GPU_RESOURCES_SIZE != 0
-			String NAME p= "%s.gpu_resources.dds" BASENAME
-			Append 1
-			Log NAME DDS_DATA DDS_SIZE 0
-			Append 0
 			Log NAME GPU_RESOURCES_OFFSET GPU_RESOURCES_SIZE 2
-		endif
-		if (STREAM_SIZE == 0) && (GPU_RESOURCES_SIZE == 0)
-			String NAME p= "%s.main.dds" BASENAME
-			Append 1
-			Log NAME DDS_DATA DDS_SIZE 0
+			Append 0
 		endif
 	
 	elif TYPE1 == 0xE0A48D0B && TYPE0 == 0xE9A7453F # Mesh + MeshInfo
