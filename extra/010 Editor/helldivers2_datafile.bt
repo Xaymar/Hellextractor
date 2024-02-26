@@ -26,7 +26,7 @@
 
 enum <uint64_t> datafile_type {
     HAVOK_THING = 0x5F7203C8F280DAB8, //6877563742545042104, // Contained references to types from Havok Physics.
-    TEXTURE_DDS = 0xCD4238C6A0C69E32, //14790446551990181426, // Has magic number 'DDS '
+    TEXTURE_DDS = 0xCD4238C6A0C69E32, // DirectDraw Surface (.dds) // 0xC0 "Header" Size
     MESHINFO = 0xE0A48D0BE9A7453F, //16187218042980615487,
     MATERIAL = 0xEAC0B497876ADEDF, //16915718763308572383,
     SKELETON_OR_ANIMATION = 0x18DEAD01056B72E9, // Had clear text that looked like a skeleton bone tree.
@@ -34,7 +34,8 @@ enum <uint64_t> datafile_type {
     //UNKNOWN_AB2F78E885F513C6 = 0xAB2F78E885F513C6, // No obvious text or header in the file data.
     //UNKNOWN_931E336D7646CC26 = 0x931E336D7646CC26, //   
     BINK_VIDEO = 0xAA5965F03029FA18, // Bink Video (.bik)
-    WWISE_AUDIO = 5785811756662211598, // WWise Encoded Media (.wem)
+    WWISE_AUDIO = 0x504B55235D21440E, // WWise Encoded Media (.wem)
+    TRUETYPE_FONT = 0x05106B81DCD58A13, // TrueType Font (.ttf) // 0x80, 0x24 "Header" Size
 };
 
 struct datafile_t {
