@@ -151,7 +151,7 @@ namespace hd2 {
 
 	enum class vertex_element_type : uint32_t {
 		_00_position = 0x00, // format = <float_type>[2..4], rest seems to be ignored
-		_01_color  = 0x01, // format = 0x1A
+		_01_color    = 0x01, // format = 0x1A
 		_04_texcoord = 0x04, // has index at [2]
 		_05_unknown  = 0x05, // ??
 		_06_unknown  = 0x06, // has index at [2]
@@ -917,6 +917,44 @@ int main(int argc, const char** argv)
 									}
 									fprintf(file.get(), "\n");
 								}
+								break;
+							}
+
+							case hd2::vertex_element_type::_01_color: {
+								switch (element.format) {
+								case hd2::vertex_element_format::_1E_implied_half3: {
+									half const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
+									fprintf(file.get(), "# vc %#16.8g %#16.8g %#16.8g\n", (float)vec_ptr[0], (float)vec_ptr[1], (float)vec_ptr[2]);
+									break;
+								}
+								case hd2::vertex_element_format::f32vec3: {
+									float const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
+									fprintf(file.get(), "# vc %#16.8g %#16.8g %#16.8g\n", vec_ptr[0], vec_ptr[1], vec_ptr[2]);
+									break;
+								}
+
+								case hd2::vertex_element_format::f16vec4: {
+									half const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
+									fprintf(file.get(), "# vc %#16.8g %#16.8g %#16.8g %#16.8g\n", (float)vec_ptr[0], (float)vec_ptr[1], (float)vec_ptr[2], (float)vec_ptr[3]);
+									break;
+								}
+								case hd2::vertex_element_format::_03_implied_float4: {
+									float const* vec_ptr = reinterpret_cast<decltype(vec_ptr)>(vtx_ptr);
+									fprintf(file.get(), "# vc %#16.8g %#16.8g %#16.8g %#16.8g\n", vec_ptr[0], vec_ptr[1], vec_ptr[2], vec_ptr[3]);
+									break;
+								}
+
+
+
+								default:
+									fprintf(file.get(), "# ERROR: type+format %08x, %08x, %08x, %08x, %08x is unknown\n", element.type, element.format, element.layer, element.__unk00, element.__unk01);
+									fprintf(file.get(), "#  DUMP: ");
+									for (size_t n = 0; n < hd2::vertex_element_format_size(element.format); n++) {
+										fprintf(file.get(), "%02X", *(vtx_ptr + n));
+									}
+									fprintf(file.get(), "\n");
+								}
+
 								break;
 							}
 
