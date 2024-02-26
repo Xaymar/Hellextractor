@@ -8,652 +8,224 @@
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include <algorithm>
+// ToDo:
+// - Look into ICU for Unicode handling: https://icu.unicode.org/
+
 #include <cinttypes>
 #include <cstddef>
 #include <cstdio>
 #include <cstring>
+
 #include <filesystem>
 #include <fstream>
+#include <functional>
 #include <iomanip>
 #include <ios>
 #include <iostream>
-#include <memory>
-#include <sstream>
-#include <vector>
+#include <list>
+#include <map>
+#include <set>
+#include <utility>
 
-template<class T, class D = std::default_delete<T>>
-struct shared_ptr_with_deleter : public std::shared_ptr<T> {
-	explicit shared_ptr_with_deleter(T* t = nullptr) : std::shared_ptr<T>(t, D()) {}
+#include "mapped_file.hpp"
+#include "string_printf.hpp"
 
-	// Reset function, as it also needs to properly set the deleter.
-	void reset(T* t = nullptr)
-	{
-		std::shared_ptr<T>::reset(t, D());
-	}
-};
+#include "hd2_data.hpp"
 
-struct half {
-	uint16_t value;
-
-	half()
-	{
-		operator=(0.0f);
-	}
-	half(float v)
-	{
-		operator=(v);
-	}
-	half(uint16_t v)
-	{
-		operator=(v);
-	}
-
-	half& operator=(float v)
-	{
-		auto as_uint = [](const float x) { return *(uint32_t*)&x; };
-
-		// IEEE-754 16-bit floating-point format (without infinity): 1-5-10, exp-15, +-131008.0, +-6.1035156E-5, +-5.9604645E-8, 3.311 digits
-		const uint32_t b = as_uint(v) + 0x00001000; // round-to-nearest-even: add last bit after truncated mantissa
-		const uint32_t e = (b & 0x7F800000) >> 23; // exponent
-		const uint32_t m = b & 0x007FFFFF; // mantissa; in line below: 0x007FF000 = 0x00800000-0x00001000 = decimal indicator flag - initial rounding
-		value            = (b & 0x80000000) >> 16 | (e > 112) * ((((e - 112) << 10) & 0x7C00) | m >> 13) | ((e < 113) & (e > 101)) * ((((0x007FF000 + m) >> (125 - e)) + 1) >> 1) | (e > 143) * 0x7FFF; // sign : normalized : denormalized : saturate
-	}
-
-	half& operator=(uint16_t v)
-	{
-		value = v;
-	}
-
-	operator float() const
-	{
-		auto as_float = [](const uint32_t x) { return *(float*)&x; };
-		auto as_uint  = [](const float x) { return *(uint32_t*)&x; };
-
-		// IEEE-754 16-bit floating-point format (without infinity): 1-5-10, exp-15, +-131008.0, +-6.1035156E-5, +-5.9604645E-8, 3.311 digits
-		const uint32_t e = (value & 0x7C00) >> 10; // exponent
-		const uint32_t m = (value & 0x03FF) << 13; // mantissa
-		const uint32_t v = as_uint((float)m) >> 23; // evil log2 bit hack to count leading zeros in denormalized format
-		return as_float((value & 0x8000) << 16 | (e != 0) * ((e + 112) << 23 | m) | ((e == 0) & (m != 0)) * ((v - 37) << 23 | ((m << (150 - v)) & 0x007FE000))); // sign : normalized : denormalized
-	}
-
-	operator uint16_t() const
-	{
-		return value;
-	}
-};
-
-#ifdef WIN32
-#define NOMINMAX
-#include <Windows.h>
-#include <bcrypt.h>
-
-struct HANDLE_deleter {
-	void operator()(HANDLE p) const
-	{
-		CloseHandle(p);
-	}
-};
-using win32_handle_t = shared_ptr_with_deleter<void, HANDLE_deleter>;
-
-struct BCRYPT_ALG_HANDLE_deleter {
-	void operator()(BCRYPT_ALG_HANDLE p) const
-	{
-		BCryptCloseAlgorithmProvider(p, 0);
-	}
-};
-using bcrypt_alg_handle_t = shared_ptr_with_deleter<void, BCRYPT_ALG_HANDLE_deleter>;
-
-struct BCRYPT_HASH_HANDLE_deleter {
-	void operator()(BCRYPT_HASH_HANDLE p) const
-	{
-		BCryptDestroyHash(p);
-	}
-};
-using bcrypt_hash_handle_t = shared_ptr_with_deleter<void, BCRYPT_HASH_HANDLE_deleter>;
-
+#if __BIG_ENDIAN__
+#define htole16(x) ((uint16_t)(((x) >> 8) & 0xFF) | ((uint16_t)((x)&0xFF) << 8))
+#define htole32(x) (((uint32_t)htobe16(((x) >> 16) & 0xFFFF)) | ((uint32_t)htobe16((x)&0xFFFF) << 16))
+#define htole64(x) (((uint64_t)htobe32(((x) >> 32) & 0xFFFFFFFF)) | ((uint64_t)htobe32((x)&0xFFFFFFFF) << 32))
+#define htobe16(x) (x)
+#define htobe32(x) (x)
+#define htobe64(x) (x)
 #else
-#pragma error("Not supported yet, do some work to make it work.")
+#define htobe16(x) ((uint16_t)(((x) >> 8) & 0xFF) | ((uint16_t)((x)&0xFF) << 8))
+#define htobe32(x) (((uint32_t)htobe16(((x) >> 16) & 0xFFFF)) | ((uint32_t)htobe16((x)&0xFFFF) << 16))
+#define htobe64(x) (((uint64_t)htobe32(((x) >> 32) & 0xFFFFFFFF)) | ((uint64_t)htobe32((x)&0xFFFFFFFF) << 32))
+#define htole16(x) (x)
+#define htole32(x) (x)
+#define htole64(x) (x)
 #endif
 
-struct FILE_deleter {
-	void operator()(FILE* p) const
-	{
-		if (p)
-			fclose(p);
-	}
-};
-using file_t = shared_ptr_with_deleter<FILE, FILE_deleter>;
-
-namespace std {
-	std::string format(std::string_view format, ...)
-	{
-		va_list args_size, args_data;
-		va_start(args_size, format);
-		va_copy(args_data, args_size);
-
-		std::vector<char> buffer;
-		// Resize buffer
-		buffer.resize(vsnprintf(nullptr, 0, format.data(), args_size) + 1);
-		va_end(args_size);
-
-		// Format data.
-		vsnprintf(buffer.data(), buffer.size(), format.data(), args_data);
-		va_end(args_data);
-
-		return {buffer.data(), buffer.data() + buffer.size() - 1}; // Ignore null terminator.
-	}
-} // namespace std
-
-namespace hd2 {
-	// Models are very tiny, so this can be used to scale them up.
-	constexpr float mesh_scale = 1.;
-
-	enum class vertex_element_type : uint32_t {
-		_00_position = 0x00, // format = <float_type>[2..4], rest seems to be ignored
-		_01_color    = 0x01, // format = 0x1A
-		_04_texcoord = 0x04, // has index at [2]
-		_05_unknown  = 0x05, // ??
-		_06_unknown  = 0x06, // has index at [2]
-		_07_normal   = 0x07, // Any of the (float_type)[3] formats.
-	};
-
-	enum class vertex_element_format : uint32_t {
-		_00_implied_float  = 0x00, // 4 bytes, implied
-		_01_implied_float2 = 0x01, // 8 bytes, implied
-		_02_float3         = 0x02, // 12 bytes
-		f32vec3            = _02_float3,
-		_03_implied_float4 = 0x03, // 16 bytes, implied
-		_04_unknown        = 0x04, // 4 bytes, ??
-		_14_long4          = 0x14, // 32 bytes, (u)int32_t[4]
-		_18_byte4          = 0x18, // 4 bytes, (u)int8_t[4]
-		_19_unknown        = 0x19, // 4 bytes, ??
-		_1A_unknown        = 0x1A, // 4 bytes, ??
-		_1C_implied_half   = 0x1C, // 2 bytes, implied
-		_1D_half2          = 0x1D, // 4 bytes
-		f16vec2            = _1D_half2,
-		_1E_implied_half3  = 0x1E, // 12 bytes, implied
-		_1F_half4          = 0x1F, // 16 bytes
-		f16vec4            = _1F_half4,
-	};
-	static size_t vertex_element_format_size(vertex_element_format format)
-	{
-		switch (format) {
-		case hd2::vertex_element_format::_00_implied_float:
-			return 4;
-
-		case hd2::vertex_element_format::_01_implied_float2:
-			return 8;
-
-		case hd2::vertex_element_format::f32vec3:
-			return 12;
-
-		case hd2::vertex_element_format::_03_implied_float4:
-			return 16;
-
-		case hd2::vertex_element_format::_04_unknown:
-			return 4;
-
-		case hd2::vertex_element_format::_14_long4:
-			return 16;
-
-		case hd2::vertex_element_format::_18_byte4:
-			return 4;
-
-		case hd2::vertex_element_format::_19_unknown:
-			return 4;
-
-		case hd2::vertex_element_format::_1A_unknown:
-			return 4;
-
-		case hd2::vertex_element_format::f16vec2:
-			return 4;
-
-		case hd2::vertex_element_format::f16vec4:
-			return 8;
-		}
-		throw std::runtime_error("UNKNOWN");
-	}
-
-	struct meshinfo_datatype_t {
-		uint8_t const* _ptr;
-		struct data_t {
-			uint32_t magic_number;
-			uint32_t __unk00;
-			struct element_t {
-				vertex_element_type   type;
-				vertex_element_format format;
-				uint32_t              layer;
-				uint32_t              __unk00;
-				uint32_t              __unk01;
-			} elements[16];
-			uint32_t num_elements;
-			uint32_t __unk01;
-			struct unk0_t {
-				uint32_t magic_number;
-				uint32_t __unk00[3];
-				uint32_t vertex_count;
-				uint32_t vertex_stride;
-				uint32_t __unk01[4];
-			} __unk02;
-			struct unk1_t {
-				uint32_t magic_number;
-				uint32_t __unk09[3];
-				uint32_t index_count;
-				uint32_t __unk10[5];
-				uint32_t vertex_offset;
-				uint32_t vertex_size;
-				uint32_t index_offset;
-				uint32_t index_size;
-				uint32_t __unk11[4];
-			} __unk03;
-		} const* _data;
-
-		public:
-		meshinfo_datatype_t(uint8_t const* ptr) : _ptr(ptr), _data(reinterpret_cast<decltype(_data)>(_ptr)) {}
-
-		uint32_t elements()
-		{
-			return _data->num_elements;
-		}
-
-		data_t::element_t element(size_t idx)
-		{
-			auto edx = elements();
-			if (idx >= edx) {
-				throw std::out_of_range("idx >= edx");
-			}
-
-			return _data->elements[idx];
-		}
-
-		uint32_t vertices()
-		{
-			return _data->__unk02.vertex_count;
-		}
-
-		uint32_t vertices_offset()
-		{
-			return _data->__unk03.vertex_offset;
-		}
-
-		uint32_t vertices_size()
-		{
-			return _data->__unk03.vertex_size;
-		}
-
-		uint32_t vertices_stride()
-		{
-			//return (_data->vertex_size / _data->vertex_count);
-			return _data->__unk02.vertex_stride;
-		}
-
-		uint32_t indices_offset()
-		{
-			return _data->__unk03.index_offset;
-		}
-
-		uint32_t indices()
-		{
-			return _data->__unk03.index_count;
-		}
-
-		uint32_t indices_size()
-		{
-			return _data->__unk03.index_size;
-		}
-
-		uint32_t indices_stride()
-		{
-			return (_data->__unk03.index_size / _data->__unk03.index_count);
-		}
-
-		data_t unique()
-		{
-			data_t udata = *_data;
-			// Zero out non-unique information.
-			udata.__unk02.vertex_count = udata.__unk02.vertex_stride = udata.__unk03.index_count = udata.__unk03.vertex_offset = udata.__unk03.vertex_size = udata.__unk03.index_offset = udata.__unk03.index_size = 0;
-
-			return udata;
-		}
-
-		std::string hash()
-		{
-			data_t udata = unique();
-
-#ifdef WIN32
-			{
-				BCRYPT_ALG_HANDLE  alghandle;
-				BCRYPT_HASH_HANDLE hashhandle;
-				ULONG              bytes_copied;
-				DWORD              hashobj_length;
-				DWORD              hash_length;
-
-				if (auto status = BCryptOpenAlgorithmProvider(&alghandle, BCRYPT_MD5_ALGORITHM, NULL, 0); status) {
-					throw std::runtime_error("BCryptOpenAlgorithmProvider");
-				}
-				bcrypt_alg_handle_t alg(alghandle);
-
-				if (auto status = BCryptGetProperty(alg.get(), BCRYPT_OBJECT_LENGTH, (PUCHAR)&hashobj_length, sizeof(DWORD), &bytes_copied, 0); status) {
-					throw std::runtime_error("BCryptGetProperty BCRYPT_OBJECT_LENGTH");
-				}
-				std::vector<char> hashobjbuf(hashobj_length, 0);
-
-				if (auto status = BCryptGetProperty(alg.get(), BCRYPT_HASH_LENGTH, (PUCHAR)&hash_length, sizeof(DWORD), &bytes_copied, 0); status) {
-					throw std::runtime_error("BCryptGetProperty BCRYPT_HASH_LENGTH");
-				}
-				std::vector<char> hashbuf(hash_length, 0);
-
-				if (auto status = BCryptCreateHash(alg.get(), &hashhandle, (PUCHAR)hashobjbuf.data(), hashobjbuf.size(), NULL, 0, 0); status) {
-					throw std::runtime_error("BCryptCreateHash");
-				}
-				bcrypt_hash_handle_t hash(hashhandle);
-
-				if (auto status = BCryptHashData(hash.get(), (PBYTE)&udata, sizeof(hd2::meshinfo_datatype_t::data_t), 0); status) {
-					throw std::runtime_error("BCryptHashData");
-				}
-				if (auto status = BCryptFinishHash(hash.get(), (PBYTE)hashbuf.data(), hashbuf.size(), 0); status) {
-					throw std::runtime_error("BCryptFinishHash");
-				}
-
-				// There should now be a hash in hashbuf.
-				std::stringstream sstr;
-				for (size_t p = 0; p < hashbuf.size(); p++) {
-					sstr << std::format("%02" PRIX8, static_cast<uint32_t>(hashbuf[p]));
-				}
-
-				return sstr.str();
-			}
-#else
-#pragma error("Not yet implemented")
-#endif
-		}
-	};
-
-	struct meshinfo_datatype_list_t {
-		uint8_t const* _ptr;
-		struct data {
-			uint32_t count;
-			//uint32_t offsets[count];
-			//uint32_t crcs[count];
-			//uint32_t __unk00;
-		} const* _data;
-
-		public:
-		meshinfo_datatype_list_t(uint8_t const* ptr) : _ptr(ptr), _data(reinterpret_cast<decltype(_data)>(_ptr)) {}
-
-		uint32_t count() const
-		{
-			return _data->count;
-		}
-
-		uint32_t const* offsets() const
-		{
-			return reinterpret_cast<uint32_t const*>(_ptr + sizeof(data));
-		}
-
-		uint32_t const* not_crcs() const
-		{
-			return reinterpret_cast<uint32_t const*>(_ptr + sizeof(data) + sizeof(uint32_t) * count());
-		}
-
-		meshinfo_datatype_t at(size_t idx) const
-		{
-			auto edx = count();
-			if (idx >= edx) {
-				throw std::out_of_range("idx >= edx");
-			}
-
-			return {reinterpret_cast<uint8_t const*>(_ptr + offsets()[idx])};
-		}
-	};
-
-	struct meshinfo_mesh_modeldata_t {
-		uint8_t const* _ptr;
-		struct data_t {
-			uint32_t vertices_offset;
-			uint32_t vertices;
-			uint32_t indices_offset;
-			uint32_t indices;
-		} const* _data;
-
-		public:
-		meshinfo_mesh_modeldata_t(uint8_t const* ptr) : _ptr(ptr), _data(reinterpret_cast<decltype(_data)>(_ptr)) {}
-
-		void const* operator&() const
-		{
-			return _ptr;
-		}
-
-		size_t size() const
-		{
-			return sizeof(data_t);
-		}
-
-		uint32_t indices_offset() const
-		{
-			return _data->indices_offset;
-		}
-
-		uint32_t indices() const
-		{
-			return _data->indices;
-		}
-
-		uint32_t vertices_offset() const
-		{
-			return _data->vertices_offset;
-		}
-
-		uint32_t vertices() const
-		{
-			return _data->vertices;
-		}
-	};
-
-	struct meshinfo_mesh_t {
-		uint8_t const* _ptr;
-		struct data_t {
-			uint32_t __unk00;
-			uint32_t __varies00[7];
-			uint32_t __unk01;
-			uint32_t __identicalToNotCRC;
-			uint32_t __varies01[2];
-			uint32_t __unk02;
-			uint32_t __varies02;
-			uint32_t datatype_index;
-			uint32_t __unk03[10];
-			uint32_t material_count2;
-			uint32_t __unk04[3];
-			uint32_t material_count;
-			uint32_t modeldata_offset;
-			//uint32_t materials[material_count];
-		} const* _data;
-
-		public:
-		meshinfo_mesh_t(uint8_t const* ptr) : _ptr(ptr), _data(reinterpret_cast<decltype(_data)>(_ptr)) {}
-
-		void const* operator&() const
-		{
-			return _ptr;
-		}
-
-		size_t size() const
-		{
-			return _data->modeldata_offset + sizeof(uint32_t) * _data->material_count + sizeof(meshinfo_mesh_modeldata_t);
-		}
-
-		uint32_t datatype_index() const
-		{
-			return _data->datatype_index;
-		}
-
-		uint32_t materials() const
-		{
-			return _data->material_count;
-		}
-
-		uint32_t const* raw_materials() const
-		{
-			return reinterpret_cast<uint32_t const*>(_ptr + offsetof(data_t, modeldata_offset) + sizeof(uint32_t));
-		}
-
-		uint32_t material(size_t idx) const
-		{
-			auto edx = materials();
-			if (idx >= edx) {
-				throw std::out_of_range("idx >= edx");
-			}
-
-			return raw_materials()[idx];
-		}
-
-		meshinfo_mesh_modeldata_t modeldata() const
-		{
-			return {_ptr + _data->modeldata_offset};
-		}
-	};
-
-	struct meshinfo_mesh_list_t {
-		uint8_t const* _ptr;
-		struct data_t {
-			uint32_t count;
-			//uint32_t offsets[count];
-			//uint32_t crcs[count];
-		} const* _data;
-
-		public:
-		meshinfo_mesh_list_t(uint8_t const* ptr) : _ptr(ptr), _data(reinterpret_cast<decltype(_data)>(_ptr)) {}
-
-		uint32_t count() const
-		{
-			return _data->count;
-		}
-
-		uint32_t const* offsets() const
-		{
-			return reinterpret_cast<uint32_t const*>(_ptr + sizeof(data_t));
-		}
-
-		uint32_t const* not_crcs() const
-		{
-			return reinterpret_cast<uint32_t const*>(_ptr + sizeof(data_t) + sizeof(uint32_t) * count());
-		}
-
-		meshinfo_mesh_t at(size_t idx) const
-		{
-			auto edx = count();
-			if (idx >= edx) {
-				throw std::out_of_range("idx >= edx");
-			}
-
-			return {reinterpret_cast<uint8_t const*>(_ptr + sizeof(data_t) + offsets()[idx])};
-		}
-	};
-
-	struct meshinfo_material_list_t {
-		uint8_t const* _ptr;
-		struct data_t {
-			uint32_t count;
-			//uint32_t keys[count];
-			//uint64_t values[count];
-		} const* _data;
-
-		public:
-		meshinfo_material_list_t(uint8_t const* ptr) : _ptr(ptr), _data(reinterpret_cast<decltype(_data)>(_ptr)) {}
-
-		void const* operator&() const
-		{
-			return _ptr;
-		}
-
-		size_t size() const
-		{
-			return sizeof(data_t) + sizeof(uint32_t);
-		}
-
-		uint32_t count()
-		{
-			return _data->count;
-		}
-
-		uint32_t const* keys()
-		{
-			return reinterpret_cast<uint32_t const*>(_ptr + sizeof(data_t));
-		}
-
-		uint64_t const* values()
-		{
-			return reinterpret_cast<uint64_t const*>(_ptr + sizeof(data_t) + sizeof(uint32_t) * count());
-		}
-
-		std::pair<uint32_t, uint64_t> at(size_t idx)
-		{
-			auto edx = count();
-			if (idx >= edx) {
-				throw std::out_of_range("idx >= edx");
-			}
-
-			return {keys()[idx], values()[idx]};
-		}
-	};
-
-	struct meshinfo_t {
-		uint8_t const* _ptr;
-		struct data_t {
-			uint32_t __unk00[12];
-			uint32_t __unk01;
-			uint32_t __unk02;
-			uint32_t __unk03;
-			uint32_t __unk04;
-			uint32_t __unk05[3];
-			uint32_t __unk06;
-			uint32_t __unk07;
-			uint32_t __unk08;
-			uint32_t __unk09;
-			uint32_t datatype_offset;
-			uint32_t __unk10;
-			uint32_t mesh_offset;
-			uint32_t __unk11[2];
-			uint32_t material_offset;
-		} const* _data;
-
-		public:
-		meshinfo_t(uint8_t const* mi) : _ptr(mi), _data(reinterpret_cast<decltype(_data)>(_ptr)) {}
-
-		void const* operator&() const
-		{
-			return _ptr;
-		}
-
-		size_t size() const
-		{
-			return sizeof(data_t);
-		}
-
-		meshinfo_datatype_list_t datatypes()
-		{
-			return {_ptr + _data->datatype_offset};
-		}
-
-		meshinfo_mesh_list_t meshes()
-		{
-			return {_ptr + _data->mesh_offset};
-		}
-
-		meshinfo_material_list_t materials()
-		{
-			return {_ptr + _data->material_offset};
-		}
-	};
-} // namespace hd2
-;
+#define le16toh(x) htole16(x)
+#define le32toh(x) htole32(x)
+#define le64toh(x) htole64(x)
+#define be16toh(x) htobe16(x)
+#define be32toh(x) htobe32(x)
+#define be64toh(x) htobe64(x)
 
 int main(int argc, const char** argv)
-{
-	if (argc < 2) {
+try {
+	enum class mode {
+		EXTRACT,
+		MESH,
+	} currentmode = mode::EXTRACT;
+
+	std::list<std::filesystem::path> input_paths;
+	std::filesystem::path            output_path = std::filesystem::absolute(argv[0]).parent_path();
+
+	if (argc <= 1) {
+		std::cout << std::filesystem::path(argv[0]).filename() << " [options] file [file]" << std::endl;
+		std::cout << "Options" << std::endl;
+		std::cout << "  -m, --mode" << std::endl;
+		std::cout << "    extract: Extract data from the data files" << std::endl;
+		std::cout << "    mesh: Convert .meshinfo (and its accompanying .mesh file) into model data" << std::endl;
 		return 1;
 	}
+
+	// Parse arguments
+	for (size_t argn = 1; argn < argc; ++argn) {
+		std::string_view arg = argv[argn];
+		if (("-m" == arg) || ("--mode" == arg)) {
+			if ((argn + 1) < argc) {
+				std::string_view val = argv[++argn];
+				if ("extract" == val) {
+					currentmode = mode::EXTRACT;
+				} else if ("mesh" == val) {
+					currentmode = mode::MESH;
+				} else {
+					throw std::runtime_error("Unknown mode");
+				}
+			} else {
+				throw std::runtime_error("String expected, got EOL instead");
+			}
+		} else if (("-o" == arg) || ("--output" == arg)) {
+			if ((argn + 1) < argc) {
+				std::string_view val = argv[++argn];
+				output_path          = std::filesystem::absolute(val);
+			} else {
+				throw std::runtime_error("String expected, got EOL instead");
+			}
+		} else if ('-' == arg[0]) {
+			throw std::runtime_error(string_printf("Unrecognized format: %s", arg.data()));
+		} else {
+			input_paths.push_back(std::filesystem::absolute(arg));
+		}
+	}
+
+	auto enumerate_files = [](std::filesystem::path const& path, std::function<bool(std::filesystem::path const&)> filter) {
+		if (!std::filesystem::is_directory(path)) {
+			return std::set<std::filesystem::path>{path};
+		}
+
+		std::set<std::filesystem::path> paths;
+		for (auto const& file : std::filesystem::recursive_directory_iterator(path)) {
+			if (!file.is_regular_file()) {
+				continue;
+			}
+
+			if (filter(file.path())) {
+				paths.insert(std::filesystem::absolute(file.path()));
+			}
+		}
+
+		return paths;
+	};
+
+	std::cout << string_printf("Output Path: %s", output_path.generic_u8string().c_str()) << std::endl;
+
+	if (currentmode == mode::EXTRACT) {
+		// Figure out all the files we need to process.
+		auto filter = [](std::filesystem::path const& path) {
+			if (path.has_extension()) {
+				return false;
+			}
+			return true;
+		};
+		std::set<std::filesystem::path> real_paths;
+		for (auto const& path : input_paths) {
+			real_paths.merge(enumerate_files(path, filter));
+		}
+
+		std::cout << string_printf("%zu Input Files: ", real_paths.size()) << std::endl;
+		for (auto const& path : real_paths) {
+			std::cout << string_printf("    %s", path.generic_u8string().c_str()) << std::endl;
+		}
+
+		// Load all the containers into memory. This should ideally only happen with virtual memory.
+		std::list<hd2::data> containers;
+		for (auto const& path : real_paths) {
+			containers.emplace_back(path);
+		}
+
+		// Create a full tree of {type, id}, {container, index}, so we don't waste time extracting things multiple times.
+		std::map<std::pair<hd2::file_id_t, hd2::file_type>, std::pair<hd2::data const&, size_t>> files;
+		for (auto const& cont : containers) {
+			for (size_t i = 0; i < cont.files(); i++) {
+				auto const& file = cont.file(i);
+				files.try_emplace(std::pair<hd2::file_id_t, hd2::file_type>{file.id, file.type}, std::pair<hd2::data const&, size_t>{cont, i});
+				// Files may exist multiple times, but they are usually exactly identical.
+			}
+		}
+		std::cout << string_printf("%zu Output Files: ", files.size()) << std::endl;
+		for (auto const& file : files) {
+			std::cout << string_printf("    %016" PRIx64 " %016" PRIx64, htobe64((uint64_t)file.first.first), htobe64((uint64_t)file.first.second)) << std::endl;
+		}
+
+		// Export all discovered files.
+		std::cout << "Exporting: " << std::endl;
+		std::filesystem::create_directories(output_path);
+		for (auto const& kv : files) {
+			auto const& cont  = kv.second.first;
+			auto const& file  = kv.second.first.file(kv.second.second);
+			auto        index = kv.second.second;
+
+			std::string ext = std::string{hd2::file_extension_from_type(file.type)};
+			if (ext.length() == 0) {
+				ext = string_printf("%016" PRIx64, htobe64((uint64_t)file.type));
+			}
+
+			std::filesystem::path name = output_path / string_printf("%016" PRIx64 "%s", htobe64((uint64_t)file.id), ext.c_str());
+
+			if (!std::filesystem::exists(name)) {
+				std::cout << string_printf("    [%08" PRIX32 ":%08" PRIX32 "] [%08" PRIX32 ":%08" PRIX32 "] [%08" PRIX32 ":%08" PRIX32 "] %s ...", file.offset, file.size, file.stream_offset, file.stream_size, file.gpu_offset, file.gpu_size, std::filesystem::relative(name, output_path).generic_string().c_str());
+
+				std::ofstream filestream{name, std::ios::trunc | std::ios::binary | std::ios::out};
+				if (!filestream || filestream.bad() || !filestream.is_open()) {
+					throw std::runtime_error(string_printf("Failed to export '%s'.", name.generic_u8string().c_str()));
+				}
+				filestream.flush();
+
+				if (cont.has_meta(index)) {
+					filestream.write(reinterpret_cast<char const*>(cont.meta_data(index)), cont.meta_size(index));
+				}
+				filestream.flush();
+
+				if (cont.has_stream(index)) {
+					filestream.write(reinterpret_cast<char const*>(cont.stream(index)), cont.stream_size(index));
+				}
+				filestream.flush();
+
+				if (cont.has_gpu(index)) {
+					filestream.write(reinterpret_cast<char const*>(cont.gpu(index)), cont.gpu_size(index));
+				}
+				filestream.flush();
+
+				filestream.close();
+
+				std::cout << " Done." << std::endl;
+			} else {
+				std::cout << string_printf("    Skipped %s.", std::filesystem::relative(name, output_path).generic_string().c_str()) << std::endl;
+			}
+		}
+
+		//throw std::runtime_error("Not yet implemented");
+	} else if (currentmode == mode::MESH) {
+		auto filter = [](std::filesystem::path const& path) {
+			if (path.extension() != ".meshinfo") {
+				return false;
+			}
+			return true;
+		};
+
+		std::set<std::filesystem::path> real_paths;
+		for (auto const& path : input_paths) {
+			real_paths.merge(enumerate_files(path, filter));
+		}
+
+		throw std::runtime_error("Not yet implemented");
+		/*
 
 	auto path          = std::filesystem::path{argv[1]};
 	auto meshinfo_path = path.replace_extension(".meshinfo");
@@ -944,8 +516,6 @@ int main(int argc, const char** argv)
 									break;
 								}
 
-
-
 								default:
 									fprintf(file.get(), "# ERROR: type+format %08x, %08x, %08x, %08x, %08x is unknown\n", element.type, element.format, element.layer, element.__unk00, element.__unk01);
 									fprintf(file.get(), "#  DUMP: ");
@@ -1102,6 +672,16 @@ int main(int argc, const char** argv)
 	}
 
 	std::cout << std::endl;
+	*/
+	} else {
+		throw std::runtime_error("Programmer messed up and didn't actually implement this.");
+	}
 
 	return 0;
+} catch (const std::exception& ex) {
+	std::cerr << "Exception: " << ex.what() << std::endl;
+	return 1;
+} catch (...) {
+	std::cerr << "Encountered unknown exception." << std::endl;
+	return 1;
 }
