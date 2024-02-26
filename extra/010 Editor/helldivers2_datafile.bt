@@ -1,0 +1,108 @@
+// Copyright 2024 Michael Fabian 'Xaymar' Dirks <info@xaymar.com>
+//
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+//
+// 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+// 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+// 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+
+// Thanks to:
+// - h3x3r (https://reshax.com/profile/183-h3x3r/) for providing the BMS script that this is based on.
+
+#ifndef HELLDIVERS2_DATAFILE
+#define HELLDIVERS2_DATAFILE
+
+#ifndef IS_INCLUDE
+    #define IS_INCLUDE
+    #define HELLDIVERS2_DATAFILE_INCLUDE
+#endif
+#include "helldivers2_common.bt"
+#ifdef HELLDIVERS2_DATAFILE_INCLUDE
+    #undef IS_INCLUDE
+#endif
+
+enum <uint64_t> datafile_type {
+    HAVOK_THING = 0x5F7203C8F280DAB8, //6877563742545042104, // Contained references to types from Havok Physics.
+    TEXTURE_DDS = 0xCD4238C6A0C69E32, //14790446551990181426, // Has magic number 'DDS '
+    MESHINFO = 0xE0A48D0BE9A7453F, //16187218042980615487,
+    MATERIAL = 0xEAC0B497876ADEDF, //16915718763308572383,
+    SKELETON_OR_ANIMATION = 0x18DEAD01056B72E9, // Had clear text that looked like a skeleton bone tree.
+    //UNKNOWN_2A690FD348FE9AC5 = 0x2A690FD348FE9AC5, // No obvious text or header in the file data.
+    //UNKNOWN_AB2F78E885F513C6 = 0xAB2F78E885F513C6, // No obvious text or header in the file data.
+    //UNKNOWN_931E336D7646CC26 = 0x931E336D7646CC26, //   
+    BINK_VIDEO = 0xAA5965F03029FA18, // Bink Video (.bik)
+    WWISE_AUDIO = 5785811756662211598, // WWise Encoded Media (.wem)
+};
+
+struct datafile_t {
+    uint32_t magic_number <format=hex>;
+    uint32_t types <format=decimal>;
+    uint32_t files <format=decimal>;
+    uint32_t __unk[15] <format=hex>;
+    
+    struct type_t {
+        uint32_t __unk <format=hex>;
+        uint32_t __unk <format=hex>;
+        datafile_type type <format=hex>;
+        uint32_t total; // Seems to be the total amount of files using this type. Why is this needed?
+        uint32_t __unk <format=hex>;
+        uint32_t __unk <format=hex>; // always 0x10
+        uint32_t __unk <format=hex>; // always 0x40
+    } type[types];
+        
+    struct file_t {
+        //BigEndian();
+        uint64_t id <format=hex>;
+        //LittleEndian();
+        datafile_type type <format=hex>;
+        uint32_t offset <format=decimal>;
+        uint32_t __unk <format=hex>;
+        uint32_t stream_offset <format=decimal>;
+        uint32_t __unk <format=hex>;
+        uint32_t gpu_resources_offset <format=decimal>;
+        uint32_t __unk <format=hex>;
+        uint32_t __unk <format=hex>; // This is often non-zero.
+        uint32_t __unk <format=hex>;
+        uint32_t __unk <format=hex>;
+        uint32_t __unk <format=hex>;
+        uint32_t size <format=decimal>;
+        uint32_t stream_size <format=decimal>;
+        uint32_t gpu_resources_size <format=decimal>;
+        uint32_t __unk <format=hex>;
+        uint32_t __unk <format=hex>;
+        uint32_t index <format=decimal>;
+    } file[files];
+    
+    struct {
+        local uint i;
+        for (i = 0; i < files; i++) {
+            FSeek(file[i].offset);
+            struct {
+                char _[file[i].size];
+                // TEXTURE_DDS: header is "exactly" 0xC0 bytes?
+                /*struct {
+                    uint32_t __unk <format=hex>;
+                    uint32_t __unk <format=hex>;
+                    struct {
+                        uint32_t __unk <format=decimal>;
+                        uint32_t __unk <format=decimal>;
+                        uint32_t __unk <format=decimal>;
+                    } __unk0[15];
+                    uint32_t __unk <format=hex>;
+                    //uint32_t __unk[48] <format=hex>;
+                    // First element of __unk is non-zero when file[i].stream_size is non-zero.
+                } header;
+                if (file[i].size > 0) {
+                    struct {
+                        char _[file[i].size - sizeof(header)];
+                    } content;
+                }*/
+            } entry;
+        }
+    } data;
+} DataFile;
+
+#endif

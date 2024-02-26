@@ -1,3 +1,14 @@
+// Copyright 2024 Michael Fabian 'Xaymar' Dirks <info@xaymar.com>
+//
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+//
+// 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+// 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+// 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+
 #ifndef HELLDIVERS2_DATATYPE
 #define HELLDIVERS2_DATATYPE
 
@@ -30,34 +41,34 @@ enum datatype_element_format {
 };
 
 struct datatype_t {
-    uint32_t magic_number;
-    uint32_t __unk00;
+    uint32_t magic_number <format=hex>;
+    uint32_t __unk00 <format=hex>;
     struct datatype_element_t {
-        datatype_element_type type;
-        datatype_element_format format;
-        uint32_t layer;
-        uint32_t __unk00;
-        uint32_t __unk01;
+        datatype_element_type type <format=decimal>;
+        datatype_element_format format <format=decimal>;
+        uint32_t layer <format=decimal>;
+        uint32_t __unk00 <format=hex>;
+        uint32_t __unk01 <format=hex>;
     } elements[16];
-    uint32_t num_elements;
-    uint32_t __unk01;
+    uint32_t num_elements <format=decimal>;
+    uint32_t __unk01 <format=hex>;
     struct datatype_unk0_t {
-        uint32_t magic_number;
-        uint32_t __unk00[3];
-        uint32_t vertex_count;
-        uint32_t vertex_stride;
-        uint32_t __unk01[4];
+        uint32_t magic_number <format=hex>;
+        uint32_t __unk00[3] <format=hex>;
+        uint32_t vertex_count <format=decimal>;
+        uint32_t vertex_stride <format=decimal>;
+        uint32_t __unk01[4] <format=hex>;
     } __unk02;
     struct datatype_unk1_t {
-        uint32_t magic_number;
-        uint32_t __unk09[3];
-        uint32_t index_count;
-        uint32_t __unk10[5];
-        uint32_t vertex_offset;
-        uint32_t vertex_size;
-        uint32_t index_offset;
-        uint32_t index_size;
-        uint32_t __unk11[4];
+        uint32_t magic_number <format=hex>;
+        uint32_t __unk09[3] <format=hex>;
+        uint32_t index_count <format=decimal>;
+        uint32_t __unk10[5] <format=hex>;
+        uint32_t vertex_offset <format=decimal>;
+        uint32_t vertex_size <format=decimal>;
+        uint32_t index_offset <format=decimal>;
+        uint32_t index_size <format=decimal>;
+        uint32_t __unk11[4] <format=hex>;
     } __unk03;
 };
 

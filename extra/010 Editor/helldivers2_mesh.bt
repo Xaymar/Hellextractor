@@ -1,3 +1,14 @@
+// Copyright 2024 Michael Fabian 'Xaymar' Dirks <info@xaymar.com>
+//
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+//
+// 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+// 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+// 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+
 #ifndef HELLDIVERS2_MESH
 #define HELLDIVERS2_MESH
 
@@ -11,50 +22,50 @@
 #endif
 
 struct mesh_group_t {
-    uint32_t __unk00;
-    uint32_t vertex_offset;
-    uint32_t vertex_count;
-    uint32_t index_offset;
-    uint32_t index_count;
-    uint32_t __unk01;
+    uint32_t __unk00 <format=hex>;
+    uint32_t vertex_offset <format=decimal>;
+    uint32_t vertex_count <format=decimal>;
+    uint32_t index_offset <format=decimal>;
+    uint32_t index_count <format=decimal>;
+    uint32_t __unk01 <format=hex>;
 };
 
 struct mesh_t {
-    uint32_t __unk;
-    uint32_t __unk;
-    uint32_t __unk;
-    uint32_t __unk;
-    uint32_t __unk;
-    uint32_t __unk;
-    uint32_t __unk;
-    uint32_t __unk;
-    uint32_t __unk;
-    uint32_t __unk;
-    uint32_t __sameAsIndenticalAcrossTypesAtIdx;
-    uint32_t __varies;
-    uint32_t __varies;
-    uint32_t __unk;
-    uint32_t __varies;
-    uint32_t datatype;
-    uint32_t __unk;
-    uint32_t __unk;
-    uint32_t __unk;
-    uint32_t __unk;
-    uint32_t __unk;
-    uint32_t __unk;
-    uint32_t __unk;
-    uint32_t __unk;
-    uint32_t __unk;
-    uint32_t __unk;
-    uint32_t materials;
-    uint32_t material_offset;
-    uint32_t __unk;
-    uint32_t __unk;
-    uint32_t groups;
-    uint32_t group_offset;
+    uint32_t __unk <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t __sameAsIndenticalAcrossTypesAtIdx <format=hex>;
+    uint32_t __varies <format=hex>;
+    uint32_t __varies <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t __varies <format=hex>;
+    uint32_t datatype <format=decimal>;
+    uint32_t __unk <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t materials <format=decimal>;
+    uint32_t material_offset <format=decimal>;
+    uint32_t __unk <format=hex>;
+    uint32_t __unk <format=hex>;
+    uint32_t groups <format=decimal>;
+    uint32_t group_offset <format=decimal>;
     
     FSeek(startof(this) + material_offset);
-    uint32_t material[materials];
+    uint32_t material[materials] <format=hex>;
     
     FSeek(startof(this) + group_offset);
     local uint32 i;
