@@ -25,34 +25,34 @@
 #endif
 
 enum <uint64_t> datafile_type {
-    TRUETYPE_FONT               = 0x05106B81DCD58A13, // TrueType Font (.ttf) // 0x80 or 0x24 "Header" Size
-    SKELETON_OR_ANIMATION       = 0x18DEAD01056B72E9, // Had clear text that looked like a skeleton bone tree.
-    HAVOK_1D59BD6687DB6B33      = 0x1D59BD6687DB6B33, // References the Havok Engine version.
-    _250E0A11AC8E26F8           = 0x250E0A11AC8E26F8, // 
-    _27862FE24795319C           = 0x27862FE24795319C, // Shader chain?
-    _2A690FD348FE9AC5           = 0x2A690FD348FE9AC5, // 
-    WWISE_AUDIO                 = 0x504B55235D21440E, // Wwise Encoded Media (.wem)
-    WWISE_SOUNDBANK             = 0x535A7BD3E650D799, // Wwise Sound Bank (.bkhd?) // 0x16 "Header" Size
-    HAVOK_57A13425279979D7      = 0x57A13425279979D7, // References the Havok Engine version.
-    HAVOK_5F7203C8F280DAB8      = 0x5F7203C8F280DAB8, // References the Havok Engine version and some thing very cleary identifyable as Havok Physics.
-    _9199BB50B6896F02           = 0x9199BB50B6896F02, // 
-    _9831CA893B0D087D           = 0x9831CA893B0D087D, // "Entity"
-    _931E336D7646CC26           = 0x931E336D7646CC26, //   
-    _9EFE0A916AAE7880           = 0x9EFE0A916AAE7880, //
-    _A14E8DFA2CD117E2           = 0xA14E8DFA2CD117E2, // References Wwise Sound Banks
-    _A486D4045106165C           = 0xA486D4045106165C, // 
-    _A8193123526FAD64           = 0xA8193123526FAD64, // 
-    BINK_VIDEO                  = 0xAA5965F03029FA18, // Bink Video (.bik)
-    _AB2F78E885F513C6           = 0xAB2F78E885F513C6, // 
-    _AF32095C82F2B070           = 0xAF32095C82F2B070, // Contains text referencing audio. Not sure if files, or audio scenes. No prefix.
-    _C4F0F4BE7FB0C8D6           = 0xC4F0F4BE7FB0C8D6, // 
-    TEXTURE_DDS                 = 0xCD4238C6A0C69E32, // DirectDraw Surface (.dds) // 0xC0 "Header" Size
-    HAVOK_D7014A50477953E0      = 0xD7014A50477953E0, // References Havok Engine version. Seems to be cloth physics data?
-    MESHINFO                    = 0xE0A48D0BE9A7453F, // Stingray proprietary format.
-    SPEEDTREE_E985C5F61C169997  = 0xE985C5F61C169997, // SpeedTree SDK format, possibly trees and foliage.
-    MATERIAL                    = 0xEAC0B497876ADEDF, //
-    _F7505933166D6755           = 0xF7505933166D6755, // 
-    _FE73C7DCFF8A7CA5           = 0xFE73C7DCFF8A7CA5, // 
+    TRUETYPE_FONT               = 0x138A58CD1DB80651,// 0x05106B81DCD58A13, // TrueType Font (.ttf) // 0x80 or 0x24 "Header" Size
+    SKELETON_OR_ANIMATION       = 0xE9726B10D0ADDE18,// 0x18DEAD01056B72E9, // Had clear text that looked like a skeleton bone tree.
+    HAVOK_1D59BD6687DB6B33      = 0x336BDB8766BD591D,// 0x1D59BD6687DB6B33, // References the Havok Engine version.
+    _250E0A11AC8E26F8           = 0xF8268EAC110A0E25,// 0x250E0A11AC8E26F8, // 
+    _27862FE24795319C           = 0x9C319547E22F8627,// 0x27862FE24795319C, // Shader chain?
+    _2A690FD348FE9AC5           = 0xC59AFE48D30F692A,// 0x2A690FD348FE9AC5, // 
+    WWISE_AUDIO                 = 0x0E44215D23554B50,// 0x504B55235D21440E, // Wwise Encoded Media (.wem)
+    WWISE_SOUNDBANK             = 0x99D750E6D37B5A53,// 0x535A7BD3E650D799, // Wwise Sound Bank (.bkhd?) // 0x16 "Header" Size
+    HAVOK_57A13425279979D7      = 0xD77999272534A157,// 0x57A13425279979D7, // References the Havok Engine version.
+    HAVOK_5F7203C8F280DAB8      = 0xB8DA80F2C803725F,// 0x5F7203C8F280DAB8, // References the Havok Engine version and some thing very cleary identifyable as Havok Physics.
+    _9199BB50B6896F02           = 0x026F89B650BB9991,// 0x9199BB50B6896F02, // 
+    _9831CA893B0D087D           = 0x7D080D3B89CA3198,// 0x9831CA893B0D087D, // "Entity"
+    _931E336D7646CC26           = 0x26CC46766D331E93,// 0x931E336D7646CC26, //   
+    _9EFE0A916AAE7880           = 0x8078AE6A910AFE9E,// 0x9EFE0A916AAE7880, //
+    _A14E8DFA2CD117E2           = 0xE217D12CFA8D4EA1,// 0xA14E8DFA2CD117E2, // References Wwise Sound Banks
+    _A486D4045106165C           = 0x5C16065104D486A4,// 0xA486D4045106165C, // 
+    _A8193123526FAD64           = 0x64AD6F52233119A8,// 0xA8193123526FAD64, // 
+    BINK_VIDEO                  = 0x18FA2930F06559AA,// 0xAA5965F03029FA18, // Bink Video (.bik)
+    _AB2F78E885F513C6           = 0xC613F585E8782FAB,// 0xAB2F78E885F513C6, // 
+    _AF32095C82F2B070           = 0x70B0F2825C0932AF,// 0xAF32095C82F2B070, // Contains text referencing audio. Not sure if files, or audio scenes. No prefix.
+    _C4F0F4BE7FB0C8D6           = 0xD6C8B07FBEF4F0C4,// 0xC4F0F4BE7FB0C8D6, // 
+    TEXTURE_DDS                 = 0x329EC6A0C63842CD,// 0xCD4238C6A0C69E32, // DirectDraw Surface (.dds) // 0xC0 "Header" Size
+    HAVOK_D7014A50477953E0      = 0xE0537947504A01D7,// 0xD7014A50477953E0, // References Havok Engine version. Seems to be cloth physics data?
+    MESHINFO                    = 0x3F45A7E90B8DA4E0,// 0xE0A48D0BE9A7453F, // Stingray proprietary format.
+    SPEEDTREE_E985C5F61C169997  = 0x9799161CF6C585E9,// 0xE985C5F61C169997, // SpeedTree SDK format, possibly trees and foliage.
+    MATERIAL                    = 0xDFDE6A8797B4C0EA,// 0xEAC0B497876ADEDF, //
+    _F7505933166D6755           = 0x55676D16335950F7,// 0xF7505933166D6755, // 
+    _FE73C7DCFF8A7CA5           = 0xA57C8AFFDCC773FE,// 0xFE73C7DCFF8A7CA5, // 
 };
 
 struct datafile_t {
