@@ -1040,6 +1040,7 @@ content/fac_bugs/cha_stalker/cha_stalker
 content/fac_bugs/cha_warrior_big/cha_warrior_big
 content/fac_bugs/cha_warrior_tier_1/cha_warrior_tier_1
 content/fac_cyborgs/cha_conscript/cha_conscript
+content/fac_cyborgs/cha_conscript/cha_conscript_tier_2
 content/fac_cyborgs/cha_conscript_tier_2/cha_conscript_tier_2
 content/fac_cyborgs/cha_berserker/cha_berserker
 content/fac_cyborgs/emplacements/cyborg_emplacement_hmg/cyborg_emplacement_hmg

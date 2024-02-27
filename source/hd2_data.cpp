@@ -344,6 +344,10 @@ size_t hd2::data::stream_size(size_t idx) const
 		throw std::out_of_range("idx >= edx");
 	}
 
+	if (!has_stream(idx)) {
+		return 0;
+	}
+
 	return file(idx).stream_size;
 }
 
@@ -379,6 +383,10 @@ size_t hd2::data::gpu_size(size_t idx) const
 {
 	if (idx >= files()) {
 		throw std::out_of_range("idx >= edx");
+	}
+
+	if (!has_gpu(idx)) {
+		return 0;
 	}
 
 	return file(idx).gpu_size;

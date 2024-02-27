@@ -67,6 +67,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		std::cout << "  -n, --names <path>    Add a database file to the Name Hash translation table. Will search the most recently added one first, then continue until there's none left, then search the Strings Hash translation tables." << std::endl;
 		std::cout << "  -s, --strings <path>  Add a database file to the String Hash translation table." << std::endl;
 		std::cout << "  -d, --dry-run         Don't actually do anything." << std::endl;
+		std::cout << "  -r, --rename          Rename/Delete files with older or untranslated names or types." << std::endl;
 		std::cout << std::endl;
 		return 1;
 	}
@@ -79,6 +80,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 	std::unordered_set<std::filesystem::path> name_paths;
 	std::unordered_set<std::filesystem::path> string_paths;
 	bool                                      dryrun = false;
+	bool                                      rename = false;
 
 	// Figure out what is what.
 	for (size_t edx = args.size(), idx = 1; idx < edx; ++idx) {
@@ -134,6 +136,8 @@ int32_t mode_extract(std::vector<std::string> const& args)
 				}
 			} else if ((arg == "-d") || (arg == "--dry-run")) {
 				dryrun = true;
+			} else if ((arg == "-r") || (arg == "--rename")) {
+				rename = true;
 				//} else if ((arg == "-") || (arg == "--")) {
 			} else {
 				std::cerr << "Unrecognized argument: " << arg << std::endl;
@@ -214,6 +218,11 @@ int32_t mode_extract(std::vector<std::string> const& args)
 	std::cout << "Found " << files.size() << " files." << std::endl;
 
 	// Export files (if not in dryrun mode)
+	size_t stats_written  = 0;
+	size_t stats_renamed  = 0;
+	size_t stats_removed  = 0;
+	size_t stats_skipped  = 0;
+	size_t stats_filtered = 0;
 	if (!dryrun) {
 		std::filesystem::create_directories(output_path);
 	}
@@ -221,54 +230,55 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		auto        index = file.second.second;
 		auto const& cont  = file.second.first;
 
-		// Match the type with the type databases.
-		std::string file_type;
-		for (auto& db : typedbs) {
-			if (auto tv = db.strings().find(static_cast<uint64_t>(file.first.second)); db.strings().end() != tv) {
-				file_type = tv->second;
-				break;
-			}
-		}
-		if (file_type.empty()) {
-			for (auto& db : strings) {
-				if (auto tv = db.strings().find(static_cast<uint64_t>(file.first.second)); db.strings().end() != tv) {
-					file_type = tv->second;
-					break;
-				}
-			}
-		}
-		if (file_type.empty()) {
-			file_type = string_printf("%016" PRIx64, htobe64((uint64_t)file.first.second));
-		}
-
 		// Match the name with the name databases.
-		std::string file_name;
+		std::unordered_set<std::string> file_name;
 		for (auto& db : namedbs) {
 			if (auto tv = db.strings().find(static_cast<uint64_t>(file.first.first)); db.strings().end() != tv) {
-				file_name = tv->second;
-				break;
+				file_name.insert(tv->second);
 			}
 		}
-		if (file_name.empty()) {
-			for (auto& db : strings) {
-				if (auto tv = db.strings().find(static_cast<uint64_t>(file.first.first)); db.strings().end() != tv) {
-					file_name = tv->second;
-					break;
-				}
+		for (auto& db : strings) {
+			if (auto tv = db.strings().find(static_cast<uint64_t>(file.first.first)); db.strings().end() != tv) {
+				file_name.insert(tv->second);
 			}
 		}
-		if (file_name.empty()) {
-			file_name = string_printf("%016" PRIx64, htobe64((uint64_t)file.first.first));
+		file_name.insert(string_printf("%016" PRIx64, htobe64((uint64_t)file.first.first)));
+		file_name.insert(string_printf("%016" PRIx64, htole64((uint64_t)file.first.first)));
+
+		// Match the type with the type databases.
+		std::unordered_set<std::string> file_type;
+		for (auto& db : typedbs) {
+			if (auto tv = db.strings().find(static_cast<uint64_t>(file.first.second)); db.strings().end() != tv) {
+				file_type.insert(tv->second);
+			}
+		}
+		for (auto& db : strings) {
+			if (auto tv = db.strings().find(static_cast<uint64_t>(file.first.second)); db.strings().end() != tv) {
+				file_type.insert(tv->second);
+			}
+		}
+		file_type.insert(string_printf("%016" PRIx64, htobe64((uint64_t)file.first.second)));
+		file_type.insert(string_printf("%016" PRIx64, htole64((uint64_t)file.first.second)));
+
+		// Generate all permutations.
+		std::vector<std::pair<std::string, std::string>> permutations;
+		for (auto const& fn : file_name) {
+			for (auto const& ft : file_type) {
+				permutations.emplace_back(fn, ft);
+			}
 		}
 
 		// Generate a proper file path.
-		std::filesystem::path file = std::filesystem::path(file_name).replace_extension(file_type);
-		std::filesystem::path path = output_path / file;
+		std::filesystem::path file   = std::filesystem::path(permutations[0].first).replace_extension(permutations[0].second);
+		std::filesystem::path path   = output_path / file;
+		bool                  exists = std::filesystem::exists(path);
+		size_t                size   = (cont.meta_size(index) + cont.stream_size(index) + cont.gpu_size(index));
 
 		// If the user provided a filter, use it now.
 		if (output_filter.has_value()) {
 			if (!std::regex_match(file.generic_string(), output_filter.value())) {
 				//std::cout << "      Skipped" << std::endl;
+				stats_filtered++;
 				continue;
 			}
 		}
@@ -277,35 +287,84 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		std::cout << "    " << file.generic_string() << std::endl;
 
 		if (!dryrun) {
+			bool needs_export = true;
+			bool had_rename   = false;
 			std::filesystem::create_directories(path.parent_path());
 
-			std::ofstream filestream{path, std::ios::trunc | std::ios::binary | std::ios::out};
-			if (!filestream || filestream.bad() || !filestream.is_open()) {
-				throw std::runtime_error(string_printf("Failed to export '%s'.", file.generic_string().c_str()));
+			// Check if the target file is a different size.
+			if (exists) {
+				needs_export = std::filesystem::file_size(path) != size;
 			}
-			filestream.flush();
 
-			if (cont.has_meta(index)) {
-				std::cout << "        Writing meta section..." << std::endl;
-				filestream.write(reinterpret_cast<char const*>(cont.meta_data(index)), cont.meta_size(index));
+			// Rename any existing files.
+			if (rename) {
+				for (size_t idx = 1; idx < permutations.size(); idx++) {
+					auto lfile = std::filesystem::path(permutations[idx].first).replace_extension(permutations[idx].second);
+					auto lpath = output_path / lfile;
+
+					if (lfile == file) {
+						// This should be impossible, but lets deal with it anyway. We don't want weird behavior.
+						continue;
+					}
+
+					if (std::filesystem::exists(lpath)) {
+						if (needs_export && (std::filesystem::file_size(lpath) == size) && !exists) {
+							std::cout << "        Renaming '" << lfile.generic_string() << "'..." << std::endl;
+							std::filesystem::rename(lpath, path);
+							needs_export = false;
+							had_rename   = true;
+							stats_renamed++;
+						} else {
+							std::cout << "        Deleting '" << lfile.generic_string() << "'..." << std::endl;
+							std::filesystem::remove(lpath);
+							stats_removed++;
+						}
+					}
+				}
+			}
+
+			if (needs_export) {
+				std::ofstream filestream{path, std::ios::trunc | std::ios::binary | std::ios::out};
+				if (!filestream || filestream.bad() || !filestream.is_open()) {
+					throw std::runtime_error(string_printf("Failed to export '%s'.", file.generic_string().c_str()));
+				}
 				filestream.flush();
-			}
 
-			if (cont.has_stream(index)) {
-				std::cout << "        Writing stream section..." << std::endl;
-				filestream.write(reinterpret_cast<char const*>(cont.stream(index)), cont.stream_size(index));
-				filestream.flush();
-			}
+				if (cont.has_meta(index)) {
+					std::cout << "        Writing meta section..." << std::endl;
+					filestream.write(reinterpret_cast<char const*>(cont.meta_data(index)), cont.meta_size(index));
+					filestream.flush();
+				}
 
-			if (cont.has_gpu(index)) {
-				std::cout << "        Writing gpu section..." << std::endl;
-				filestream.write(reinterpret_cast<char const*>(cont.gpu(index)), cont.gpu_size(index));
-				filestream.flush();
-			}
+				if (cont.has_stream(index)) {
+					std::cout << "        Writing stream section..." << std::endl;
+					filestream.write(reinterpret_cast<char const*>(cont.stream(index)), cont.stream_size(index));
+					filestream.flush();
+				}
 
-			filestream.close();
+				if (cont.has_gpu(index)) {
+					std::cout << "        Writing gpu section..." << std::endl;
+					filestream.write(reinterpret_cast<char const*>(cont.gpu(index)), cont.gpu_size(index));
+					filestream.flush();
+				}
+
+				filestream.close();
+				stats_written++;
+			} else {
+				stats_skipped++;
+			}
+		} else {
+			stats_skipped++;
 		}
 	}
+
+	std::cout << std::endl;
+	std::cout << "Statistics: " << std::endl;
+	std::cout << "    Exported: " << stats_written << std::endl;
+	std::cout << "    Renamed:  " << stats_renamed << std::endl;
+	std::cout << "    Deleted:  " << stats_removed << std::endl;
+	std::cout << "    Skipped:  " << stats_skipped << std::endl;
+	std::cout << "    Filtered: " << stats_filtered << std::endl;
 
 	return 0;
 }
