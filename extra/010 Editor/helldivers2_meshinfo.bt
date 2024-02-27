@@ -131,6 +131,8 @@ struct meshinfo_t {
             uint32_t count <format=decimal>;
             uint32_t offsets[count] <format=decimal>;
             
+            // Appears correct, yet also incorrect.
+            // Fits perfectly between themselves, but when count is >1, the end of the structure is misaligned.
             local uint32 i;
             for (i = 0; i < count; i++) {
                 FSeek(startof(this) + offsets[i]);
@@ -142,7 +144,7 @@ struct meshinfo_t {
                                         
                     uint32_t count <format=decimal>;
                     uint32_t offsets[count] <format=decimal>;
-                    uint32_t size <format=decimal>;
+                    uint32_t offset <format=decimal>;
                     
                     local uint32 i;
                     for (i = 0; i < count; i++) {
@@ -155,20 +157,13 @@ struct meshinfo_t {
                             uint32_t data[count] <format=decimal>;
                         } __unk;
                     }
+                    
+                    FSeek(startof(this) + offset);
+                    float __unk_float[7];
+                    uint32_t __unk;
+                    float __unk;
+                    uint32_t __unk;
                 } __unk00data;
-                
-                float __unk;
-                float __unk;
-                float __unk;
-                float __unk;
-                
-                float __unk;
-                float __unk;
-                float __unk;
-                uint32_t __unk <format=hex>;
-                
-                float __unk;
-                uint32_t __unk <format=hex>;                
             };
         } __unk0;
     }
