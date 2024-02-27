@@ -6,11 +6,48 @@ Extract content from Helldivers 2.
 - Extract content from container files.
 - Crash on unexpected things. If it's not a bug for Bethesda or Ubisoft, it's not a bug here either.
 
-=== Usage
+=== Usage Examples
+==== Show help
 You can show the built-in help with just:
 
 ```
 hellextractor.exe
+```
+
+==== Generate Hashes
+```
+hellextractor hash your/text/here
+```
+
+==== Extract Files
+===== Extract all files
+```
+hellextractor extract "C:/Program Files (x86)/Steam/steamapps/common/Helldivers 2/data"
+```
+
+===== Extract all files to a directory
+```
+hellextractor extract -o output "C:/Program Files (x86)/Steam/steamapps/common/Helldivers 2/data"
+```
+
+===== Pretend to extract all files
+```
+hellextractor extract -o output -d "C:/Program Files (x86)/Steam/steamapps/common/Helldivers 2/data"
+```
+
+===== Extract only .texture files
+```
+hellextractor extract -f ".*\.texture$" -o output "C:/Program Files (x86)/Steam/steamapps/common/Helldivers 2/data"
+```
+
+===== Extract all files and translate names and types
+```
+hellextractor extract -o output -t types.txt -n files.txt -s strings.txt "C:/Program Files (x86)/Steam/steamapps/common/Helldivers 2/data"
+```
+
+===== Extract all files, translate names and types, and rename files with older names
+```
+hellextractor extract -o output -r -t types.txt -n files.txt -s strings.txt "C:/Program Files (x86)/Steam/steamapps/common/Helldivers 2/data"
 ```
 
 === Building
