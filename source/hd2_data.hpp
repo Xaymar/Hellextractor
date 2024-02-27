@@ -36,13 +36,13 @@ namespace hd2 {
 		STATE_MACHINE               = 0xA486D4045106165C, // State Machine (.state_machine)
 		PARTICLES                   = 0xA8193123526FAD64, // Particles (.particles)
 		BINK_VIDEO                  = 0xAA5965F03029FA18, // Bink Video (.bik)
-		_AB2F78E885F513C6           = 0xAB2F78E885F513C6, //
+		PREFAB           = 0xAB2F78E885F513C6, // .prefab
 		WWISDE_DEPENDENCIES         = 0xAF32095C82F2B070, // Wwise Dependencies (.wwise_dep), Contains text referencing audio
 		_C4F0F4BE7FB0C8D6           = 0xC4F0F4BE7FB0C8D6, //
 		TEXTURE                     = 0xCD4238C6A0C69E32, // Texture (.texture), (DDS = 0xC0 "Header" Size)
-		_HAVOK_CLOTH                = 0xD7014A50477953E0, // References Havok content. Cloth Physics for capes?
+		CLOTH                       = 0xD7014A50477953E0, // Cloth (.cloth)
 		UNIT                        = 0xE0A48D0BE9A7453F, // Unit (.unit), MeshInfo+Mesh
-		SPEEDTREE_E985C5F61C169997  = 0xE985C5F61C169997, // SpeedTree SDK format, possibly trees and foliage.
+		SPEEDTREE                   = 0xE985C5F61C169997, // SpeedTree (.speedtree)
 		MATERIAL                    = 0xEAC0B497876ADEDF, // Material (.material)
 		VECTOR_FIELD                = 0xF7505933166D6755, // Vector Field (.vector_field)
 		SHADING_ENVIRONMENT         = 0xFE73C7DCFF8A7CA5, // Shading Environement (.shading_environment)
