@@ -27,6 +27,7 @@
 #include <set>
 #include <utility>
 
+#include "hasher.hpp"
 #include "mapped_file.hpp"
 #include "string_printf.hpp"
 
@@ -60,10 +61,10 @@ try {
 	enum class mode {
 		EXTRACT,
 		MESH,
-	} currentmode = mode::EXTRACT;
-
-	std::list<std::filesystem::path> input_paths;
-	std::filesystem::path            output_path = std::filesystem::absolute(argv[0]).parent_path();
+		HASH,
+	} currentmode                 = mode::EXTRACT;
+	std::filesystem::path  output = std::filesystem::absolute(argv[0]).parent_path();
+	std::list<std::string> unparsed;
 
 	if (argc <= 1) {
 		std::cout << std::filesystem::path(argv[0]).filename() << " [options] file [file]" << std::endl;
@@ -71,6 +72,7 @@ try {
 		std::cout << "  -m, --mode" << std::endl;
 		std::cout << "    extract: Extract data from the data files" << std::endl;
 		std::cout << "    mesh: Convert .meshinfo (and its accompanying .mesh file) into model data" << std::endl;
+		std::cout << "    hash: Hash the provided arguments" << std::endl;
 		return 1;
 	}
 
@@ -84,6 +86,8 @@ try {
 					currentmode = mode::EXTRACT;
 				} else if ("mesh" == val) {
 					currentmode = mode::MESH;
+				} else if ("hash" == val) {
+					currentmode = mode::HASH;
 				} else {
 					throw std::runtime_error("Unknown mode");
 				}
@@ -93,14 +97,14 @@ try {
 		} else if (("-o" == arg) || ("--output" == arg)) {
 			if ((argn + 1) < argc) {
 				std::string_view val = argv[++argn];
-				output_path          = std::filesystem::absolute(val);
+				output               = std::filesystem::absolute(val);
 			} else {
 				throw std::runtime_error("String expected, got EOL instead");
 			}
 		} else if ('-' == arg[0]) {
 			throw std::runtime_error(string_printf("Unrecognized format: %s", arg.data()));
 		} else {
-			input_paths.push_back(std::filesystem::absolute(arg));
+			unparsed.push_back(std::string(arg));
 		}
 	}
 
@@ -123,7 +127,7 @@ try {
 		return paths;
 	};
 
-	std::cout << string_printf("Output Path: %s", output_path.generic_u8string().c_str()) << std::endl;
+	std::cout << string_printf("Output Path: %s", output.generic_u8string().c_str()) << std::endl;
 
 	if (currentmode == mode::EXTRACT) {
 		// Figure out all the files we need to process.
@@ -134,7 +138,7 @@ try {
 			return true;
 		};
 		std::set<std::filesystem::path> real_paths;
-		for (auto const& path : input_paths) {
+		for (auto const& path : unparsed) {
 			real_paths.merge(enumerate_files(path, filter));
 		}
 
@@ -165,7 +169,7 @@ try {
 
 		// Export all discovered files.
 		std::cout << "Exporting: " << std::endl;
-		std::filesystem::create_directories(output_path);
+		std::filesystem::create_directories(output);
 		for (auto const& kv : files) {
 			auto const& cont  = kv.second.first;
 			auto const& file  = kv.second.first.file(kv.second.second);
@@ -176,10 +180,10 @@ try {
 				ext = string_printf("%016" PRIx64, htobe64((uint64_t)file.type));
 			}
 
-			std::filesystem::path name = output_path / string_printf("%016" PRIx64 "%s", htobe64((uint64_t)file.id), ext.c_str());
+			std::filesystem::path name = output / string_printf("%016" PRIx64 "%s", htobe64((uint64_t)file.id), ext.c_str());
 
 			if (!std::filesystem::exists(name)) {
-				std::cout << string_printf("    [%08" PRIX32 ":%08" PRIX32 "] [%08" PRIX32 ":%08" PRIX32 "] [%08" PRIX32 ":%08" PRIX32 "] %s ...", file.offset, file.size, file.stream_offset, file.stream_size, file.gpu_offset, file.gpu_size, std::filesystem::relative(name, output_path).generic_string().c_str());
+				std::cout << string_printf("    [%08" PRIX32 ":%08" PRIX32 "] [%08" PRIX32 ":%08" PRIX32 "] [%08" PRIX32 ":%08" PRIX32 "] %s ...", file.offset, file.size, file.stream_offset, file.stream_size, file.gpu_offset, file.gpu_size, std::filesystem::relative(name, output).generic_string().c_str());
 
 				std::ofstream filestream{name, std::ios::trunc | std::ios::binary | std::ios::out};
 				if (!filestream || filestream.bad() || !filestream.is_open()) {
@@ -206,11 +210,17 @@ try {
 
 				std::cout << " Done." << std::endl;
 			} else {
-				std::cout << string_printf("    Skipped %s.", std::filesystem::relative(name, output_path).generic_string().c_str()) << std::endl;
+				std::cout << string_printf("    Skipped %s.", std::filesystem::relative(name, output).generic_string().c_str()) << std::endl;
 			}
 		}
+	} else if (currentmode == mode::HASH) {
+		auto inst = hellextractor::hash::instance::create(hellextractor::hash::type::MURMURHASH64A);
 
-		//throw std::runtime_error("Not yet implemented");
+		for (auto const& key : unparsed) {
+			auto hash = inst->hash(key.data(), key.size());
+			uint64_t rhash = *reinterpret_cast<uint64_t const*>(hash.data());
+			std::cout << string_printf("%016" PRIx64 "/%016" PRIx64 " = %s", htole64(rhash), htobe64(rhash), key.c_str());
+		}
 	} else if (currentmode == mode::MESH) {
 		auto filter = [](std::filesystem::path const& path) {
 			if (path.extension() != ".meshinfo") {
@@ -220,7 +230,7 @@ try {
 		};
 
 		std::set<std::filesystem::path> real_paths;
-		for (auto const& path : input_paths) {
+		for (auto const& path : unparsed) {
 			real_paths.merge(enumerate_files(path, filter));
 		}
 
