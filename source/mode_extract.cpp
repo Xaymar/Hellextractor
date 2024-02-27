@@ -238,7 +238,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 			}
 		}
 		if (file_type.empty()) {
-			file_type = string_printf("%016" PRIx64, file.first.second);
+			file_type = string_printf("%016" PRIx64, htobe64((uint64_t)file.first.second));
 		}
 
 		// Match the name with the name databases.
@@ -258,7 +258,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 			}
 		}
 		if (file_name.empty()) {
-			file_name = string_printf("%016" PRIx64, file.first.first);
+			file_name = string_printf("%016" PRIx64, htobe64((uint64_t)file.first.first));
 		}
 
 		// Generate a proper file path.
