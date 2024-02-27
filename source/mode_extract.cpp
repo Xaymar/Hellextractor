@@ -264,7 +264,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		std::vector<std::pair<std::string, std::string>> permutations;
 		for (auto const& fn : file_name) {
 			for (auto const& ft : file_type) {
-				permutations.emplace_back(fn, fn);
+				permutations.emplace_back(fn, ft);
 			}
 		}
 
@@ -307,16 +307,18 @@ int32_t mode_extract(std::vector<std::string> const& args)
 						continue;
 					}
 
-					if (needs_export && (std::filesystem::file_size(lpath) == size) && !exists) {
-						std::cout << "        Renaming '" << lfile.generic_string() << "'..." << std::endl;
-						std::filesystem::rename(lpath, path);
-						needs_export = false;
-						had_rename   = true;
-						stats_renamed++;
-					} else {
-						std::cout << "        Deleting '" << lfile.generic_string() << "'..." << std::endl;
-						std::filesystem::remove(lpath);
-						stats_removed++;
+					if (std::filesystem::exists(lpath)) {
+						if (needs_export && (std::filesystem::file_size(lpath) == size) && !exists) {
+							std::cout << "        Renaming '" << lfile.generic_string() << "'..." << std::endl;
+							std::filesystem::rename(lpath, path);
+							needs_export = false;
+							had_rename   = true;
+							stats_renamed++;
+						} else {
+							std::cout << "        Deleting '" << lfile.generic_string() << "'..." << std::endl;
+							std::filesystem::remove(lpath);
+							stats_removed++;
+						}
 					}
 				}
 			}
