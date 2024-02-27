@@ -1,0 +1,12 @@
+// This is a list of all known strings.
+// - The hashes for these will be automatically created.
+// - This file will be used as a backup search for when either types.txt or files.txt fails, or the decoded hash is neither of the two.
+false
+true
+if
+then
+else
+for
+end
+continue
+break
