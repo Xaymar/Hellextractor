@@ -33,8 +33,9 @@
 struct meshinfo_t {
     uint32_t __unk <format=hex>;
     uint32_t __unk <format=hex>;
-    uint32_t __unk <format=hex>;
-    uint32_t __unk <format=hex>;
+    BigEndian();
+    uint64_t skeleton_bones_file_hash <format=hex>;
+    LittleEndian();
     
     uint32_t __unk <format=hex>;
     uint32_t __unk <format=hex>;
