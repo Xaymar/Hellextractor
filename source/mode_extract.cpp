@@ -264,15 +264,17 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		// Generate a proper file path.
 		std::filesystem::path file = std::filesystem::path(file_name).replace_extension(file_type);
 		std::filesystem::path path = output_path / file;
-		std::cout << "    " << file.generic_string() << std::endl;
 
 		// If the user provided a filter, use it now.
 		if (output_filter.has_value()) {
 			if (!std::regex_match(file.generic_string(), output_filter.value())) {
-				std::cout << "      Skipped" << std::endl;
+				//std::cout << "      Skipped" << std::endl;
 				continue;
 			}
 		}
+
+		// Only print files that are actually exported.
+		std::cout << "    " << file.generic_string() << std::endl;
 
 		if (!dryrun) {
 			std::filesystem::create_directories(path.parent_path());
