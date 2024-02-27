@@ -137,7 +137,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 			} else if ((arg == "-d") || (arg == "--dry-run")) {
 				dryrun = true;
 			} else if ((arg == "-r") || (arg == "--rename")) {
-				dryrun = true;
+				rename = true;
 				//} else if ((arg == "-") || (arg == "--")) {
 			} else {
 				std::cerr << "Unrecognized argument: " << arg << std::endl;
