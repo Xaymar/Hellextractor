@@ -231,33 +231,34 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		auto const& cont  = file.second.first;
 
 		// Match the name with the name databases.
-		std::vector<std::string> file_name;
-
+		std::unordered_set<std::string> file_name;
 		for (auto& db : namedbs) {
 			if (auto tv = db.strings().find(static_cast<uint64_t>(file.first.first)); db.strings().end() != tv) {
-				file_name.emplace_back(tv->second);
+				file_name.insert(tv->second);
 			}
 		}
 		for (auto& db : strings) {
 			if (auto tv = db.strings().find(static_cast<uint64_t>(file.first.first)); db.strings().end() != tv) {
-				file_name.emplace_back(tv->second);
+				file_name.insert(tv->second);
 			}
 		}
-		file_name.emplace_back(string_printf("%016" PRIx64, htobe64((uint64_t)file.first.first)));
+		file_name.insert(string_printf("%016" PRIx64, htobe64((uint64_t)file.first.first)));
+		file_name.insert(string_printf("%016" PRIx64, htole64((uint64_t)file.first.first)));
 
 		// Match the type with the type databases.
-		std::vector<std::string> file_type;
+		std::unordered_set<std::string> file_type;
 		for (auto& db : typedbs) {
 			if (auto tv = db.strings().find(static_cast<uint64_t>(file.first.second)); db.strings().end() != tv) {
-				file_type.emplace_back(tv->second);
+				file_type.insert(tv->second);
 			}
 		}
 		for (auto& db : strings) {
 			if (auto tv = db.strings().find(static_cast<uint64_t>(file.first.second)); db.strings().end() != tv) {
-				file_type.emplace_back(tv->second);
+				file_type.insert(tv->second);
 			}
 		}
-		file_type.emplace_back(string_printf("%016" PRIx64, htobe64((uint64_t)file.first.second)));
+		file_type.insert(string_printf("%016" PRIx64, htobe64((uint64_t)file.first.second)));
+		file_type.insert(string_printf("%016" PRIx64, htole64((uint64_t)file.first.second)));
 
 		// Generate all permutations.
 		std::vector<std::pair<std::string, std::string>> permutations;
@@ -268,7 +269,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		}
 
 		// Generate a proper file path.
-		std::filesystem::path file   = std::filesystem::path(file_name[0]).replace_extension(file_type[0]);
+		std::filesystem::path file   = std::filesystem::path(permutations[0].first).replace_extension(permutations[0].second);
 		std::filesystem::path path   = output_path / file;
 		bool                  exists = std::filesystem::exists(path);
 		size_t                size   = (cont.meta_size(index) + cont.stream_size(index) + cont.gpu_size(index));
@@ -298,8 +299,13 @@ int32_t mode_extract(std::vector<std::string> const& args)
 			// Rename any existing files.
 			if (rename) {
 				for (size_t idx = 1; idx < permutations.size(); idx++) {
-					auto lfile = std::filesystem::path(file_name[idx]).replace_extension(file_type[idx]);
+					auto lfile = std::filesystem::path(permutations[idx].first).replace_extension(permutations[idx].second);
 					auto lpath = output_path / lfile;
+
+					if (lfile == file) {
+						// This should be impossible, but lets deal with it anyway. We don't want weird behavior.
+						continue;
+					}
 
 					if (needs_export && (std::filesystem::file_size(lpath) == size) && !exists) {
 						std::cout << "        Renaming '" << lfile.generic_string() << "'..." << std::endl;
