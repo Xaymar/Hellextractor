@@ -266,9 +266,16 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		std::filesystem::path path = output_path / file;
 		std::cout << "    " << file.generic_string() << std::endl;
 
+		// If the user provided a filter, use it now.
+		if (output_filter.has_value()) {
+			if (!std::regex_match(file.generic_string(), output_filter.value())) {
+				std::cout << "      Skipped" << std::endl;
+				continue;
+			}
+		}
+
 		if (!dryrun) {
 			std::filesystem::create_directories(path.parent_path());
-
 
 			std::ofstream filestream{path, std::ios::trunc | std::ios::binary | std::ios::out};
 			if (!filestream || filestream.bad() || !filestream.is_open()) {
