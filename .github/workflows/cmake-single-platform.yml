@@ -46,7 +46,7 @@ jobs:
         path: |
           ${{github.workspace}}/package/*
         if-no-files-found: error # Optional: 'warn', 'error', 'ignore'
-      
+    
     - name: Generate Release Name, Tag, and Notes
       id: release_info
       run: |
@@ -60,7 +60,8 @@ jobs:
           echo "commitMessages=$commitMessages" # for debugging
           releaseNotes="Recent changes: <br />$commitMessages"
           echo "notes=$releaseNotes" >> $GITHUB_OUTPUT            
-      shell: bash  
+      shell: bash
+      if: github.event_name != 'pull_request'
     
     - name: Create Release
       uses: softprops/action-gh-release@v1
@@ -73,3 +74,4 @@ jobs:
         fail_on_unmatched_files: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      if: github.event_name != 'pull_request'
