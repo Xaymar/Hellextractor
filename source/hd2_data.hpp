@@ -134,6 +134,12 @@ namespace hd2 {
 
 	std::string_view file_extension_from_type(file_type type);
 
+	/** TTF Font
+	 * 0x00 - 0x08: Own Name
+	 * 0x08 - 0x18: No matches
+	 * 0x18 - 0x20: Another font name?
+	 */
+
 	typedef uint64_t file_id_t;
 
 	class data {

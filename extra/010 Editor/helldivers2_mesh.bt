@@ -41,7 +41,9 @@ struct mesh_t {
     uint32_t __unk <format=hex>;
     uint32_t __unk <format=hex>;
     uint32_t __unk <format=hex>;
-    uint32_t __sameAsIndenticalAcrossTypesAtIdx <format=hex>;
+    BigEndian();
+    uint32_t __unk_commonhash <format=hex>;
+    LittleEndian();
     uint32_t __varies <format=hex>;
     uint32_t __varies <format=hex>;
     uint32_t __unk <format=hex>;
