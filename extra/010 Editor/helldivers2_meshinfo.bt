@@ -180,11 +180,11 @@ struct meshinfo_t {
             uint32_t __unk <format=hex>;
             uint32_t __unk <format=hex>;
             
-            f32mat4x4_t __unk0[count];
-            f32mat4x4_t __unk1[count];
-            u16vec2_t __unk2[count];
+            f32mat4x4_t __unk_f32mat4x4_0[count];
+            f32mat4x4_t __unk_f32mat4x4_1[count];
+            u16vec2_t __unk_u16vec2_0[count];
 			BigEndian();
-            uint32_t __unk3[count] <format=hex>;
+            uint32_t __unk_commonhash[count] <format=hex>;
 			LittleEndian();
             
             uint32_t __unk <format=hex>;
@@ -195,15 +195,31 @@ struct meshinfo_t {
     if (__unkoffset[6] != 0) { // 768 bytes. Suspicious.
         FSeek(__unkoffset[6]);
         struct {
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
+            uint32_t count <format=decimal>;
+            uint32_t offsets[count] <format=decimal>;
             
-            /*local uint32 i;
-            for (i = 0; i < count; i++) {
-                f32mat4x4_t __unk;
-            }*/
+            local uint32 i;
+            for(i = 0; i < count; i++) {
+                FSeek(startof(this) + offsets[i]);
+                struct {
+                    uint32_t count;
+                    uint32_t offset;
+                    uint32_t offset;
+                    uint32_t offset;
+                    
+                    FSeek(startof(this) + offset[0]);
+                    f32mat4x4_t __unk_matrix[count];
+                    
+                    FSeek(startof(this) + offset[1]);
+                    uint32_t __unk_array[count];
+                    
+                    FSeek(startof(this) + offset[2]);
+                    uint32_t __unk;
+                    uint32_t __unk;
+                    uint32_t count1;
+                    uint32_t __unkl[count1];
+                } __unk;
+            }
         } __unk6;
     }
     
@@ -213,7 +229,7 @@ struct meshinfo_t {
             uint32 count <format=decimal>;
             uint32 offsets[count] <format=decimal>;
 			BigEndian();
-            uint32 __unk_hashes[count] <format=hex>;
+            uint32 __unk_commonhash[count] <format=hex>;
 			LittleEndian();
             uint32 __unk <format=hex>;
             
@@ -231,7 +247,7 @@ struct meshinfo_t {
             uint32 count <format=decimal>;
             uint32 offsets[count];
 			BigEndian();
-            uint32 __unk_hashes[count] <format=hex>;
+            uint32 __unk_commonhash[count] <format=hex>;
 			LittleEndian();
             
             local uint32 i;
