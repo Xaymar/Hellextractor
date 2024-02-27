@@ -1029,6 +1029,7 @@ content/fac_bugs/cha_shrieker/cha_shrieker
 content/fac_bugs/cha_charger/cha_charger
 content/fac_bugs/cha_charger_bull/cha_charger_bull
 content/fac_bugs/cha_charger_acid/cha_charger_acid
+content/fac_bugs/cha_stalker/cha_stalker
 content/fac_cyborgs/emplacements/cyborg_emplacement_hmg/cyborg_emplacement_hmg
 content/fac_cyborgs/emplacements/cyborg_emplacement_mg/cyborg_emplacement_mg
 content/fac_cyborgs/turrets/cyborg_tank_turret_autocannons/cyborg_turret_autocannons
