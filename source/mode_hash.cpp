@@ -28,7 +28,7 @@ int32_t mode_hash(std::vector<std::string> const& args)
 	if (args.size() == 0) {
 		show_help = true;
 	} else {
-		if ((args.front() == "-h") || (args.front() == "--help")) {
+		if ((args[1] == "-h") || (args[1] == "--help")) {
 			show_help = true;
 		}
 	}
