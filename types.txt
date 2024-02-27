@@ -6,219 +6,222 @@
 
 // 0x05106B81DCD58A13 // Contains TTF fonts.
 // 0x18DEAD01056B72E9 // Something from/for Havok.
+// 0x1d59bd6687db6b33 // Something from/for Havok.
+// 0x2a0a70acfe476e1d // Release information. 
+// 0xeac0b497876adedf // 
 // 0x57A13425279979D7 // Something from/for Havok.
 // 0x5F7203C8F280DAB8 // Something from/for Havok.
 // 0x9199BB50B6896F02 // Entirely unknown
-actor
-akd
-anim_clip
-anim_controller
-anim_skeleton
-animation_curves
-animation_set
-apb
-apd
-apk
-baked_lighting
-bik
-bin
-blend_set
-bnk
-bones
-bsi
-cache
-capture_settings
-character
-chm
-chroma
-cloth
-cmd
-coffee
-common_package
-compiled_shader
-component
-config
-cpp
-crypto
-css
-dat
-data
-db
-dcc_asset
-dds
-def
-disabled
-dll
-dylib
-editor
-editorconfig
-entity
-eot
-eslintignore
-eslintrc
-exe
-exp
-fbx
-flow
-flow_editor
-flow_node_definitions
-font
-font_material
-fs
-gif
-gitignore
-gitkeep
-h
-HeightField
-htm
-html
-icns
-ico
-import_options
-in
-IndexedMesh
-inf
-ini
-inl
-input
-iobj
-ipdb
-ivf
-jar
-jpg
-js
-json
-keys
-LabSample
-less
-level
-lib
-log
-lua
-luac
-main
-manifest
-material
-mc3
-md
-mesh
-metallib
-mlm
-mod
-mouse_cursor
-msi
-mst
-navdata
-NavGenProj
-network_config
-nib
-npmignore
-obj
-object_creator_item
-object_filter
-otf
-package
-pak
-particle_editor
-particles
-patch
-pdb
-pdf
-physics
-physics_data
-physics_properties
-physx_metadata
-pit
-plist
-plugin
-png
-prefab
-prototype
-ps3
-ps4
-qss
-render_config
-render_config_extension
-renderable
-resource
-s2dactor
-s2dproj
-s2dscene
-scaleform_studio_project
-scatter_brush
-scene_cache
-script_flow_nodes
-scss
-settings
-sh
-shader_import
-shader_library_group
-shader_node
-shader_source
-shading_environment
-shading_environment_mapping
-shading_environment_template
-sjson
-slug_album
-sound_environment
-speedtree
-spu_job
-state_machine
-statemachine_editor
-stingray_plugin
-stingray_plugin_disabled
-stingray_project
-stingray-asset-server-directory
-strings
-surface_properties
-svg
-template
-texture
-texture_category
-texture_template
-tga
-timestamp
-timpani_bank
-timpani_master
-tome
-ts
-ttf
-txt
-type
-ugg
-unit
-unit_anim
-upb
-user_settings
-vector_field
-vista
-visualization_mode
-volume_type
-vs
-w7
-w8
-wasm
-wav
-wcmdline
-win32
-win64
-wlayout
-woff
-woff2
-wproj
-wwise_bank
-wwise_bank_metadata
-wwise_dep
-wwise_metadata
-wwise_stream
-wwu
-xb1
-xb1_caps
-xbox_axis
-xbox_button
-xml
-xp
-xsd
-yml
-zD
-zip
+actor // 83f54c378a732bac
+akd // 355aa4d6966f5eea
+anim_clip // 62abec6406d362c2
+anim_controller // b1e51342b7b68e01
+anim_skeleton // 52992d332282632f
+animation_curves // 54e44629f51da5d4
+animation_set // e468a3a3f57e9544
+apb // 9050af83ba05ed3e
+apd // f5b682e816aaab84
+apk // b551aa730235860b
+baked_lighting // d14e4eb079b7fd7f
+bik // 18fa2930f06559aa
+bin // 952baaf6fd1f9756
+blend_set // a3b5e394afe801e3
+bnk // acaef2b6263e445e
+bones // e9726b0501adde18
+bsi // ad9d92191a442da7
+cache // 9c8bc3ea4674bf65
+capture_settings // c5f13548a06530a5
+character // a97b343bef4f4e39
+chm // c29b4c5bd410c201
+chroma // 6a506775df3a89b7
+cloth // e0537947504a01d7
+cmd // 4a712a68ebfa0b42
+coffee // a427b44040effe77
+common_package // 474a8119bd5497fe
+compiled_shader // 8670e801d2a60100
+component // 87289d933a56566d
+config // 3232b7e635586482
+cpp // 2842d808dbf70059
+crypto // 4b633e1eed8d1069
+css // a76c7948f01cc186
+dat // ac5b35db4ac88488
+data // 680b65204dd4d08f
+db // 24f2c69c894fc02a
+dcc_asset // 1c9c92125c60c23f
+dds // d4581f5513862964
+def // d2634a3f806a9b07
+disabled // e6c3a604261f9565
+dll // 155fcc8ca496a870
+dylib // b4a863fd9bbe54fd
+editor // 592f2eefa1666cf7
+editorconfig // e8ea28a161db7a37
+entity // 7d080d3b89ca3198
+eot // 73f6ded8d528204c
+eslintignore // b3a2d013cbcb372e
+eslintrc // 458e7ad92e24ae73
+exe // 068b6282fceb7714
+exp // ffdbbf92452f9af2
+fbx // 3062070e305a33c1
+flow // 0d61eb8e03eed392
+flow_editor // 5a233b7dedde006a
+flow_node_definitions // a40c63a508b9afdc
+font // 8078ae6a910afe9e
+font_material // 808c93d8478f261a
+fs // 4a9f9ff7344b007e
+gif // 4593d0a546d66fc7
+gitignore // 8dc7d353b43d8c5a
+gitkeep // a9c8767d20099b2d
+h // 1f1fdf702492be46
+HeightField // dc33bb8274efb77b
+htm // 1c0edea27852d54a
+html // ddfd8e1dd80f0736
+icns // a52f07c84f4304db
+ico // a48795c30a0afa4b
+import_options // 7e6a23c7d64d3306
+in // c7d31c7074db084b
+IndexedMesh // 6d0126342d2c13a2
+inf // b9bdb5c11885762e
+ini // c51d4fa17da226d5
+inl // cd7155cce6f3b07c
+input // 9ede4a07e5abbc2b
+iobj // 0e3e86d44bc0bccf
+ipdb // 0ed92307e9543401
+ivf // 1e20911a098e4afa
+jar // 50cf50f408434b4e
+jpg // 6d635d426caaa919
+js // 6c7bc63a0c4335ee
+json // 004d9b30f6d276ed
+keys // 859e96dc97922fa6
+LabSample // 17a9a04488bc3355
+less // d9fad573900f840e
+level // c59afe48d30f692a
+lib // bfd07bdd7058a941
+log // 0612ef792f067f6c
+lua // e217d12cfa8d4ea1
+luac // 482500184c936542
+main // 5a6d2c98b1b33b29
+manifest // 8ef55b5a2d5af70c
+material // fa3d5604e610a03e
+mc3 // 9310e0f711cb58d0
+md // 868242ab8871bfef
+mesh // a197a9133731ff48
+metallib // 68e63f1807fb853e
+mlm // 092f702e58f3c987
+mod // 1764a45691d6cd3f
+mouse_cursor // 371da6e41fb177b2
+msi // b34aba8eef929ab1
+mst // 3bcd4e9cd1c8f771
+navdata // 64d2536956e99d16
+NavGenProj // dcb2798213954d87
+network_config // 74c3baf6e8a91f3b
+nib // 54debeabacf5e056
+npmignore // e518b15266ada834
+obj // 0ac5d42284ae3b66
+object_creator_item // e68d85d74f1051aa
+object_filter // 386921b3ae3580df
+otf // 8058238391fa83c8
+package // 7ae7e5d19e6d9cad
+pak // 71ab620ddbf0fd1f
+particle_editor // 856b11c27e41c3ba
+particles // 64ad6f52233119a8
+patch // 794754a8db489b86
+pdb // d64355635f240149
+pdf // adf694242e4153f0
+physics // b8da80f2c803725f
+physics_data // d868e8592408bd22
+physics_properties // b1bbb03a3a4021bf
+physx_metadata // 625d4e5c83134bc0
+pit // 8c2a851fa44f59be
+plist // 3e8b77750be6995c
+plugin // e605f7c081c132e9
+png // 075e48637016c5ad
+prefab // c613f585e8782fab
+prototype // 374d8dbd55b3ca46
+ps3 // be0ff93c10a431bf
+ps4 // 513c4b512d774bba
+qss // 0b27cc784d260586
+render_config // 9c319547e22f8627
+render_config_extension // 3293e937f82693a5
+renderable // e91dfc5831101079
+resource // 26ded8f087386ccf
+s2dactor // a66848ba9bf8fc1e
+s2dproj // bc3621536e8b5623
+s2dscene // 259f1e12f648d3f5
+scaleform_studio_project // d08e98c043baf2a7
+scatter_brush // 8c92288a02473878
+scene_cache // 835fbb58fa4ee558
+script_flow_nodes // 215178d2e0183259
+scss // bfee6b6900ed506f
+settings // af2ffcbf20222955
+sh // a85a4016c4cfb499
+shader_import // 6f71ec37b6ae10c5
+shader_library_group // b5ae7545c73c5c9e
+shader_node // 57bec007afed9f32
+shader_source // 7530694338ce50e6
+shading_environment // a57c8affdcc773fe
+shading_environment_mapping // f8268eac110a0e25
+shading_environment_template // 1fe4e492268b9da0
+sjson // 009aceb7d899aa9a
+slug_album // c05e2e04a79efce9
+sound_environment // d7fd7fa96478b2d8
+speedtree // 9799161cf6c585e9
+spu_job // 50b9053c98f97af9
+state_machine // 5c16065104d486a4
+statemachine_editor // 0a7a7448e57902bb
+stingray_plugin // 983692c4955af051
+stingray_plugin_disabled // 63bec6f368137a7b
+stingray_project // 22b8464ea5107b9a
+stingray-asset-server-directory // 538c6a8808e5df3e
+strings // d30fb410ab2b970d
+surface_properties // 94b39a0da33f2dad
+svg // c9f3c8481a6a6683
+template // 0635d73761d552b5
+texture // 329ec6a0c63842cd
+texture_category // fa521a7dc9da4615
+texture_template // 2507e746f86b19b9
+tga // a88f27ab0a7f166a
+timestamp // e80d93acec8cf991
+timpani_bank // a439f7ffe16b7399
+timpani_master // 6c9c2b9ac5e6a300
+tome // 9bf4997c3592c719
+ts // 8636f123c89fb444
+ttf // 1b3d1e889433aecb
+txt // 4f2f5d702de3bf6f
+type // 1ff0c81ae0d01ba2
+ugg // 9c4c02d13d6e2d71
+unit // 3f45a7e90b8da4e0
+unit_anim // dbea58acfa5c6e2e
+upb // c2d36de8c61095a9
+user_settings // 1b84e7958f4c078c
+vector_field // 55676d16335950f7
+vista // 9b8cf91653d5827b
+visualization_mode // e3aa6222c8ce474d
+volume_type // 43df5e6cf930046a
+vs // ef88c70c198cbc46
+w7 // c68f7f24009d8cde
+w8 // 1b1881045c770506
+wasm // 07a34c16a7904f86
+wav // 196b810ac0656f78
+wcmdline // a9ae9edba2a05713
+win32 // f96f88789f09b3b6
+win64 // ab9fb7e78033617e
+wlayout // b495d3c47243ba5d
+woff // c0e34eebf4a49719
+woff2 // dd89f011b057924d
+wproj // 84c344049265c478
+wwise_bank // 99d750e6d37b5a53
+wwise_bank_metadata // c6b36e9aef06928c
+wwise_dep // 70b0f2825c0932af
+wwise_metadata // 10b1821c7e8b0ad5
+wwise_stream // 0e44215d23554b50
+wwu // 81677da406972727
+xb1 // 3185bf80b6a8cb33
+xb1_caps // 751e12c79beeef25
+xbox_axis // b52fb92fe63c37c2
+xbox_button // 3e3dbdf7f0448be5
+xml // 653700a645580176
+xp // efccfda7204e0152
+xsd // 859bb8ef46c2caf7
+yml // 9f79b453fb89f70a
+zD // 9f274e0e75cd96d5
+zip // a31dab2b97b14ca6

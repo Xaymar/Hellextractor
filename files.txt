@@ -1023,6 +1023,8 @@ content/env_super_earth/tutorial/door_01/door_light
 content/env_super_earth/tutorial/icbm_silo_tutorial/icbm_silo_tutorial
 content/env_super_earth/tutorial/sprint_room_terminal_01/sprint_room_terminal
 content/env_super_earth/tutorial/weapon_dispenser/weapon_dispenser
+content/fac_bugs/cha_hunter/cha_hunter
+content/fac_bugs/cha_scavenger/cha_scavenger
 content/fac_bugs/cha_shrieker/cha_shrieker
 content/fac_cyborgs/emplacements/cyborg_emplacement_hmg/cyborg_emplacement_hmg
 content/fac_cyborgs/emplacements/cyborg_emplacement_mg/cyborg_emplacement_mg
