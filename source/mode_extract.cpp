@@ -218,6 +218,11 @@ int32_t mode_extract(std::vector<std::string> const& args)
 	std::cout << "Found " << files.size() << " files." << std::endl;
 
 	// Export files (if not in dryrun mode)
+	size_t stats_written  = 0;
+	size_t stats_renamed  = 0;
+	size_t stats_removed  = 0;
+	size_t stats_skipped  = 0;
+	size_t stats_filtered = 0;
 	if (!dryrun) {
 		std::filesystem::create_directories(output_path);
 	}
@@ -272,6 +277,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		if (output_filter.has_value()) {
 			if (!std::regex_match(file.generic_string(), output_filter.value())) {
 				//std::cout << "      Skipped" << std::endl;
+				stats_filtered++;
 				continue;
 			}
 		}
@@ -281,7 +287,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 
 		if (!dryrun) {
 			bool needs_export = true;
-			bool had_rename = false;
+			bool had_rename   = false;
 			std::filesystem::create_directories(path.parent_path());
 
 			// Check if the target file is a different size.
@@ -299,10 +305,12 @@ int32_t mode_extract(std::vector<std::string> const& args)
 						std::cout << "        Renaming '" << lfile.generic_string() << "'..." << std::endl;
 						std::filesystem::rename(lpath, path);
 						needs_export = false;
-						had_rename = true;
+						had_rename   = true;
+						stats_renamed++;
 					} else {
 						std::cout << "        Deleting '" << lfile.generic_string() << "'..." << std::endl;
 						std::filesystem::remove(lpath);
+						stats_removed++;
 					}
 				}
 			}
@@ -333,9 +341,22 @@ int32_t mode_extract(std::vector<std::string> const& args)
 				}
 
 				filestream.close();
+				stats_written++;
+			} else {
+				stats_skipped++;
 			}
+		} else {
+			stats_skipped++;
 		}
 	}
+
+	std::cout << std::endl;
+	std::cout << "Statistics: " << std::endl;
+	std::cout << "    Exported: " << stats_written << std::endl;
+	std::cout << "    Renamed:  " << stats_renamed << std::endl;
+	std::cout << "    Deleted:  " << stats_removed << std::endl;
+	std::cout << "    Skipped:  " << stats_skipped << std::endl;
+	std::cout << "    Filtered: " << stats_filtered << std::endl;
 
 	return 0;
 }
