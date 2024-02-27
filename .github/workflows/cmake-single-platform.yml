@@ -1,0 +1,39 @@
+name: Build Windows Executable
+
+on:
+  push:
+    branches: [ root ]
+  pull_request:
+    branches: [ root ]
+  workflow_dispatch:
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install MinGW-w64
+      run: sudo apt-get update && sudo apt-get install -y mingw-w64
+
+    - name: Configure CMake for Cross-Compilation
+      run: >
+        cmake -B ${{github.workspace}}/build 
+        -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        -DCMAKE_SYSTEM_NAME=Windows
+        -DCMAKE_C_COMPILER=x86_64-w64-mingw32-gcc
+        -DCMAKE_CXX_COMPILER=x86_64-w64-mingw32-g++
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+    - name: Upload hellextractor Artifact
+      uses: actions/upload-artifact@v4.3.1
+      with:
+        name: hellextractor
+        path: ${{github.workspace}}/build/Hellextractor.exe
+        if-no-files-found: error # Optional: 'warn', 'error', 'ignore'
