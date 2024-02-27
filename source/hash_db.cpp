@@ -38,9 +38,13 @@ hellextractor::hash_db::hash_db(std::filesystem::path db_file) : _strings(), _ha
 	while (!file.eof()) {
 		std::getline(file, line);
 
-		size_t comment = line.find_first_of("//");
-		if (comment != std::string::npos) { // Remove the entire comment.
-			line = line.substr(0, comment);
+		for (size_t idx = 0; (idx + 1) < line.length(); idx++) {
+			auto c0 = line[idx];
+			auto c1 = line[idx + 1];
+			if (c0 == '/' && (c0 == c1)) {
+				line = line.substr(0, idx);
+				break;
+			}
 		}
 
 		// Trim string.
