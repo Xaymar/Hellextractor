@@ -281,6 +281,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 
 		if (!dryrun) {
 			bool needs_export = true;
+			bool had_rename = false;
 			std::filesystem::create_directories(path.parent_path());
 
 			// Check if the target file is a different size.
@@ -295,9 +296,12 @@ int32_t mode_extract(std::vector<std::string> const& args)
 					auto lpath = output_path / lfile;
 
 					if (needs_export && (std::filesystem::file_size(lpath) == size) && !exists) {
+						std::cout << "        Renaming '" << lfile.generic_string() << "'..." << std::endl;
 						std::filesystem::rename(lpath, path);
 						needs_export = false;
+						had_rename = true;
 					} else {
+						std::cout << "        Deleting '" << lfile.generic_string() << "'..." << std::endl;
 						std::filesystem::remove(lpath);
 					}
 				}
