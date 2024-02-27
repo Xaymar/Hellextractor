@@ -25,7 +25,7 @@ int32_t mode_hash(std::vector<std::string> const& args)
 	auto inst = hellextractor::hash::instance::create(hellextractor::hash::type::MURMURHASH64A);
 
 	bool show_help = false;
-	if (args.size() == 0) {
+	if (args.size() == 1) {
 		show_help = true;
 	} else {
 		if ((args[1] == "-h") || (args[1] == "--help")) {
@@ -34,8 +34,12 @@ int32_t mode_hash(std::vector<std::string> const& args)
 	}
 	if (show_help) {
 		auto self = std::filesystem::path(args[0]).filename();
-		std::cout << self.generic_string() << " " << name << " name [name [name [...]]]" << std::endl;
+		std::cout << self.generic_string() << " " << name << " [options] name [name [name [...]]]" << std::endl;
 		std::cout << "Prints out the matching hash for every name provided on separate lines." << std::endl;
+		std::cout << std::endl;
+		std::cout << "Options" << std::endl;
+		std::cout << "  -h, --help       Show this help" << std::endl;
+		std::cout << std::endl;
 		return 1;
 	}
 

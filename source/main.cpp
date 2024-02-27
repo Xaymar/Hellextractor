@@ -14,24 +14,10 @@
 #include "main.hpp"
 #include <cinttypes>
 #include <cstddef>
-#include <cstdio>
-#include <cstring>
 #include <filesystem>
-#include <fstream>
-#include <functional>
-#include <iomanip>
-#include <ios>
 #include <iostream>
 #include <list>
 #include <map>
-#include <set>
-#include <utility>
-
-#include "endian.h"
-//#include "hash_db.hpp"
-//#include "mapped_file.hpp"
-
-//#include "hd2_data.hpp"
 
 namespace hellextractor {
 	struct mode_info {
@@ -90,42 +76,10 @@ try {
 	}
 	return 0;
 
-	//enum class mode {
-	//	EXTRACT,
-	//	MESH,
-	//	HASH,
-	//} currentmode                 = mode::EXTRACT;
-	//std::filesystem::path  output = std::filesystem::absolute(argv[0]).parent_path();
-	//std::list<std::string> unparsed;
-
-	//if (argc <= 1) {
-	//	std::cout << std::filesystem::path(argv[0]).filename() << " [options] file [file]" << std::endl;
-	//	std::cout << "Options" << std::endl;
-	//	std::cout << "  -m, --mode" << std::endl;
-	//	std::cout << "    extract: Extract data from the data files" << std::endl;
-	//	std::cout << "    mesh: Convert .meshinfo (and its accompanying .mesh file) into model data" << std::endl;
-	//	std::cout << "    hash: Hash the provided arguments" << std::endl;
-	//	return 1;
-	//}
-
 	//// Parse arguments
 	//for (size_t argn = 1; argn < argc; ++argn) {
 	//	std::string_view arg = argv[argn];
 	//	if (("-m" == arg) || ("--mode" == arg)) {
-	//		if ((argn + 1) < argc) {
-	//			std::string_view val = argv[++argn];
-	//			if ("extract" == val) {
-	//				currentmode = mode::EXTRACT;
-	//			} else if ("mesh" == val) {
-	//				currentmode = mode::MESH;
-	//			} else if ("hash" == val) {
-	//				currentmode = mode::HASH;
-	//			} else {
-	//				throw std::runtime_error("Unknown mode");
-	//			}
-	//		} else {
-	//			throw std::runtime_error("String expected, got EOL instead");
-	//		}
 	//	} else if (("-o" == arg) || ("--output" == arg)) {
 	//		if ((argn + 1) < argc) {
 	//			std::string_view val = argv[++argn];
@@ -140,33 +94,6 @@ try {
 	//	}
 	//}
 
-	//auto enumerate_files = [](std::filesystem::path const& path, std::function<bool(std::filesystem::path const&)> filter) {
-	//	if (!std::filesystem::is_directory(path)) {
-	//		return std::set<std::filesystem::path>{path};
-	//	}
-
-	//	std::set<std::filesystem::path> paths;
-	//	for (auto const& file : std::filesystem::recursive_directory_iterator(path)) {
-	//		if (!file.is_regular_file()) {
-	//			continue;
-	//		}
-
-	//		if (filter(file.path())) {
-	//			paths.insert(std::filesystem::absolute(file.path()));
-	//		}
-	//	}
-
-	//	return paths;
-	//};
-
-	//std::cout << string_printf("Output Path: %s", output.generic_u8string().c_str()) << std::endl;
-
-	//if (currentmode == mode::EXTRACT) {
-	//} else if (currentmode == mode::HASH) {
-	//} else if (currentmode == mode::MESH) {
-	//} else {
-	//	throw std::runtime_error("Programmer messed up and didn't actually implement this.");
-	//}
 
 	return 0;
 } catch (const std::exception& ex) {
