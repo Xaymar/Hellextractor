@@ -1,5 +1,17 @@
 == Hellextractor
-This is a simple tool to help extract content from Helldivers 2, for whatever purpose you decide them to use for.
+Extract content from Helldivers 2.
+
+=== Features
+- Hash strings for figuring out file matches.
+- Extract content from container files.
+- Crash on unexpected things. If it's not a bug for Bethesda or Ubisoft, it's not a bug here either.
+
+=== Usage
+You can show the built-in help with just:
+
+```
+hellextractor.exe
+```
 
 === Building
 1. git clone
@@ -8,7 +20,4 @@ This is a simple tool to help extract content from Helldivers 2, for whatever pu
 4. ???
 5. Profit
 
-=== Usage
-```
-hellextractor.exe "path/to/mesh.meshinfo"
-```
+You can enable additional features by initializing submodules, but it isn't required.
