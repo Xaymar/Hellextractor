@@ -27,5 +27,11 @@ jobs:
       uses: actions/upload-artifact@v4.3.1
       with:
         name: hellextractor
-        path: ${{github.workspace}}/build/Release/Hellextractor.exe
+        path: |
+          ${{github.workspace}}/build/Release/Hellextractor.exe
+          ${{github.workspace}}/types.txt
+          ${{github.workspace}}/files.txt
+          ${{github.workspace}}/strings.txt
+          ${{github.workspace}}/README.adoc
+          ${{github.workspace}}/LICENSE.adoc
         if-no-files-found: error # Optional: 'warn', 'error', 'ignore'
