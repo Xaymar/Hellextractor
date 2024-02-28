@@ -70,6 +70,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		std::cout << "  -r, --rename          Rename/Delete files with older or untranslated names or types." << std::endl;
 		std::cout << "  -q, --quiet           Decrease verbosity of output." << std::endl;
 		std::cout << "  -v, --verbose         Increase verbosity of output." << std::endl;
+		std::cout << "  -x, --index <path>    Generate an hash -> file index (csv) for use in external tools." << std::endl;
 		std::cout << std::endl;
 		return 1;
 	}
@@ -84,6 +85,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 	bool                                      dryrun    = false;
 	bool                                      rename    = false;
 	int32_t                                   verbosity = 0;
+	std::optional<std::filesystem::path>      index_path;
 
 	// Figure out what is what.
 	for (size_t edx = args.size(), idx = 1; idx < edx; ++idx) {
@@ -145,6 +147,14 @@ int32_t mode_extract(std::vector<std::string> const& args)
 				verbosity++;
 			} else if ((arg == "-q") || (arg == "--quiet")) {
 				verbosity--;
+			} else if ((arg == "-x") || (arg == "--index")) {
+				if ((idx + 1) < edx) {
+					index_path = std::filesystem::absolute(args[idx + 1]);
+					++idx;
+				} else {
+					std::cerr << "Expected path, got end of line." << std::endl;
+					return 1;
+				}
 				//} else if ((arg == "-") || (arg == "--")) {
 			} else {
 				std::cerr << "Unrecognized argument: " << arg << std::endl;
@@ -164,17 +174,17 @@ int32_t mode_extract(std::vector<std::string> const& args)
 			std::cout << "Loading translation tables..." << std::endl;
 		for (auto const& path : type_paths) {
 			if (verbosity >= 1)
-			std::cout << "    " << path.generic_string() << std::endl;
+				std::cout << "    " << path.generic_string() << std::endl;
 			typedbs.emplace_back(path);
 		}
 		for (auto const& path : name_paths) {
 			if (verbosity >= 1)
-			std::cout << "    " << path.generic_string() << std::endl;
+				std::cout << "    " << path.generic_string() << std::endl;
 			namedbs.emplace_back(path);
 		}
 		for (auto const& path : string_paths) {
 			if (verbosity >= 1)
-			std::cout << "    " << path.generic_string() << std::endl;
+				std::cout << "    " << path.generic_string() << std::endl;
 			strings.emplace_back(path);
 		}
 	}
@@ -246,43 +256,44 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		std::filesystem::create_directories(output_path);
 	}
 	for (auto const& file : files) {
-		auto        meta  = file.second;
+		auto meta = file.second;
+
+		auto translations = [](uint64_t hash, std::list<hellextractor::hash_db>& primary, std::list<hellextractor::hash_db>& secondary) {
+			std::vector<std::string> translations;
+
+			for (auto& db : primary) {
+				if (auto tv = db.strings().find(hash); db.strings().end() != tv) {
+					if (std::find(translations.cbegin(), translations.cend(), tv->second) == translations.end()) {
+						translations.push_back(tv->second);
+					}
+				}
+			}
+			for (auto& db : secondary) {
+				if (auto tv = db.strings().find(hash); db.strings().end() != tv) {
+					if (std::find(translations.cbegin(), translations.cend(), tv->second) == translations.end()) {
+						translations.push_back(tv->second);
+					}
+				}
+			}
+
+			return translations;
+		};
 
 		// Match the name with the name databases.
-		std::unordered_set<std::string> file_names;
-		for (auto& db : namedbs) {
-			if (auto tv = db.strings().find(static_cast<uint64_t>(meta.file.id)); db.strings().end() != tv) {
-				file_names.insert(tv->second);
-			}
-		}
-		for (auto& db : strings) {
-			if (auto tv = db.strings().find(static_cast<uint64_t>(meta.file.id)); db.strings().end() != tv) {
-				file_names.insert(tv->second);
-			}
-		}
+		auto file_names = translations(static_cast<uint64_t>(meta.file.id), namedbs, strings);
 		if (file_names.size() > 0) {
 			++stats_names;
 		}
-		file_names.insert(string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.id)));
-		file_names.insert(string_printf("%016" PRIx64, htole64((uint64_t)meta.file.id)));
+		file_names.push_back(string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.id)));
+		file_names.push_back(string_printf("%016" PRIx64, htole64((uint64_t)meta.file.id)));
 
 		// Match the type with the type databases.
-		std::unordered_set<std::string> file_types;
-		for (auto& db : typedbs) {
-			if (auto tv = db.strings().find(static_cast<uint64_t>(meta.file.type)); db.strings().end() != tv) {
-				file_types.insert(tv->second);
-			}
-		}
-		for (auto& db : strings) {
-			if (auto tv = db.strings().find(static_cast<uint64_t>(meta.file.type)); db.strings().end() != tv) {
-				file_types.insert(tv->second);
-			}
-		}
+		auto file_types = translations(static_cast<uint64_t>(meta.file.type), typedbs, strings);
 		if (file_types.size() > 0) {
 			++stats_types;
 		}
-		file_types.insert(string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.type)));
-		file_types.insert(string_printf("%016" PRIx64, htole64((uint64_t)meta.file.type)));
+		file_types.push_back(string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.type)));
+		file_types.push_back(string_printf("%016" PRIx64, htole64((uint64_t)meta.file.type)));
 
 		// Generate all permutations.
 		std::vector<std::pair<std::string, std::string>> permutations;
@@ -293,10 +304,10 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		}
 
 		// Generate a proper file path.
-		std::filesystem::path file_name   = std::filesystem::path(permutations[0].first).replace_extension(permutations[0].second);
-		std::filesystem::path file_path   = output_path / file_name;
-		bool                  file_exists = std::filesystem::exists(file_path);
-		size_t                data_size   = (meta.main_size + meta.gpu_size + meta.stream_size);
+		auto   file_name   = std::filesystem::path(permutations[0].first).replace_extension(permutations[0].second);
+		auto   file_path   = output_path / file_name;
+		bool   file_exists = std::filesystem::exists(file_path);
+		size_t data_size   = (meta.main_size + meta.gpu_size + meta.stream_size);
 
 		// If the user provided a filter, use it now.
 		if (output_filter.has_value()) {
