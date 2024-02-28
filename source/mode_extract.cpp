@@ -82,7 +82,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 	std::unordered_set<std::filesystem::path> type_paths;
 	std::unordered_set<std::filesystem::path> name_paths;
 	std::unordered_set<std::filesystem::path> string_paths;
-	bool                                      dryrun    = false;
+	bool                                      is_dry    = false;
 	bool                                      rename    = false;
 	int32_t                                   verbosity = 0;
 	std::optional<std::filesystem::path>      index_path;
@@ -140,7 +140,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 					return 1;
 				}
 			} else if ((arg == "-d") || (arg == "--dry-run")) {
-				dryrun = true;
+				is_dry = true;
 			} else if ((arg == "-r") || (arg == "--rename")) {
 				rename = true;
 			} else if ((arg == "-v") || (arg == "--verbose")) {
@@ -192,7 +192,10 @@ int32_t mode_extract(std::vector<std::string> const& args)
 	// Log some information for the end user.
 	if (verbosity >= 0)
 		std::cout << "Writing files to: " << output_path.generic_string() << std::endl;
-	if (dryrun) {
+	if ((verbosity >= 0) && index_path.has_value())
+		std::cout << "Writing index to: " << index_path.value().generic_string() << std::endl;
+
+	if (is_dry) {
 		if (verbosity >= -1)
 			std::cout << "This is a dry run, no files will be written. It's all pretend!" << std::endl;
 	}
@@ -244,7 +247,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 	if (verbosity >= 0)
 		std::cout << "Found " << files.size() << " files." << std::endl;
 
-	// Export files (if not in dryrun mode)
+	// Export files (if not in dry run mode)
 	size_t stats_written  = 0;
 	size_t stats_renamed  = 0;
 	size_t stats_removed  = 0;
@@ -252,7 +255,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 	size_t stats_filtered = 0;
 	size_t stats_names    = 0;
 	size_t stats_types    = 0;
-	if (!dryrun) {
+	if (!is_dry) {
 		std::filesystem::create_directories(output_path);
 	}
 	for (auto const& file : files) {
@@ -284,16 +287,16 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		if (file_names.size() > 0) {
 			++stats_names;
 		}
-		file_names.push_back(string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.id)));
-		file_names.push_back(string_printf("%016" PRIx64, htole64((uint64_t)meta.file.id)));
+		file_names.emplace_back(string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.id)));
+		file_names.emplace_back(string_printf("%016" PRIx64, htole64((uint64_t)meta.file.id)));
 
 		// Match the type with the type databases.
 		auto file_types = translations(static_cast<uint64_t>(meta.file.type), typedbs, strings);
 		if (file_types.size() > 0) {
 			++stats_types;
 		}
-		file_types.push_back(string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.type)));
-		file_types.push_back(string_printf("%016" PRIx64, htole64((uint64_t)meta.file.type)));
+		file_types.emplace_back(string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.type)));
+		file_types.emplace_back(string_printf("%016" PRIx64, htole64((uint64_t)meta.file.type)));
 
 		// Generate all permutations.
 		std::vector<std::pair<std::string, std::string>> permutations;
@@ -309,61 +312,68 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		bool   file_exists = std::filesystem::exists(file_path);
 		size_t data_size   = (meta.main_size + meta.gpu_size + meta.stream_size);
 
+		if (verbosity >= 1)
+			std::cout << "  " << file_name.generic_string() << std::endl;
+
 		// If the user provided a filter, use it now.
 		if (output_filter.has_value()) {
 			if (!std::regex_match(file_name.generic_string(), output_filter.value())) {
-				//std::cout << "      Skipped" << std::endl;
+				if (verbosity >= 1)
+					std::cout << "  f " << file_name.generic_string() << std::endl;
 				stats_filtered++;
 				continue;
 			}
 		}
 
-		if (verbosity >= 1)
-			std::cout << "  " << file_name.generic_string() << std::endl;
-
-		if (!dryrun) {
-			bool needs_export = true;
-			bool had_rename   = false;
+		bool needs_export = true;
+		bool had_rename   = false;
+		if (!is_dry) {
 			std::filesystem::create_directories(file_path.parent_path());
+		}
 
-			// Check if the target file is a different size.
-			if (file_exists) {
-				needs_export = std::filesystem::file_size(file_path) != data_size;
-			}
+		// Check if the target file is a different size.
+		if (file_exists) {
+			needs_export = std::filesystem::file_size(file_path) != data_size;
+		}
 
-			// Rename any existing files.
-			if (rename) {
-				for (size_t idx = 1; idx < permutations.size(); idx++) {
-					auto lfile = std::filesystem::path(permutations[idx].first).replace_extension(permutations[idx].second);
-					auto lpath = output_path / lfile;
+		// Rename any existing files.
+		if (rename) {
+			for (size_t idx = 1; idx < permutations.size(); idx++) {
+				auto lfile = std::filesystem::path(permutations[idx].first).replace_extension(permutations[idx].second);
+				auto lpath = output_path / lfile;
 
-					if (lfile == file_name) {
-						// This should be impossible, but lets deal with it anyway. We don't want weird behavior.
-						continue;
-					}
+				if (lfile == file_name) {
+					// This should be impossible, but lets deal with it anyway. We don't want weird behavior.
+					continue;
+				}
 
-					if (std::filesystem::exists(lpath)) {
-						if (needs_export && (std::filesystem::file_size(lpath) == data_size) && !file_exists) {
-							if (verbosity >= 0)
-								std::cout << "  r " << file_name.generic_string() << " <- " << lfile.generic_string() << std::endl;
+				if (std::filesystem::exists(lpath)) {
+					if (needs_export && (std::filesystem::file_size(lpath) == data_size) && !file_exists) {
+						if (verbosity >= 0)
+							std::cout << "  r " << file_name.generic_string() << " <- " << lfile.generic_string() << std::endl;
+						if (!is_dry) {
 							std::filesystem::rename(lpath, file_path);
-							needs_export = false;
-							had_rename   = true;
-							stats_renamed++;
-						} else {
-							if (verbosity >= 0)
-								std::cout << "  d " << lfile.generic_string() << std::endl;
-							std::filesystem::remove(lpath);
-							stats_removed++;
 						}
+						needs_export = false;
+						had_rename   = true;
+						stats_renamed++;
+					} else {
+						if (verbosity >= 0)
+							std::cout << "  d " << lfile.generic_string() << std::endl;
+						if (!is_dry) {
+							std::filesystem::remove(lpath);
+						}
+						stats_removed++;
 					}
 				}
 			}
+		}
 
-			if (needs_export) {
-				if (verbosity >= 0)
-					std::cout << "  e " << file_name.generic_string() << std::endl;
+		if (needs_export) {
+			if (verbosity >= 0)
+				std::cout << "  e " << file_name.generic_string() << std::endl;
 
+			if (!is_dry) {
 				std::ofstream stream{file_path, std::ios::trunc | std::ios::binary | std::ios::out};
 				if (!stream || stream.bad() || !stream.is_open()) {
 					throw std::runtime_error(string_printf("Failed to export '%s'.", file_name.generic_string().c_str()));
@@ -392,10 +402,8 @@ int32_t mode_extract(std::vector<std::string> const& args)
 				}
 
 				stream.close();
-				stats_written++;
-			} else {
-				stats_skipped++;
 			}
+			stats_written++;
 		} else {
 			if (verbosity >= 0)
 				std::cout << "  s " << file_name.generic_string() << std::endl;
