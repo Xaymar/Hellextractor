@@ -16,22 +16,62 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 20
 
     - name: Configure CMake
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+    
+    - name: Make archive
+      run: |
+        $workspace = "${{ github.workspace }}"
+        mkdir -p $workspace\package
+        cp $workspace\build\Release\Hellextractor.exe $workspace\package\
+        cp $workspace\types.txt $workspace\package\
+        cp $workspace\files.txt $workspace\package\
+        cp $workspace\strings.txt $workspace\package\
+        cp $workspace\README.adoc $workspace\package\
+        cp $workspace\LICENSE.adoc $workspace\package\
+        Compress-Archive -Path $workspace\package\* -DestinationPath $workspace\hellextractor.zip
+      shell: pwsh
+    
 
     - name: Upload hellextractor Artifact
       uses: actions/upload-artifact@v4.3.1
       with:
         name: hellextractor
         path: |
-          ${{github.workspace}}/build/Release/Hellextractor.exe
-          ${{github.workspace}}/types.txt
-          ${{github.workspace}}/files.txt
-          ${{github.workspace}}/strings.txt
-          ${{github.workspace}}/README.adoc
-          ${{github.workspace}}/LICENSE.adoc
+          ${{github.workspace}}/package/*
         if-no-files-found: error # Optional: 'warn', 'error', 'ignore'
+    
+    - name: Generate Release Name, Tag, and Notes
+      id: release_info
+      run: |
+          echo "tag=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          
+          dateName=$(date +'%Y-%m-%d %H:%M:%S')
+          echo "dateName=$dateName" # for debugging
+          echo "name=Release-$dateName" >> $GITHUB_OUTPUT
+      
+          commitMessages=$(git log -20 --pretty=format:"%h - %s <br />" | paste -sd ' ' -)
+          echo "commitMessages=$commitMessages" # for debugging
+          releaseNotes="Recent changes: <br />$commitMessages"
+          echo "notes=$releaseNotes" >> $GITHUB_OUTPUT            
+      shell: bash
+      if: github.event_name != 'pull_request'
+    
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ steps.release_info.outputs.tag }}
+        name: ${{ steps.release_info.outputs.name }}
+        body: ${{ steps.release_info.outputs.notes }}
+        files: |
+          hellextractor.zip
+        fail_on_unmatched_files: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      if: github.event_name != 'pull_request'
