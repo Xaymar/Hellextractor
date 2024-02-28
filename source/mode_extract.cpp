@@ -68,6 +68,8 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		std::cout << "  -s, --strings <path>  Add a database file to the String Hash translation table." << std::endl;
 		std::cout << "  -d, --dry-run         Don't actually do anything." << std::endl;
 		std::cout << "  -r, --rename          Rename/Delete files with older or untranslated names or types." << std::endl;
+		std::cout << "  -q, --quiet           Decrease verbosity of output." << std::endl;
+		std::cout << "  -v, --verbose         Increase verbosity of output." << std::endl;
 		std::cout << std::endl;
 		return 1;
 	}
@@ -79,8 +81,9 @@ int32_t mode_extract(std::vector<std::string> const& args)
 	std::unordered_set<std::filesystem::path> type_paths;
 	std::unordered_set<std::filesystem::path> name_paths;
 	std::unordered_set<std::filesystem::path> string_paths;
-	bool                                      dryrun = false;
-	bool                                      rename = false;
+	bool                                      dryrun    = false;
+	bool                                      rename    = false;
+	int32_t                                   verbosity = 0;
 
 	// Figure out what is what.
 	for (size_t edx = args.size(), idx = 1; idx < edx; ++idx) {
@@ -138,6 +141,10 @@ int32_t mode_extract(std::vector<std::string> const& args)
 				dryrun = true;
 			} else if ((arg == "-r") || (arg == "--rename")) {
 				rename = true;
+			} else if ((arg == "-v") || (arg == "--verbose")) {
+				verbosity++;
+			} else if ((arg == "-q") || (arg == "--quiet")) {
+				verbosity--;
 				//} else if ((arg == "-") || (arg == "--")) {
 			} else {
 				std::cerr << "Unrecognized argument: " << arg << std::endl;
@@ -153,25 +160,31 @@ int32_t mode_extract(std::vector<std::string> const& args)
 	std::list<hellextractor::hash_db> namedbs;
 	std::list<hellextractor::hash_db> strings;
 	{
-		std::cout << "Loading translation tables..." << std::endl;
+		if (verbosity >= 0)
+			std::cout << "Loading translation tables..." << std::endl;
 		for (auto const& path : type_paths) {
+			if (verbosity >= 1)
 			std::cout << "    " << path.generic_string() << std::endl;
 			typedbs.emplace_back(path);
 		}
 		for (auto const& path : name_paths) {
+			if (verbosity >= 1)
 			std::cout << "    " << path.generic_string() << std::endl;
 			namedbs.emplace_back(path);
 		}
 		for (auto const& path : string_paths) {
+			if (verbosity >= 1)
 			std::cout << "    " << path.generic_string() << std::endl;
 			strings.emplace_back(path);
 		}
 	}
 
 	// Log some information for the end user.
-	std::cout << "Writing files to: " << output_path.generic_string() << std::endl;
+	if (verbosity >= 0)
+		std::cout << "Writing files to: " << output_path.generic_string() << std::endl;
 	if (dryrun) {
-		std::cout << "This is a dry run, no files will be written. It's all pretend!" << std::endl;
+		if (verbosity >= -1)
+			std::cout << "This is a dry run, no files will be written. It's all pretend!" << std::endl;
 	}
 
 	std::cout << std::endl;
@@ -193,29 +206,33 @@ int32_t mode_extract(std::vector<std::string> const& args)
 	}
 
 	// We'll load all containers into memory at once, which should ideally only require virtual memory.
-	std::cout << "Loading " << input_paths.size() << " containers..." << std::endl;
-	std::list<hd2::data> containers;
+	if (verbosity >= 0)
+		std::cout << "Loading " << input_paths.size() << " containers..." << std::endl;
+	std::list<helldivers2::data> containers;
 	for (auto const& path : input_paths) {
 		try {
 			containers.emplace_back(path);
-			std::cout << "    " << path.generic_string() << std::endl;
+			if (verbosity >= 1)
+				std::cout << "    " << path.generic_string() << std::endl;
 		} catch (std::exception const& ex) {
-			std::cout << "    ERROR " << path.generic_string() << ": " << ex.what() << std::endl;
+			std::cerr << "Error loading '" << path.generic_string() << "': " << ex.what() << std::endl;
 			continue;
 		}
 	}
-	std::cout << std::endl;
 
 	// Merge all containers to get a full view of what we really have.
-	std::map<std::pair<hd2::file_id_t, hd2::file_type>, std::pair<hd2::data const&, size_t>> files;
+	typedef std::pair<helldivers2::file_id_t, helldivers2::file_type_t> key_t;
+	typedef helldivers2::data::meta_t                                   data_t;
+	std::map<key_t, data_t>                                             files;
 	for (auto const& cont : containers) {
 		for (size_t i = 0; i < cont.files(); i++) {
 			// In all testing, files that existed multiple times had zero differences. So this is safe to do.
-			auto const& file = cont.file(i);
-			files.try_emplace(std::pair<hd2::file_id_t, hd2::file_type>{file.id, file.type}, std::pair<hd2::data const&, size_t>{cont, i});
+			auto file = cont.meta(i);
+			files.try_emplace(key_t{file.file.id, file.file.type}, file);
 		}
 	}
-	std::cout << "Found " << files.size() << " files." << std::endl;
+	if (verbosity >= 0)
+		std::cout << "Found " << files.size() << " files." << std::endl;
 
 	// Export files (if not in dryrun mode)
 	size_t stats_written  = 0;
@@ -223,77 +240,84 @@ int32_t mode_extract(std::vector<std::string> const& args)
 	size_t stats_removed  = 0;
 	size_t stats_skipped  = 0;
 	size_t stats_filtered = 0;
+	size_t stats_names    = 0;
+	size_t stats_types    = 0;
 	if (!dryrun) {
 		std::filesystem::create_directories(output_path);
 	}
 	for (auto const& file : files) {
-		auto        index = file.second.second;
-		auto const& cont  = file.second.first;
+		auto        meta  = file.second;
 
 		// Match the name with the name databases.
-		std::unordered_set<std::string> file_name;
+		std::unordered_set<std::string> file_names;
 		for (auto& db : namedbs) {
-			if (auto tv = db.strings().find(static_cast<uint64_t>(file.first.first)); db.strings().end() != tv) {
-				file_name.insert(tv->second);
+			if (auto tv = db.strings().find(static_cast<uint64_t>(meta.file.id)); db.strings().end() != tv) {
+				file_names.insert(tv->second);
 			}
 		}
 		for (auto& db : strings) {
-			if (auto tv = db.strings().find(static_cast<uint64_t>(file.first.first)); db.strings().end() != tv) {
-				file_name.insert(tv->second);
+			if (auto tv = db.strings().find(static_cast<uint64_t>(meta.file.id)); db.strings().end() != tv) {
+				file_names.insert(tv->second);
 			}
 		}
-		file_name.insert(string_printf("%016" PRIx64, htobe64((uint64_t)file.first.first)));
-		file_name.insert(string_printf("%016" PRIx64, htole64((uint64_t)file.first.first)));
+		if (file_names.size() > 0) {
+			++stats_names;
+		}
+		file_names.insert(string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.id)));
+		file_names.insert(string_printf("%016" PRIx64, htole64((uint64_t)meta.file.id)));
 
 		// Match the type with the type databases.
-		std::unordered_set<std::string> file_type;
+		std::unordered_set<std::string> file_types;
 		for (auto& db : typedbs) {
-			if (auto tv = db.strings().find(static_cast<uint64_t>(file.first.second)); db.strings().end() != tv) {
-				file_type.insert(tv->second);
+			if (auto tv = db.strings().find(static_cast<uint64_t>(meta.file.type)); db.strings().end() != tv) {
+				file_types.insert(tv->second);
 			}
 		}
 		for (auto& db : strings) {
-			if (auto tv = db.strings().find(static_cast<uint64_t>(file.first.second)); db.strings().end() != tv) {
-				file_type.insert(tv->second);
+			if (auto tv = db.strings().find(static_cast<uint64_t>(meta.file.type)); db.strings().end() != tv) {
+				file_types.insert(tv->second);
 			}
 		}
-		file_type.insert(string_printf("%016" PRIx64, htobe64((uint64_t)file.first.second)));
-		file_type.insert(string_printf("%016" PRIx64, htole64((uint64_t)file.first.second)));
+		if (file_types.size() > 0) {
+			++stats_types;
+		}
+		file_types.insert(string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.type)));
+		file_types.insert(string_printf("%016" PRIx64, htole64((uint64_t)meta.file.type)));
 
 		// Generate all permutations.
 		std::vector<std::pair<std::string, std::string>> permutations;
-		for (auto const& fn : file_name) {
-			for (auto const& ft : file_type) {
+		for (auto const& fn : file_names) {
+			for (auto const& ft : file_types) {
 				permutations.emplace_back(fn, ft);
 			}
 		}
 
 		// Generate a proper file path.
-		std::filesystem::path file   = std::filesystem::path(permutations[0].first).replace_extension(permutations[0].second);
-		std::filesystem::path path   = output_path / file;
-		bool                  exists = std::filesystem::exists(path);
-		size_t                size   = (cont.meta_size(index) + cont.stream_size(index) + cont.gpu_size(index));
+		std::filesystem::path file_name   = std::filesystem::path(permutations[0].first).replace_extension(permutations[0].second);
+		std::filesystem::path file_path   = output_path / file_name;
+		bool                  file_exists = std::filesystem::exists(file_path);
+		size_t                data_size   = (meta.main_size + meta.gpu_size + meta.stream_size);
 
 		// If the user provided a filter, use it now.
 		if (output_filter.has_value()) {
-			if (!std::regex_match(file.generic_string(), output_filter.value())) {
+			if (!std::regex_match(file_name.generic_string(), output_filter.value())) {
 				//std::cout << "      Skipped" << std::endl;
 				stats_filtered++;
 				continue;
 			}
 		}
 
-		// Only print files that are actually exported.
-		std::cout << "    " << file.generic_string() << std::endl;
+		if (verbosity >= 1)
+			std::cout << "  " << file_name.generic_string() << std::endl;
 
 		if (!dryrun) {
 			bool needs_export = true;
 			bool had_rename   = false;
-			std::filesystem::create_directories(path.parent_path());
+			std::filesystem::create_directories(file_path.parent_path());
 
 			// Check if the target file is a different size.
-			if (exists) {
-				needs_export = std::filesystem::file_size(path) != size;
+			if (file_exists) {
+				needs_export = std::filesystem::file_size(file_path) != data_size;
 			}
 
 			// Rename any existing files.
@@ -302,20 +326,22 @@ int32_t mode_extract(std::vector<std::string> const& args)
 					auto lfile = std::filesystem::path(permutations[idx].first).replace_extension(permutations[idx].second);
 					auto lpath = output_path / lfile;
 
-					if (lfile == file) {
+					if (lfile == file_name) {
 						// This should be impossible, but lets deal with it anyway. We don't want weird behavior.
 						continue;
 					}
 
 					if (std::filesystem::exists(lpath)) {
-						if (needs_export && (std::filesystem::file_size(lpath) == size) && !exists) {
-							std::cout << "        Renaming '" << lfile.generic_string() << "'..." << std::endl;
-							std::filesystem::rename(lpath, path);
+						if (needs_export && (std::filesystem::file_size(lpath) == data_size) && !file_exists) {
+							if (verbosity >= 0)
+								std::cout << "  r " << file_name.generic_string() << " <- " << lfile.generic_string() << std::endl;
+							std::filesystem::rename(lpath, file_path);
 							needs_export = false;
 							had_rename   = true;
 							stats_renamed++;
 						} else {
-							std::cout << "        Deleting '" << lfile.generic_string() << "'..." << std::endl;
+							if (verbosity >= 0)
+								std::cout << "  d " << lfile.generic_string() << std::endl;
 							std::filesystem::remove(lpath);
 							stats_removed++;
 						}
@@ -324,47 +350,59 @@ int32_t mode_extract(std::vector<std::string> const& args)
 			}
 
 			if (needs_export) {
-				std::ofstream filestream{path, std::ios::trunc | std::ios::binary | std::ios::out};
-				if (!filestream || filestream.bad() || !filestream.is_open()) {
-					throw std::runtime_error(string_printf("Failed to export '%s'.", file.generic_string().c_str()));
-				}
-				filestream.flush();
+				if (verbosity >= 0)
+					std::cout << "  e " << file_name.generic_string() << std::endl;
 
-				if (cont.has_meta(index)) {
-					std::cout << "        Writing meta section..." << std::endl;
-					filestream.write(reinterpret_cast<char const*>(cont.meta_data(index)), cont.meta_size(index));
-					filestream.flush();
+				std::ofstream stream{file_path, std::ios::trunc | std::ios::binary | std::ios::out};
+				if (!stream || stream.bad() || !stream.is_open()) {
+					throw std::runtime_error(string_printf("Failed to export '%s'.", file_name.generic_string().c_str()));
 				}
+				stream.flush();
 
-				if (cont.has_stream(index)) {
-					std::cout << "        Writing stream section..." << std::endl;
-					filestream.write(reinterpret_cast<char const*>(cont.stream(index)), cont.stream_size(index));
-					filestream.flush();
+				if (meta.main_size) {
+					if (verbosity >= 1)
+						std::cout << "        Writing main section..." << std::endl;
+					stream.write(reinterpret_cast<char const*>(meta.main), meta.main_size);
+					stream.flush();
 				}
 
-				if (cont.has_gpu(index)) {
-					std::cout << "        Writing gpu section..." << std::endl;
-					filestream.write(reinterpret_cast<char const*>(cont.gpu(index)), cont.gpu_size(index));
-					filestream.flush();
+				if (meta.stream_size) {
+					if (verbosity >= 1)
+						std::cout << "        Writing stream section..." << std::endl;
+					stream.write(reinterpret_cast<char const*>(meta.stream), meta.stream_size);
+					stream.flush();
 				}
 
-				filestream.close();
+				if (meta.gpu_size) {
+					if (verbosity >= 1)
+						std::cout << "        Writing gpu section..." << std::endl;
+					stream.write(reinterpret_cast<char const*>(meta.gpu), meta.gpu_size);
+					stream.flush();
+				}
+
+				stream.close();
 				stats_written++;
 			} else {
 				stats_skipped++;
 			}
 		} else {
+			if (verbosity >= 0)
+				std::cout << "  s " << file_name.generic_string() << std::endl;
 			stats_skipped++;
 		}
 	}
 
 	std::cout << std::endl;
-	std::cout << "Statistics: " << std::endl;
-	std::cout << "    Exported: " << stats_written << std::endl;
-	std::cout << "    Renamed:  " << stats_renamed << std::endl;
-	std::cout << "    Deleted:  " << stats_removed << std::endl;
-	std::cout << "    Skipped:  " << stats_skipped << std::endl;
-	std::cout << "    Filtered: " << stats_filtered << std::endl;
+	if (verbosity >= 0) {
+		std::cout << "Statistics: " << std::endl;
+		std::cout << "    Exported: " << stats_written << std::endl;
+		std::cout << "    Renamed:  " << stats_renamed << std::endl;
+		std::cout << "    Deleted:  " << stats_removed << std::endl;
+		std::cout << "    Skipped:  " << stats_skipped << std::endl;
+		std::cout << "    Filtered: " << stats_filtered << std::endl;
+		std::cout << "    Names Translated: " << stats_names << std::endl;
+		std::cout << "    Types Translated: " << stats_types << std::endl;
+	}
 
 	return 0;
 }
