@@ -23,7 +23,7 @@ helldivers2::data::data(std::filesystem::path path)
 		_stream      = {_stream_path};
 	}
 
-	_gpu_path = std::filesystem::absolute(path).replace_extension("gpu");
+	_gpu_path = std::filesystem::absolute(path).replace_extension("gpu_resources");
 	_gpu_size = 0;
 	if (std::filesystem::exists(_gpu_path)) {
 		_gpu_size = std::filesystem::file_size(_gpu_path);
