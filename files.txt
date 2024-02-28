@@ -668,6 +668,16 @@ core/wwise/lua/wwise_preview
 core/wwise/lua/wwise_visualization
 core/wwise/wwise
 
+missing_shader
+boot
+
+rendering/renderer
+rendering/performance_hud
+
+packages/fallback_resources
+packages/pre_boot
+packages/boot
+
 content/
 content/art_shared/base_shaders/nature/terrain_parent_material
 content/art_shared/shading_global_lookups/ibl_iridescence_generic_lut
