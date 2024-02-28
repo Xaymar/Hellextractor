@@ -34,20 +34,19 @@ hellextractor extract -o output "C:/Program Files (x86)/Steam/steamapps/common/H
 ```
 hellextractor extract -o output -d "C:/Program Files (x86)/Steam/steamapps/common/Helldivers 2/data"
 ```
-
-===== Extract only .texture files
-```
-hellextractor extract -f ".*\.texture$" -o output "C:/Program Files (x86)/Steam/steamapps/common/Helldivers 2/data"
-```
-
 ===== Extract all files and translate names and types
 ```
 hellextractor extract -o output -t types.txt -n files.txt -s strings.txt "C:/Program Files (x86)/Steam/steamapps/common/Helldivers 2/data"
 ```
 
+===== Extract only .texture files
+```
+hellextractor extract -f ".*\.texture$" -o output -t types.txt -n files.txt -s strings.txt "C:/Program Files (x86)/Steam/steamapps/common/Helldivers 2/data"
+```
+
 ===== Extract all files, translate names and types, and rename files with older names
 ```
-hellextractor extract -o output -r -t types.txt -n files.txt -s strings.txt "C:/Program Files (x86)/Steam/steamapps/common/Helldivers 2/data"
+hellextractor extract -r -o output -t types.txt -n files.txt -s strings.txt "C:/Program Files (x86)/Steam/steamapps/common/Helldivers 2/data"
 ```
 
 === Building
