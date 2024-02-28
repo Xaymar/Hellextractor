@@ -405,7 +405,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 			}
 			stats_written++;
 		} else {
-			if (verbosity >= 0)
+			if (verbosity >= 1)
 				std::cout << "  s " << file_name.generic_string() << std::endl;
 			stats_skipped++;
 		}
