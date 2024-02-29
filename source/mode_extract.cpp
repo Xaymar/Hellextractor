@@ -325,6 +325,16 @@ int32_t mode_extract(std::vector<std::string> const& args)
 			stats_total--;
 			stats_total += outputs.size();
 
+			// Remove pre-conversion data.
+			if (std::filesystem::exists(base_file_path)) {
+				if (verbosity >= 0)
+					std::cout << "  d " << base_file_name.generic_string() << std::endl;
+				if (!is_dry) {
+					std::filesystem::remove(base_file_path);
+				}
+				stats_removed++;
+			}
+
 			// Go through each output.
 			for (auto output : outputs) {
 				bool do_export = true;
@@ -507,14 +517,17 @@ int32_t mode_extract(std::vector<std::string> const& args)
 
 	std::cout << std::endl;
 	if (verbosity >= 0) {
-		std::cout << "Statistics: " << std::endl;
+		std::cout << "Total Files: " << stats_total << std::endl;
 		std::cout << "    Exported: " << stats_written << std::endl;
-		std::cout << "    Renamed:  " << stats_renamed << std::endl;
-		std::cout << "    Deleted:  " << stats_removed << std::endl;
 		std::cout << "    Skipped:  " << stats_skipped << std::endl;
 		std::cout << "    Filtered: " << stats_filtered << std::endl;
 		std::cout << "    Names Translated: " << stats_names << std::endl;
 		std::cout << "    Types Translated: " << stats_types << std::endl;
+		if (rename) {
+			std::cout << "Filesystem changes: " << std::endl;
+			std::cout << "    Renamed:  " << stats_renamed << std::endl;
+			std::cout << "    Deleted:  " << stats_removed << std::endl;
+		}
 	}
 
 	return 0;
