@@ -18,14 +18,16 @@ helldivers2::texture::~texture() {}
 
 helldivers2::texture::texture(helldivers2::data::meta_t meta) : _meta(meta)
 {
-	_header      = reinterpret_cast<decltype(_header)>(_meta.main);
-	_data_header = reinterpret_cast<decltype(_data_header)>(reinterpret_cast<uint8_t const*>(_header) + sizeof(header_t));
-	_data        = reinterpret_cast<decltype(_data)>(_meta.stream ? _meta.stream : _meta.gpu);
+	_header         = reinterpret_cast<decltype(_header)>(_meta.main);
+	_data_header    = reinterpret_cast<decltype(_data_header)>(reinterpret_cast<uint8_t const*>(_header) + sizeof(header_t));
+	_data_header_sz = _meta.main_size - sizeof(header_t);
+	_data           = reinterpret_cast<decltype(_data)>(_meta.stream ? _meta.stream : _meta.gpu);
+	_data_sz        = _meta.stream_size ? _meta.stream_size : _meta.gpu_size;
 }
 
 size_t helldivers2::texture::size()
 {
-	return _meta.main_size + _meta.stream_size - sizeof(header_t);
+	return _data_header_sz + _data_sz;
 }
 
 std::string helldivers2::texture::extension()
@@ -51,7 +53,7 @@ std::string helldivers2::texture::extension()
 std::list<std::pair<void const*, size_t>> helldivers2::texture::sections()
 {
 	return {
-		{_data_header, _meta.main_size - sizeof(header_t)},
-		{_data, _meta.stream_size ? _meta.stream_size : _meta.gpu_size},
+		{_data_header, _data_header_sz},
+		{_data, _data_sz},
 	};
 }

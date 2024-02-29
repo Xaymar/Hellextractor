@@ -17,6 +17,7 @@
 #else
 #include <fcntl.h>
 #include <sys/mman.h>
+#include <unistd.h>
 #endif
 
 mapped_file::mapped_file() : _path(), _file(), _map(), _ptr() {}
@@ -24,7 +25,7 @@ mapped_file::mapped_file() : _path(), _file(), _map(), _ptr() {}
 mapped_file::mapped_file(std::filesystem::path path) : _path(path)
 {
 #ifdef WIN32
-	_file.reset(CreateFileA(reinterpret_cast<LPCSTR>(path.generic_u8string().c_str()), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_RANDOM_ACCESS, NULL), [](void* p) { CloseHandle(p); });
+	_file.reset(CreateFileA(reinterpret_cast<LPCSTR>(path.generic_string().c_str()), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_RANDOM_ACCESS, NULL), [](void* p) { CloseHandle(p); });
 	if (_file.get() == INVALID_HANDLE_VALUE) {
 		throw std::runtime_error("CreateFileA failed.");
 	}
@@ -39,12 +40,13 @@ mapped_file::mapped_file(std::filesystem::path path) : _path(path)
 		throw std::runtime_error("MapViewOfFile failed.");
 	}
 #else
-	_file.reset(reinterpret_cast<void*>(open(path.generic_u8string().c_str(), O_NOATIME | O_RDONLY)), [](void* p) { close(reinterpret_cast<int>(p)); });
-	if (reinterpret_cast<int>(_file.get()) == -1) {
+	_file.reset(reinterpret_cast<void*>(open(path.generic_string().c_str(), O_NOATIME | O_RDONLY)), [](void* p) { close(reinterpret_cast<size_t>(p)); });
+	if (reinterpret_cast<size_t>(_file.get()) == -1) {
 		throw std::runtime_error("open failed.");
 	}
 
-	_map.reset(reinterpret_cast<void*>(mmap(nullptr, std::filesystem::file_size(path), PROT_READ, MAP_NORESERVE)), [](void* p) { munmap(p); });
+	size_t size = std::filesystem::file_size(path);
+	_map.reset(reinterpret_cast<void*>(mmap(nullptr, size, PROT_READ, MAP_NORESERVE, reinterpret_cast<size_t>(_file.get()), 0)), [&size](void* p) { munmap(p, size); });
 	if (!_map) {
 		throw std::runtime_error("mmap failed.");
 	}

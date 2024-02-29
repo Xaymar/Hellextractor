@@ -11,6 +11,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <optional>
 #include <regex>
 #include <set>
 #include <unordered_set>
@@ -349,8 +350,9 @@ int32_t mode_extract(std::vector<std::string> const& args)
 				bool do_export = true;
 
 				// Figure out the file name and absolute path.
-				auto file_name = std::filesystem::path(permutations[0].first).replace_extension(output.second.second);
-				auto file_path = output_path / file_name;
+				auto   file_name = std::filesystem::path(permutations[0].first).replace_extension(output.second.second);
+				auto   file_path = output_path / file_name;
+				size_t file_size = 0;
 
 				if (verbosity >= 1)
 					std::cout << "  " << file_name.generic_string() << std::endl;
@@ -366,7 +368,8 @@ int32_t mode_extract(std::vector<std::string> const& args)
 				// Check if the existing file needs to be exported again.
 				bool file_exists = std::filesystem::exists(file_path);
 				if (file_exists) {
-					do_export = (std::filesystem::file_size(file_path) != output.second.first);
+					file_size = std::filesystem::file_size(file_path);
+					do_export = (file_size != output.second.first);
 				}
 
 				// Rename or delete older files if the user requested it.

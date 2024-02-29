@@ -12,6 +12,7 @@
 #include <cinttypes>
 #include <cstddef>
 #include <filesystem>
+#include <optional>
 #include <string_view>
 
 #include "mapped_file.hpp"
