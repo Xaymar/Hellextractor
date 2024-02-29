@@ -68,7 +68,7 @@ jobs:
           echo "tag=${VERSION}" >> $GITHUB_OUTPUT
           
           dateName=$(date +'%Y-%m-%d %H:%M:%S')
-          echo "name=Hellextractor v${tag}"" >> $GITHUB_OUTPUT
+          echo "name=Hellextractor v${tag}" >> $GITHUB_OUTPUT
       
           commitMessages=$(git log -25 --pretty=format:"%h - %s <br />" | paste -sd ' ' -)
           echo "commitMessages=$commitMessages" # for debugging
