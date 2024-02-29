@@ -204,6 +204,15 @@ int32_t mode_extract(std::vector<std::string> const& args)
 
 	std::cout << std::endl;
 
+	// If the user requested an index, we open the file now.
+	std::ofstream index_stream;
+	if (index_path.has_value() && !is_dry) {
+		index_stream = std::ofstream{index_path.value(), std::ios::trunc | std::ios::out};
+		if (!index_stream.is_open()) {
+			throw std::runtime_error("Failed to open index file for writing");
+		}
+	}
+
 	{ // Filter input path either by default filter, or by user specified
 		std::set<std::filesystem::path> paths;
 		for (auto const& path : input_paths) {
@@ -318,6 +327,14 @@ int32_t mode_extract(std::vector<std::string> const& args)
 			std::filesystem::create_directories(base_file_path.parent_path());
 		}
 
+		if (index_stream.is_open() && !is_dry) {
+			index_stream //
+				<< string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.id)) << "," //
+				<< string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.type)) << "," //
+				<< base_file_name.generic_string() //
+				<< std::endl;
+		}
+
 		// Try to create a converter for the file type.
 		auto converter = hellextractor::converter::registry::find(meta);
 		if (converter) {
@@ -356,6 +373,15 @@ int32_t mode_extract(std::vector<std::string> const& args)
 
 				if (verbosity >= 1)
 					std::cout << "  " << file_name.generic_string() << std::endl;
+
+				if (index_stream.is_open() && !is_dry) {
+					index_stream //
+						<< string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.id)) << "," //
+						<< string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.type)) << "," //
+						<< file_name.generic_string() << "," //
+						<< output.first //
+						<< std::endl;
+				}
 
 				// If the user provided a filter, use it now to exclude files they may not want.
 				if (output_filter.has_value() && (!std::regex_match(file_name.generic_string(), output_filter.value()))) {
