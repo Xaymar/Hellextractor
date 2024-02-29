@@ -274,18 +274,26 @@ struct texture_t {
     uint32_t __unk;
     uint32_t __unk;
     struct texture_offset_t {
-        uint32_t __unk;
-        uint32_t __unk;
+        uint32_t offset_to_dds; 
+        uint32_t size;
         uint16_t width;
         uint16_t height;
-    } mips[15];
+    } stream_info[15];
     dds_t dds;
     
-    local uint32 i;
-    for (i = 0; i < 15; i++) {
-        struct {
-        } mip;
-    }
+    struct {
+        local uint32 i;
+        for (i = 0; i < 15; i++) {
+            FSeek(startof(dds) + sizeof(dds) + stream_info[i].offset_to_dds);
+            if (stream_info[i].size > 0) {
+                struct {
+                    char data[stream_info[i].size];
+                } stream;
+            } else {
+                break;
+            }
+        }
+    } streams;
 };
 
 #ifndef IS_INCLUDE
