@@ -64,7 +64,7 @@ jobs:
     - name: Generate Release Name, Tag, and Notes
       id: release_info
       run: |
-          echo "tag=$(LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 grep -hoPe "[0-9]+\.[0-9]+\.[0-9]+(|[abc][0-9]+)" "${{ github.workspace }}/build/generated/version.h")" >> $GITHUB_OUTPUT
+          echo "tag=$(LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 grep -hoPe "[0-9]+\.[0-9]+\.[0-9]+([abc][0-9]+|)" "${{ github.workspace }}/build/generated/version.h")" >> $GITHUB_OUTPUT
           
           dateName=$(date +'%Y-%m-%d %H:%M:%S')
           echo "name=Hellextractor v${tag}" >> $GITHUB_OUTPUT
