@@ -25,7 +25,7 @@ helldivers2::texture::texture(helldivers2::data::meta_t meta) : _meta(meta)
 
 size_t helldivers2::texture::size()
 {
-	return _meta.main_size + _meta.stream_size;
+	return _meta.main_size + _meta.stream_size - sizeof(header_t);
 }
 
 std::string helldivers2::texture::extension()
@@ -51,7 +51,7 @@ std::string helldivers2::texture::extension()
 std::list<std::pair<void const*, size_t>> helldivers2::texture::sections()
 {
 	return {
-		{_data_header, _meta.main_size},
+		{_data_header, _meta.main_size - sizeof(header_t)},
 		{_data, _meta.stream_size ? _meta.stream_size : _meta.gpu_size},
 	};
 }
