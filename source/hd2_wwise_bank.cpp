@@ -15,9 +15,8 @@ helldivers2::wwise_bank::~wwise_bank() {}
 helldivers2::wwise_bank::wwise_bank(helldivers2::data::meta_t meta) : _meta(meta)
 {
 	_header  = reinterpret_cast<decltype(_header)>(_meta.main);
-	_footer  = reinterpret_cast<decltype(_footer)>(reinterpret_cast<uint8_t const*>(_meta.main) + _header->offset);
 	_data    = reinterpret_cast<decltype(_data)>(_meta.main) + sizeof(header_t);
-	_data_sz = _meta.main_size - sizeof(header_t) - sizeof(footer_t);
+	_data_sz = _header->size;
 }
 
 size_t helldivers2::wwise_bank::size()

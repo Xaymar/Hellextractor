@@ -8,6 +8,7 @@ SET "SCRIPTROOT=%~dp0"
 	CALL :INDEX "%~1"
 	SHIFT /1
 	IF "%~n1" == "" (
+		PAUSE
 		GOTO :EOF
 	)
 GOTO :FILELOOP
@@ -49,7 +50,7 @@ EXIT /B 0
 
 :TRANSCODE
 	ECHO %~dpn1
-	"%~dp0\vgmstream-cli.exe" -o "%~dpn1.wav" "%~1"
+	"%~dp0\vgmstream-cli.exe" -o "%SCRIPTROOT%\%~n1.wav" "%~1"
 	if ERRORLEVEL 1 (
 		PAUSE
 	)

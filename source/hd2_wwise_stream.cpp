@@ -16,8 +16,7 @@ helldivers2::wwise_stream::wwise_stream(helldivers2::data::meta_t meta) : _meta(
 {
 	_header  = reinterpret_cast<decltype(_header)>(_meta.main);
 	_data    = reinterpret_cast<decltype(_data)>(_meta.stream ? _meta.stream : _meta.gpu);
-	_footer  = reinterpret_cast<decltype(_footer)>(reinterpret_cast<uint8_t const*>(_data) + _header->offset - _meta.main_size);
-	_data_sz = (_meta.stream_size ? _meta.stream_size : _meta.gpu_size) - sizeof(footer_t);
+	_data_sz = _header->size;
 }
 
 size_t helldivers2::wwise_stream::size()
