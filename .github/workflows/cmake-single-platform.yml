@@ -27,7 +27,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        fetch-depth: 20
+        submodules: recursive
+        fetch-depth: 0
+        fetch-tags: true
 
     - name: Configure CMake
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
@@ -68,7 +70,7 @@ jobs:
           dateName=$(date +'%Y-%m-%d %H:%M:%S')
           echo "name=\"Hellextractor v${VERSION}\"" >> $GITHUB_OUTPUT
       
-          commitMessages=$(git log -20 --pretty=format:"%h - %s <br />" | paste -sd ' ' -)
+          commitMessages=$(git log -25 --pretty=format:"%h - %s <br />" | paste -sd ' ' -)
           echo "commitMessages=$commitMessages" # for debugging
           releaseNotes="Recent changes: <br />$commitMessages"
           echo "notes=$releaseNotes" >> $GITHUB_OUTPUT            
