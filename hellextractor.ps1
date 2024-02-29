@@ -72,9 +72,14 @@ function Invoke-HellExtractor {
 
     # Asking user for the operation type
     $operation = Read-Host "Select operation: `n1 - Extract all files to specific directory `n2 - Extract specific file type `n3 - Extract all files and translate names and types `n4 - Extract all files, translate names and types, and rename files with older names"
+    
+    if ([string]::IsNullOrWhiteSpace($operation)) {
+        Write-Host "Invalid operation"
+        return
+    }
 
     # Base command
-    $command = "hellextractor extract"
+    $command = "extract"
 
     $outputDir = Read-WithDefault "Enter output directory" -default "./output"
     
@@ -105,7 +110,7 @@ function Invoke-HellExtractor {
     
     # Executing the command
     Write-Host "Executing: $command"
-    Invoke-Expression $command
+    Start-Process -FilePath "./hellextractor.exe" -ArgumentList $command -NoNewWindow -Wait
 }
 
 # Running the function
