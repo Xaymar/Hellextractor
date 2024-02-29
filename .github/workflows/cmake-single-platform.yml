@@ -86,6 +86,7 @@ jobs:
         files: |
           hellextractor.zip
         fail_on_unmatched_files: true
+        prerelease: ${{ github.ref_type == 'tag' }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       if: (github.event_name != 'pull_request') && (github.ref_name == 'root')
