@@ -35,9 +35,9 @@ namespace helldivers2 {
 		helldivers2::data::meta_t _meta;
 		header_t const*           _header;
 		uint8_t const*            _data_header;
-		size_t _data_header_sz;
+		size_t                    _data_header_sz;
 		uint8_t const*            _data;
-		size_t _data_sz;
+		size_t                    _data_sz;
 
 		public:
 		~texture();

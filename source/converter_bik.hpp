@@ -9,45 +9,20 @@
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #pragma once
-#include <functional>
-#include <list>
-#include <map>
-#include <memory>
-#include <ostream>
-#include <string>
+#include "converter.hpp"
+#include "hd2_bik.hpp"
 #include "hd2_data.hpp"
 
 namespace hellextractor::converter {
-	class base;
-
-	class registry {
-		public:
-		static std::shared_ptr<hellextractor::converter::base> find(helldivers2::data::meta_t meta);
+	class bik : public base {
+		helldivers2::bik _bik;
 
 		public:
-		typedef std::function<std::shared_ptr<hellextractor::converter::base>(helldivers2::data::meta_t meta)> function_t;
+		virtual ~bik();
+		bik(helldivers2::data::meta_t meta);
 
-		struct do_register {
-			public:
-			do_register(std::list<uint64_t> types, function_t fn);
-		};
-	};
+		std::map<std::string, std::pair<size_t, std::string>> outputs() override;
 
-	class base {
-		protected:
-		helldivers2::data::meta_t _meta;
-
-		public:
-		virtual ~base();
-		base(helldivers2::data::meta_t meta);
-
-		/** Retrieve a list of outputs
-		 * 
-		 * Key is the section that is exported.
-		 * Value is a pair of size and the suffix to the file name.
-		 */
-		virtual std::map<std::string, std::pair<size_t, std::string>> outputs() = 0;
-
-		virtual void extract(std::string section, std::filesystem::path path) = 0;
+		void extract(std::string section, std::filesystem::path path) override;
 	};
 } // namespace hellextractor::converter

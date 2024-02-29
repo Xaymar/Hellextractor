@@ -9,45 +9,37 @@
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #pragma once
-#include <functional>
+#include <cinttypes>
+#include <cstddef>
 #include <list>
-#include <map>
-#include <memory>
-#include <ostream>
-#include <string>
 #include "hd2_data.hpp"
 
-namespace hellextractor::converter {
-	class base;
-
-	class registry {
+namespace helldivers2 {
+	class bik {
 		public:
-		static std::shared_ptr<hellextractor::converter::base> find(helldivers2::data::meta_t meta);
-
-		public:
-		typedef std::function<std::shared_ptr<hellextractor::converter::base>(helldivers2::data::meta_t meta)> function_t;
-
-		struct do_register {
-			public:
-			do_register(std::list<uint64_t> types, function_t fn);
+		struct header_t {
+			uint32_t __unk0;
+			uint32_t __unk1;
+			uint32_t __unk2;
+			uint32_t __unk3;
 		};
-	};
 
-	class base {
-		protected:
+		private:
 		helldivers2::data::meta_t _meta;
+		header_t const*           _header;
+		uint8_t const*            _data_header;
+		size_t                    _data_header_sz;
+		uint8_t const*            _data;
+		size_t                    _data_sz;
 
 		public:
-		virtual ~base();
-		base(helldivers2::data::meta_t meta);
+		~bik();
+		bik(helldivers2::data::meta_t meta);
 
-		/** Retrieve a list of outputs
-		 * 
-		 * Key is the section that is exported.
-		 * Value is a pair of size and the suffix to the file name.
-		 */
-		virtual std::map<std::string, std::pair<size_t, std::string>> outputs() = 0;
+		size_t size();
 
-		virtual void extract(std::string section, std::filesystem::path path) = 0;
+		std::string extension();
+
+		std::list<std::pair<void const*, size_t>> sections();
 	};
-} // namespace hellextractor::converter
+} // namespace helldivers2

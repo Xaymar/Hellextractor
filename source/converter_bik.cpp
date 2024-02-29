@@ -8,46 +8,48 @@
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#pragma once
-#include <functional>
-#include <list>
-#include <map>
-#include <memory>
-#include <ostream>
-#include <string>
-#include "hd2_data.hpp"
+#include "converter_bik.hpp"
+#include <fstream>
+#include <string_view>
+#include "converter.hpp"
+#include "endian.h"
 
-namespace hellextractor::converter {
-	class base;
+static constexpr uint64_t         type            = 0x18fa2930f06559aaull; // bik
+static constexpr std::string_view section_default = "bik";
 
-	class registry {
-		public:
-		static std::shared_ptr<hellextractor::converter::base> find(helldivers2::data::meta_t meta);
+static auto instance = hellextractor::converter::registry::do_register(
+	std::list<uint64_t>{
+		type,
+	},
+	[](helldivers2::data::meta_t meta) { return std::make_shared<hellextractor::converter::bik>(meta); });
 
-		public:
-		typedef std::function<std::shared_ptr<hellextractor::converter::base>(helldivers2::data::meta_t meta)> function_t;
+hellextractor::converter::bik::~bik() {}
 
-		struct do_register {
-			public:
-			do_register(std::list<uint64_t> types, function_t fn);
-		};
+hellextractor::converter::bik::bik(helldivers2::data::meta_t meta) : base(meta), _bik(meta) {}
+
+std::map<std::string, std::pair<size_t, std::string>> hellextractor::converter::bik::outputs()
+{
+	return {
+		{std::string{section_default},
+		 {
+			 _bik.size(),
+			 _bik.extension(),
+		 }},
 	};
+}
 
-	class base {
-		protected:
-		helldivers2::data::meta_t _meta;
+void hellextractor::converter::bik::extract(std::string section, std::filesystem::path path)
+{
+	if (section_default == section) { // Extract "texture" section.
+		std::ofstream stream{path, std::ios::trunc | std::ios::binary | std::ios::out};
+		if (!stream || stream.bad() || !stream.is_open()) {
+			throw std::runtime_error("Unable to open output file");
+		}
 
-		public:
-		virtual ~base();
-		base(helldivers2::data::meta_t meta);
+		for (auto const& section : _bik.sections()) {
+			stream.write(reinterpret_cast<char const*>(section.first), section.second);
+		}
 
-		/** Retrieve a list of outputs
-		 * 
-		 * Key is the section that is exported.
-		 * Value is a pair of size and the suffix to the file name.
-		 */
-		virtual std::map<std::string, std::pair<size_t, std::string>> outputs() = 0;
-
-		virtual void extract(std::string section, std::filesystem::path path) = 0;
-	};
-} // namespace hellextractor::converter
+		stream.close();
+	}
+}

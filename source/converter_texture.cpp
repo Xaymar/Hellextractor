@@ -16,7 +16,7 @@
 #include "hd2_texture.hpp"
 
 static constexpr uint64_t         type            = 0x329ec6a0c63842cdull; // texture
-static constexpr std::string_view section_texture = "texture";
+static constexpr std::string_view section_default = "texture";
 
 static auto instance = hellextractor::converter::registry::do_register(
 	std::list<uint64_t>{
@@ -31,7 +31,7 @@ hellextractor::converter::texture::texture(helldivers2::data::meta_t meta) : bas
 std::map<std::string, std::pair<size_t, std::string>> hellextractor::converter::texture::outputs()
 {
 	return {
-		{std::string{section_texture},
+		{std::string{section_default},
 		 {
 			 _texture.size(),
 			 _texture.extension(),
@@ -41,7 +41,7 @@ std::map<std::string, std::pair<size_t, std::string>> hellextractor::converter::
 
 void hellextractor::converter::texture::extract(std::string section, std::filesystem::path path)
 {
-	if (section_texture == section) { // Extract "texture" section.
+	if (section_default == section) { // Extract "texture" section.
 		std::ofstream stream{path, std::ios::trunc | std::ios::binary | std::ios::out};
 		if (!stream || stream.bad() || !stream.is_open()) {
 			throw std::runtime_error("Unable to open output file");

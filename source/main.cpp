@@ -94,7 +94,6 @@ try {
 	//	}
 	//}
 
-
 	return 0;
 } catch (const std::exception& ex) {
 	std::cerr << "Exception: " << ex.what() << std::endl;

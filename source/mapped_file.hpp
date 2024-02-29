@@ -16,7 +16,7 @@ class mapped_file {
 	std::filesystem::path _path;
 	std::shared_ptr<void> _file;
 	std::shared_ptr<void> _map;
-	uint8_t const* _ptr;
+	uint8_t const*        _ptr;
 
 	public:
 	mapped_file();
