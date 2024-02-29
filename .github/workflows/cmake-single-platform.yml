@@ -3,7 +3,12 @@ name: Build Windows Executable
 on:
   push:
     branches: [ root ]
+    paths-ignore:
+      - '.github/ISSUE_TEMPLATE/**'
+      - 'extra/**'
   pull_request:
+    - '.github/ISSUE_TEMPLATE/**'
+    - 'extra/**'
     branches: [ root ]
   workflow_dispatch:
 
