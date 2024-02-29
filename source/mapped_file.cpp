@@ -14,6 +14,9 @@
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <Windows.h>
+#else
+#include <fcntl.h>
+#include <sys/mman.h>
 #endif
 
 mapped_file::mapped_file() : _path(), _file(), _map(), _ptr() {}
@@ -36,7 +39,17 @@ mapped_file::mapped_file(std::filesystem::path path) : _path(path)
 		throw std::runtime_error("MapViewOfFile failed.");
 	}
 #else
-#pragma error("Not yet implemented. Get to work!")
+	_file.reset(reinterpret_cast<void*>(open(path.generic_u8string().c_str(), O_NOATIME | O_RDONLY)), [](void* p) { close(reinterpret_cast<int>(p)); });
+	if (reinterpret_cast<int>(_file.get()) == -1) {
+		throw std::runtime_error("open failed.");
+	}
+
+	_map.reset(reinterpret_cast<void*>(mmap(nullptr, std::filesystem::file_size(path), PROT_READ, MAP_NORESERVE)), [](void* p) { munmap(p); });
+	if (!_map) {
+		throw std::runtime_error("mmap failed.");
+	}
+
+	_ptr = reinterpret_cast<decltype(_ptr)>(_map.get());
 #endif
 }
 
