@@ -20,19 +20,12 @@ namespace helldivers2 {
 		struct header_t {
 			uint32_t __unk0;
 			uint32_t __unk1;
-			uint32_t offset;
-		};
-
-		struct footer_t {
-			uint32_t __unk0;
-			uint32_t __unk1;
-			uint32_t __unk2;
+			uint32_t size;
 		};
 
 		private:
 		helldivers2::data::meta_t _meta;
 		header_t const*           _header;
-		footer_t const*           _footer;
 		uint8_t const*            _data;
 		size_t                    _data_sz;
 
