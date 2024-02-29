@@ -2,15 +2,29 @@ name: Build Windows Executable
 
 on:
   push:
-    branches: [ root ]
     paths-ignore:
-      - '.github/ISSUE_TEMPLATE/**'
+      - '.github/workflows/**'
+      - 'cmake/**'
+      - 'templates/**'
+      - 'include/**'
+      - 'source/**'
       - 'extra/**'
+      - '*.adoc'
+      - '*.txt'
+      - 'hellextractor.cmd'
+      - 'hellextractor.ps1'
   pull_request:
-    branches: [ root ]
-    paths-ignore:
-      - '.github/ISSUE_TEMPLATE/**'
+    paths:
+      - '.github/workflows/**'
+      - 'cmake/**'
+      - 'templates/**'
+      - 'include/**'
+      - 'source/**'
       - 'extra/**'
+      - '*.adoc'
+      - '*.txt'
+      - 'hellextractor.cmd'
+      - 'hellextractor.ps1'
   workflow_dispatch:
 
 env:
