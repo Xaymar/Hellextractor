@@ -1,0 +1,10 @@
+name: Ask for help
+description: Got a question or a problem?
+title: "[Help]: "
+labels: ["type:help", triage"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: "Ask your question"
+      description: "Please include as much detail as you can think of that is relevant."
