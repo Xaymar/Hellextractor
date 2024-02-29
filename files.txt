@@ -1,683 +1,9 @@
 // This is a list of all known file names.
 // - The hashes for these will be automatically created.
 
-core/
-core/animation/boot
-core/animation/flow/animation
-core/animation/lua/runtime/animationflowcallbacks
-core/animation/lua/runtime/animationrequires
-core/appkit/appkit
-core/appkit/lua/app
-core/appkit/lua/appkit_flow_callbacks
-core/appkit/lua/camera_wrapper
-core/appkit/lua/class
-core/appkit/lua/component_manager
-core/appkit/lua/debug_menu
-core/appkit/lua/debug_scrollbox
-core/appkit/lua/input_mapper
-core/appkit/lua/JSON
-core/appkit/lua/level_wrapper
-core/appkit/lua/loading_screen
-core/appkit/lua/main
-core/appkit/lua/player_util
-core/appkit/lua/scaleform_studio_input
-core/appkit/lua/simple_project
-core/appkit/lua/unit_controller
-core/appkit/lua/unit_link
-core/appkit/lua/util
-core/appkit/lua/world_wrapper
-core/appkit/materials/loading_screen
-core/appkit/units/camera/camera
-core/appkit/units/camera/camera_mesh
-core/appkit/units/camera/camera_mesh_df
-core/components/flow
-core/components/light
-core/components/light_gizmo
-core/components/physical_light
-core/components/script
-core/components/tag
-core/components/templates/script_component
-core/components/transform
-core/components/unit
-core/editor_slave/common/align
-core/editor_slave/common/array
-core/editor_slave/common/box_selection
-core/editor_slave/common/class
-core/editor_slave/common/colors
-core/editor_slave/common/dict
-core/editor_slave/common/drawing
-core/editor_slave/common/event
-core/editor_slave/common/freeflight
-core/editor_slave/common/func
-core/editor_slave/common/light_baking
-core/editor_slave/common/math
-core/editor_slave/common/nilable
-core/editor_slave/common/op
-core/editor_slave/common/picking
-core/editor_slave/common/set
-core/editor_slave/common/tuple
-core/editor_slave/common/unit_utils
-core/editor_slave/common/validation
-core/editor_slave/resources/filters/camera
-core/editor_slave/resources/filters/group
-core/editor_slave/resources/filters/level_object
-core/editor_slave/resources/filters/level_reference
-core/editor_slave/resources/filters/light
-core/editor_slave/resources/filters/marker
-core/editor_slave/resources/filters/missing
-core/editor_slave/resources/filters/note
-core/editor_slave/resources/filters/particle_effect
-core/editor_slave/resources/filters/prototype
-core/editor_slave/resources/filters/scatter_pool_settings
-core/editor_slave/resources/filters/sound
-core/editor_slave/resources/filters/spline
-core/editor_slave/resources/filters/story
-core/editor_slave/resources/filters/trigger
-core/editor_slave/resources/filters/unit
-core/editor_slave/resources/filters/volume
-core/editor_slave/resources/gui/arial
-core/editor_slave/resources/gui/arial_df
-core/editor_slave/resources/gui/checkerboard
-core/editor_slave/resources/gui/checkerboard_hdr
-core/editor_slave/resources/gui/depth_test_disabled
-core/editor_slave/resources/gui/join_foreground
-core/editor_slave/resources/gui/join_outline
-core/editor_slave/resources/gui/light
-core/editor_slave/resources/gui/open_sans_16
-core/editor_slave/resources/gui/options_foreground
-core/editor_slave/resources/gui/options_outline
-core/editor_slave/resources/gui/prototype
-core/editor_slave/resources/gui/split_foreground
-core/editor_slave/resources/gui/split_outline
-core/editor_slave/resources/gui/thumbnail
-core/editor_slave/resources/gui/thumbnail_foreground
-core/editor_slave/resources/gui/thumbnail_over
-core/editor_slave/resources/gui/thumbnail_press
-core/editor_slave/resources/gui/trigger
-core/editor_slave/resources/gui/viewport_gui
-core/editor_slave/resources/level_resources/reflection_probe_diffuse_bake
-core/editor_slave/resources/level_resources/reflection_probe_radiance_bake
-core/editor_slave/resources/level_resources/reflection_probe_specular_bake
-core/editor_slave/resources/level_resources/sky_neutral_blue
-core/editor_slave/resources/levels/animation_preview
-core/editor_slave/resources/levels/basic
-core/editor_slave/resources/levels/empty_level
-core/editor_slave/resources/terrain/terrain_alpha
-core/editor_slave/resources/terrain/terrain_base
-core/editor_slave/resources/terrain/terrain_blue
-core/editor_slave/resources/terrain/terrain_default_material
-core/editor_slave/resources/terrain/terrain_green
-core/editor_slave/resources/terrain/terrain_red
-core/editor_slave/resources/terrain/terrain_transparent
-core/editor_slave/stingray_editor/animation_controller_viewport
-core/editor_slave/stingray_editor/animation_controller_viewport_toolbar
-core/editor_slave/stingray_editor/asset_preview_viewport
-core/editor_slave/stingray_editor/boot
-core/editor_slave/stingray_editor/box_objects
-core/editor_slave/stingray_editor/box_tool
-core/editor_slave/stingray_editor/button
-core/editor_slave/stingray_editor/button_behavior
-core/editor_slave/stingray_editor/button_normal_behavior
-core/editor_slave/stingray_editor/button_renderer
-core/editor_slave/stingray_editor/button_toggle_behavior
-core/editor_slave/stingray_editor/clip_editor_viewport
-core/editor_slave/stingray_editor/clip_editor_viewport_toolbar
-core/editor_slave/stingray_editor/common_viewport_behavior
-core/editor_slave/stingray_editor/common_viewport_toolbar_behavior
-core/editor_slave/stingray_editor/cubemap_generator
-core/editor_slave/stingray_editor/editor
-core/editor_slave/stingray_editor/editor_camera
-core/editor_slave/stingray_editor/editor_viewport
-core/editor_slave/stingray_editor/ensure
-core/editor_slave/stingray_editor/entity_component_manipulator_manager
-core/editor_slave/stingray_editor/entity_system/components/data_component
-core/editor_slave/stingray_editor/entity_system/components/flow_component
-core/editor_slave/stingray_editor/entity_system/components/render_data_component
-core/editor_slave/stingray_editor/entity_system/components/script_component
-core/editor_slave/stingray_editor/entity_system/components/tag_component
-core/editor_slave/stingray_editor/entity_system/components/transform_component
-core/editor_slave/stingray_editor/entity_system/components/unit_component
-core/editor_slave/stingray_editor/entity_system/entity
-core/editor_slave/stingray_editor/entity_system/entity_component
-core/editor_slave/stingray_editor/entity_system/entity_message
-core/editor_slave/stingray_editor/entity_system/entity_system
-core/editor_slave/stingray_editor/gizmo_manager
-core/editor_slave/stingray_editor/grid_plane
-core/editor_slave/stingray_editor/group
-core/editor_slave/stingray_editor/hover_textured_button_renderer
-core/editor_slave/stingray_editor/hud_colors
-core/editor_slave/stingray_editor/interface
-core/editor_slave/stingray_editor/level_editing
-core/editor_slave/stingray_editor/level_editor_viewport
-core/editor_slave/stingray_editor/level_editor_viewport_toolbar
-core/editor_slave/stingray_editor/level_reference
-core/editor_slave/stingray_editor/lighting
-core/editor_slave/stingray_editor/log_manager
-core/editor_slave/stingray_editor/manipulator_box_size_tool
-core/editor_slave/stingray_editor/manipulator_widgets
-core/editor_slave/stingray_editor/marker_tool
-core/editor_slave/stingray_editor/move_gizmo
-core/editor_slave/stingray_editor/move_tool
-core/editor_slave/stingray_editor/notes
-core/editor_slave/stingray_editor/object
-core/editor_slave/stingray_editor/object_creator_item
-core/editor_slave/stingray_editor/object_utils
-core/editor_slave/stingray_editor/particle_effect
-core/editor_slave/stingray_editor/physics_simulation
-core/editor_slave/stingray_editor/pivot_behaviors
-core/editor_slave/stingray_editor/place_tool
-core/editor_slave/stingray_editor/preview_manager
-core/editor_slave/stingray_editor/rect
-core/editor_slave/stingray_editor/rotate_gizmo
-core/editor_slave/stingray_editor/rotate_tool
-core/editor_slave/stingray_editor/scale_gizmo
-core/editor_slave/stingray_editor/scale_tool
-core/editor_slave/stingray_editor/scatter_manager
-core/editor_slave/stingray_editor/scatter_settings
-core/editor_slave/stingray_editor/scatter_tool
-core/editor_slave/stingray_editor/scene_element_ref
-core/editor_slave/stingray_editor/select_tool
-core/editor_slave/stingray_editor/selection
-core/editor_slave/stingray_editor/settings
-core/editor_slave/stingray_editor/simple_viewport_toolbar
-core/editor_slave/stingray_editor/skeleton_editor_viewport
-core/editor_slave/stingray_editor/skeleton_editor_viewport_toolbar
-core/editor_slave/stingray_editor/sound
-core/editor_slave/stingray_editor/spline_tool
-core/editor_slave/stingray_editor/story_teller
-core/editor_slave/stingray_editor/terrain_editor
-core/editor_slave/stingray_editor/terrain_tool
-core/editor_slave/stingray_editor/text_button_renderer
-core/editor_slave/stingray_editor/text_message_renderer
-core/editor_slave/stingray_editor/textured_button_renderer
-core/editor_slave/stingray_editor/thumbnail_generator
-core/editor_slave/stingray_editor/tool
-core/editor_slave/stingray_editor/unit
-core/editor_slave/stingray_editor/viewport_behavior
-core/editor_slave/stingray_editor/viewport_toolbar
-core/editor_slave/stingray_editor/viewport_toolbar_behavior
-core/editor_slave/stingray_editor/viewport_utils
-core/editor_slave/stingray_editor/volume_tool
-core/editor_slave/thumbnail_server/thumbnail_server
-core/editor_slave/timpani_player/timpani_player
-core/editor_slave/timpani_player/topdown
-core/editor_slave/unit_editor/boot
-core/editor_slave/unit_editor/camera_element
-core/editor_slave/unit_editor/core_unit_element
-core/editor_slave/unit_editor/editor_camera
-core/editor_slave/unit_editor/element
-core/editor_slave/unit_editor/element_id
-core/editor_slave/unit_editor/light_element
-core/editor_slave/unit_editor/mesh_element
-core/editor_slave/unit_editor/mover_element
-core/editor_slave/unit_editor/parentable_unit_element
-core/editor_slave/unit_editor/physics_actor_element
-core/editor_slave/unit_editor/scene_graph_element
-core/editor_slave/unit_editor/select_tool
-core/editor_slave/unit_editor/selection
-core/editor_slave/unit_editor/settings
-core/editor_slave/unit_editor/snap_point_element
-core/editor_slave/unit_editor/transform_element
-core/editor_slave/unit_editor/unit_editor
-core/editor_slave/unit_editor/unit_object
-core/editor_slave/units/material_shapes/default
-core/editor_slave/units/material_shapes/sphere
-core/editor_slave/units/preview/floor_mat
-core/editor_slave/units/preview/preview_box
-core/editor_slave/units/preview/preview_floor
-core/editor_slave/units/preview/preview_hill
-core/editor_slave/units/preview/preview_platform
-core/editor_slave/units/preview/preview_wall
-core/editor_slave/units/preview/textures/checkerbox_25_percent_luminance
-core/editor_slave/units/preview/textures/checkerbox_55_percent_luminance
-core/editor_slave/units/preview/wall_mat
-core/editor_slave/units/skydome/skybox_1
-core/editor_slave/units/skydome/skydome
-core/editor_slave/units/sound_source_icon/sound_source_icon
-core/entities/physical_lights/light_gizmo_component
-core/entities/physical_lights/light_gizmos
-core/entities/physical_lights/physical_light
-core/entities/vector_fields/global_direction/global_direction
-core/entities/vector_fields/global_sine/global_sine
-core/entities/vector_fields/sphere_push_pull/sphere_push_pull
-core/entities/vector_fields/sphere_whirl/sphere_whirl
-core/fallback_resources/fallback_resources
-core/fallback_resources/missing_flow
-core/fallback_resources/missing_material
-core/fallback_resources/missing_particles
-core/fallback_resources/missing_texture
-core/fallback_resources/missing_unit
-core/flow_nodes/_read_me
-core/flow_nodes/animation
-core/flow_nodes/application
-core/flow_nodes/camera
-core/flow_nodes/conversion
-core/flow_nodes/data
-core/flow_nodes/debug
-core/flow_nodes/effect
-core/flow_nodes/entity
-core/flow_nodes/event
-core/flow_nodes/input
-core/flow_nodes/level
-core/flow_nodes/light
-core/flow_nodes/material
-core/flow_nodes/math
-core/flow_nodes/physics
-core/flow_nodes/script
-core/flow_nodes/timpani
-core/flow_nodes/unit
-core/flow_nodes/utility
-core/flow_nodes/variable
-core/humanik/humanik
-core/humanik/lua/humanik
-core/humanik/lua/humanik_flow_callbacks
-core/import_config/import_config
-core/import_config/texture_format_spec
-core/object_creator_items/box_light
-core/object_creator_items/camera
-core/object_creator_items/cone
-core/object_creator_items/cube
-core/object_creator_items/cubemap_probe
-core/object_creator_items/cylinder
-core/object_creator_items/directional_light
-core/object_creator_items/entity
-core/object_creator_items/icons/bot_target
-core/object_creator_items/icons/box_light
-core/object_creator_items/icons/camera
-core/object_creator_items/icons/cone
-core/object_creator_items/icons/cube
-core/object_creator_items/icons/cubemap_probe
-core/object_creator_items/icons/cylinder
-core/object_creator_items/icons/directional_light
-core/object_creator_items/icons/helpers
-core/object_creator_items/icons/light
-core/object_creator_items/icons/marker
-core/object_creator_items/icons/objects
-core/object_creator_items/icons/omni_light
-core/object_creator_items/icons/plane
-core/object_creator_items/icons/prototype
-core/object_creator_items/icons/sphere
-core/object_creator_items/icons/spline
-core/object_creator_items/icons/spot_light
-core/object_creator_items/icons/stair
-core/object_creator_items/icons/terrain
-core/object_creator_items/icons/tools
-core/object_creator_items/icons/trigger
-core/object_creator_items/icons/volume
-core/object_creator_items/light
-core/object_creator_items/marker
-core/object_creator_items/omni_light
-core/object_creator_items/plane
-core/object_creator_items/prototype
-core/object_creator_items/sphere
-core/object_creator_items/spline
-core/object_creator_items/spot_light
-core/object_creator_items/stairs
-core/object_creator_items/terrain
-core/object_creator_items/trigger
-core/object_creator_items/volume
-core/performance_hud/debug
-core/performance_hud/gui
-core/performance_hud/performance_hud
-core/physx_metadata/physx_320_android
-core/physx_metadata/physx_320_ios
-core/physx_metadata/physx_320_macosx
-core/physx_metadata/physx_320_win32
-core/physx_metadata/physx_323_android
-core/physx_metadata/physx_323_ios
-core/physx_metadata/physx_323_macosx
-core/physx_metadata/physx_323_ps4
-core/physx_metadata/physx_323_win32
-core/physx_metadata/physx_323_win32_64bit
-core/physx_metadata/physx_323_xb1
-core/physx_metadata/physx_324_android
-core/physx_metadata/physx_324_ios
-core/physx_metadata/physx_324_macosx
-core/physx_metadata/physx_324_ps4
-core/physx_metadata/physx_324_win32
-core/physx_metadata/physx_324_win32_64bit
-core/physx_metadata/physx_324_xb1
-core/physx_metadata/physx_332_android
-core/physx_metadata/physx_332_ios
-core/physx_metadata/physx_332_ps4
-core/physx_metadata/physx_332_win32
-core/physx_metadata/physx_332_win32_64bit
-core/physx_metadata/physx_332_xb1
-core/physx_metadata/physx_333_android
-core/physx_metadata/physx_333_ios
-core/physx_metadata/physx_333_ps4
-core/physx_metadata/physx_333_web
-core/physx_metadata/physx_333_win32
-core/physx_metadata/physx_333_win32_64bit
-core/physx_metadata/physx_333_xb1
-core/physx_metadata/physx_334_android
-core/physx_metadata/physx_334_ios
-core/physx_metadata/physx_334_linux
-core/physx_metadata/physx_334_ps4
-core/physx_metadata/physx_334_uwp
-core/physx_metadata/physx_334_web
-core/physx_metadata/physx_334_win32
-core/physx_metadata/physx_334_win32_64bit
-core/physx_metadata/physx_334_xb1
-core/renderables/light
-core/scaleform_studio/lua/scaleform_studio_flow_callbacks
-core/scaleform_studio/scaleform_studio
-core/scripts/preprocessor
-core/scripts/smoketest
-core/shader_nodes/abs
-core/shader_nodes/add
-core/shader_nodes/billboard_position
-core/shader_nodes/billboard_rotation
-core/shader_nodes/billboard_size
-core/shader_nodes/blend_normals
-core/shader_nodes/bump
-core/shader_nodes/ceil
-core/shader_nodes/clamp
-core/shader_nodes/constant_scalar
-core/shader_nodes/constant_vector2
-core/shader_nodes/constant_vector3
-core/shader_nodes/constant_vector4
-core/shader_nodes/construct_vector2
-core/shader_nodes/construct_vector3
-core/shader_nodes/construct_vector4
-core/shader_nodes/cos
-core/shader_nodes/cross
-core/shader_nodes/current_time
-core/shader_nodes/ddx
-core/shader_nodes/ddy
-core/shader_nodes/decal_parallax
-core/shader_nodes/decal_tangent_to_world
-core/shader_nodes/decal_uv
-core/shader_nodes/depth_fade
-core/shader_nodes/desaturation
-core/shader_nodes/discard
-core/shader_nodes/distance
-core/shader_nodes/dither
-core/shader_nodes/div
-core/shader_nodes/domain_sample_texture
-core/shader_nodes/dot
-core/shader_nodes/eye_vector
-core/shader_nodes/flipbook
-core/shader_nodes/floor
-core/shader_nodes/fmod
-core/shader_nodes/frac
-core/shader_nodes/fresnel
-core/shader_nodes/graph_common
-core/shader_nodes/hsv_to_rgb
-core/shader_nodes/if
-core/shader_nodes/invert
-core/shader_nodes/last_time
-core/shader_nodes/length
-core/shader_nodes/lerp
-core/shader_nodes/light_color
-core/shader_nodes/light_vector
-core/shader_nodes/material_variable
-core/shader_nodes/max
-core/shader_nodes/min
-core/shader_nodes/mul
-core/shader_nodes/normalize
-core/shader_nodes/object_to_world
-core/shader_nodes/option
-core/shader_nodes/orientation_forward
-core/shader_nodes/orientation_position
-core/shader_nodes/orientation_right
-core/shader_nodes/orientation_up
-core/shader_nodes/panner
-core/shader_nodes/parallax
-core/shader_nodes/pixel_position
-core/shader_nodes/power
-core/shader_nodes/reflect
-core/shader_nodes/refract
-core/shader_nodes/rgb_to_hsv
-core/shader_nodes/rotator
-core/shader_nodes/sample_cube
-core/shader_nodes/sample_texture
-core/shader_nodes/shell_layer
-core/shader_nodes/shell_length
-core/shader_nodes/sin
-core/shader_nodes/smoothstep
-core/shader_nodes/square_root
-core/shader_nodes/subtract
-core/shader_nodes/sun_direction
-core/shader_nodes/tangent_to_world
-core/shader_nodes/terrain_base_normal
-core/shader_nodes/terrain_blend_mask
-core/shader_nodes/terrain_height
-core/shader_nodes/terrain_uv
-core/shader_nodes/texture_coordinate0
-core/shader_nodes/texture_coordinate1
-core/shader_nodes/texture_coordinate2
-core/shader_nodes/texture_coordinate3
-core/shader_nodes/texture_coordinate4
-core/shader_nodes/vegetation_bending
-core/shader_nodes/vertex_binormal
-core/shader_nodes/vertex_color0
-core/shader_nodes/vertex_position
-core/shader_nodes/vertex_sample_texture
-core/shader_nodes/vertex_tangent
-core/shader_nodes/world_space_normal
-core/shader_nodes/world_space_position
-core/shader_nodes/world_to_object
-core/shader_nodes/world_to_tangent
-core/stingray_renderer/editor_visualization/albedo_color
-core/stingray_renderer/editor_visualization/ao
-core/stingray_renderer/editor_visualization/ao_material
-core/stingray_renderer/editor_visualization/ao_ssao
-core/stingray_renderer/editor_visualization/atlased_shadow_mapping
-core/stingray_renderer/editor_visualization/auto_exposure
-core/stingray_renderer/editor_visualization/baker_materials
-core/stingray_renderer/editor_visualization/bloom
-core/stingray_renderer/editor_visualization/density
-core/stingray_renderer/editor_visualization/diffuse_ambient
-core/stingray_renderer/editor_visualization/dof
-core/stingray_renderer/editor_visualization/ies_atlas
-core/stingray_renderer/editor_visualization/lighting_no_postfx
-core/stingray_renderer/editor_visualization/lightmap_texels
-core/stingray_renderer/editor_visualization/metallic
-core/stingray_renderer/editor_visualization/normals
-core/stingray_renderer/editor_visualization/reconstructed_normal
-core/stingray_renderer/editor_visualization/reflection_probe_volumes
-core/stingray_renderer/editor_visualization/roughness
-core/stingray_renderer/editor_visualization/specular_color
-core/stingray_renderer/editor_visualization/ssr
-core/stingray_renderer/editor_visualization/ssr_mask
-core/stingray_renderer/editor_visualization/stable_depth
-core/stingray_renderer/editor_visualization/sun_shadow
-core/stingray_renderer/editor_visualization/sun_shadow_map
-core/stingray_renderer/editor_visualization/taa_ao_lerp
-core/stingray_renderer/editor_visualization/taa_hdr0_clamp
-core/stingray_renderer/editor_visualization/taa_hdr0_jitter
-core/stingray_renderer/editor_visualization/taa_hdr0_lerp
-core/stingray_renderer/editor_visualization/velocity
-core/stingray_renderer/entities/reflection_probe/probe
-core/stingray_renderer/entities/reflection_probe/reflection_probe
-core/stingray_renderer/entities/reflection_probe/reflection_probe_data
-core/stingray_renderer/entities/reflection_probe/reflection_probe_manipulator
-core/stingray_renderer/entities/reflection_probe/reflective
-core/stingray_renderer/environments/color_grading_identity
-core/stingray_renderer/environments/default_shading_environment
-core/stingray_renderer/environments/env_materials
-core/stingray_renderer/environments/midday/diffuse_cube
-core/stingray_renderer/environments/midday/midday
-core/stingray_renderer/environments/midday/midday_shading_environment
-core/stingray_renderer/environments/midday/radiance_cube
-core/stingray_renderer/environments/midday/skydome
-core/stingray_renderer/environments/midday/specular_cube
-core/stingray_renderer/environments/outdoor
-core/stingray_renderer/helper_units/decals/decal
-core/stingray_renderer/helper_units/decals/decal_box
-core/stingray_renderer/helper_units/occluder_box/gizmo
-core/stingray_renderer/helper_units/occluder_box/icons/occluder_box
-core/stingray_renderer/helper_units/occluder_box/occluder_box
-core/stingray_renderer/helper_units/reflection_probe/reflection_probe
-core/stingray_renderer/light_baker/light_baker
-core/stingray_renderer/light_baker/standalone/light_baker
-core/stingray_renderer/light_baker/standalone/sjson
-core/stingray_renderer/lookup_tables/generator/generate_luts
-core/stingray_renderer/lookup_tables/ibl_brdf_lut
-core/stingray_renderer/lookup_tables/ibl_specular_brdf_lut
-core/stingray_renderer/lookup_tables/noise
-core/stingray_renderer/lookup_tables/noise_3d
-core/stingray_renderer/lookup_tables/noise_array
-core/stingray_renderer/lookup_tables/sss_lut
-core/stingray_renderer/mini_renderer
-core/stingray_renderer/output_nodes/decal_base
-core/stingray_renderer/output_nodes/light_base
-core/stingray_renderer/output_nodes/particle_base
-core/stingray_renderer/output_nodes/probe_base
-core/stingray_renderer/output_nodes/standard_base
-core/stingray_renderer/output_nodes/terrain_base
-core/stingray_renderer/output_nodes/ui_base
-core/stingray_renderer/output_nodes/unlit_base
-core/stingray_renderer/proxy_geometry/light_proxies
-core/stingray_renderer/proxy_geometry/shadow_cutter
-core/stingray_renderer/renderer
-core/stingray_renderer/shader_import/global_textures
-core/stingray_renderer/shader_import/no_uvs
-core/stingray_renderer/shader_import/no_uvs_transparent
-core/stingray_renderer/shader_import/standard
-core/stingray_renderer/shader_import/standard_fur
-core/stingray_renderer/shader_import/standard_masked
-core/stingray_renderer/shader_import/standard_rma
-core/stingray_renderer/shader_import/standard_rma_opacity
-core/stingray_renderer/shader_import/standard_rma_transparent
-core/stingray_renderer/shader_import/standard_transparent
-core/stingray_renderer/shader_import/vray
-core/stingray_renderer/shader_import/vray_transparent
-core/stingray_renderer/shader_libraries/atmosphere
-core/stingray_renderer/shader_libraries/baker
-core/stingray_renderer/shader_libraries/baker_filtering
-core/stingray_renderer/shader_libraries/checkerboard_resolve
-core/stingray_renderer/shader_libraries/color_management
-core/stingray_renderer/shader_libraries/common
-core/stingray_renderer/shader_libraries/cubemap
-core/stingray_renderer/shader_libraries/default_shaders
-core/stingray_renderer/shader_libraries/development
-core/stingray_renderer/shader_libraries/fsr
-core/stingray_renderer/shader_libraries/fxaa
-core/stingray_renderer/shader_libraries/imp_utilities
-core/stingray_renderer/shader_libraries/lighting
-core/stingray_renderer/shader_libraries/lighting_common
-core/stingray_renderer/shader_libraries/missing_billboard
-core/stingray_renderer/shader_libraries/multi_res_blending
-core/stingray_renderer/shader_libraries/particle_billboard
-core/stingray_renderer/shader_libraries/placeholders
-core/stingray_renderer/shader_libraries/post_processing
-core/stingray_renderer/shader_libraries/post_processing_common
-core/stingray_renderer/shader_libraries/sampling_common
-core/stingray_renderer/shader_libraries/screen_space_ambient_occlusion
-core/stingray_renderer/shader_libraries/screen_space_global_illumination
-core/stingray_renderer/shader_libraries/screen_space_reflections
-core/stingray_renderer/shader_libraries/shadow_map_common
-core/stingray_renderer/shader_libraries/terrain_utilities
-core/stingray_renderer/shader_libraries/vr
-core/stingray_renderer/shader_libraries/vr_common
-core/stingray_renderer/shader_libraries/water
-core/stingray_renderer/shader_nodes/sample_skydome
-core/stingray_renderer/shader_nodes/skydome_intensity
-core/stingray_renderer/shaders/deferred_reflection_box
-core/stingray_renderer/shaders/particle_default
-core/stingray_renderer/shaders/terrain_basic
-core/stingray_renderer/shaders/terrain_default
-core/stingray_renderer/shading_environment_components/asset_color_grading
-core/stingray_renderer/shading_environment_components/atmosphere
-core/stingray_renderer/shading_environment_components/auto_exposure
-core/stingray_renderer/shading_environment_components/bloom
-core/stingray_renderer/shading_environment_components/cascaded_shadow_mapping
-core/stingray_renderer/shading_environment_components/cloud_shadows
-core/stingray_renderer/shading_environment_components/color_grading
-core/stingray_renderer/shading_environment_components/concussion
-core/stingray_renderer/shading_environment_components/confusion
-core/stingray_renderer/shading_environment_components/desaturate_highlight
-core/stingray_renderer/shading_environment_components/directional_light_2
-core/stingray_renderer/shading_environment_components/dof
-core/stingray_renderer/shading_environment_components/dof_circular
-core/stingray_renderer/shading_environment_components/exposure
-core/stingray_renderer/shading_environment_components/far_scatter_control
-core/stingray_renderer/shading_environment_components/film_grain
-core/stingray_renderer/shading_environment_components/fog
-core/stingray_renderer/shading_environment_components/global_lighting
-core/stingray_renderer/shading_environment_components/global_utility
-core/stingray_renderer/shading_environment_components/heathaze
-core/stingray_renderer/shading_environment_components/hologram_drop_select_variables
-core/stingray_renderer/shading_environment_components/hologram_variables
-core/stingray_renderer/shading_environment_components/hud
-core/stingray_renderer/shading_environment_components/lens_flares_global
-core/stingray_renderer/shading_environment_components/lens_quality
-core/stingray_renderer/shading_environment_components/motion_blur
-core/stingray_renderer/shading_environment_components/parametric_color_grading
-core/stingray_renderer/shading_environment_components/post_effects
-core/stingray_renderer/shading_environment_components/render_utility
-core/stingray_renderer/shading_environment_components/showroom_probe_override
-core/stingray_renderer/shading_environment_components/snow_control
-core/stingray_renderer/shading_environment_components/snow_resources
-core/stingray_renderer/shading_environment_components/space_probe_backdrop
-core/stingray_renderer/shading_environment_components/ssao
-core/stingray_renderer/shading_environment_components/ssgi
-core/stingray_renderer/shading_environment_components/ssr
-core/stingray_renderer/shading_environment_components/tone_mapping
-core/stingray_renderer/shading_environment_components/vignette
-core/stingray_renderer/shading_environment_components/volumetric_clouds
-core/stingray_renderer/shading_environment_components/volumetric_clouds_dynamic
-core/stingray_renderer/shading_environment_components/volumetric_clouds_lighting
-core/stingray_renderer/shading_environment_components/volumetric_clouds_shadows
-core/stingray_renderer/shading_environment_components/water_surface
-core/stingray_renderer/shading_environment_components/weathering_resources
-core/stingray_renderer/tools/cubemap_filtering
-core/texture_categories/albedo
-core/texture_categories/albedo_opacity
-core/texture_categories/hdri
-core/texture_categories/ibl-probe
-core/texture_categories/ies
-core/texture_categories/linear_greyscale
-core/texture_categories/normal
-core/texture_categories/roughness_metallic_ao
-core/texture_categories/uncompressed
-core/types/color
-core/types/component
-core/types/entity
-core/types/gradient
-core/types/range
-core/types/rotation
-core/types/transform
-core/types/vector2
-core/types/vector3
-core/units/camera
-core/units/camera_df
-core/units/camera_mesh
-core/units/camera_mesh_df
-core/units/cubemap_probe
-core/units/gizmo
-core/units/gizmo_transparent
-core/units/light
-core/units/light_source
-core/units/primitives/cone_primitive
-core/units/primitives/cube_primitive
-core/units/primitives/cylinder_primitive
-core/units/primitives/plane_primitive
-core/units/primitives/primitive_material
-core/units/primitives/sphere_primitive
-core/units/primitives/stairs_primitive
-core/units/prototype
-core/units/transparent
-core/units/volume
-core/units/wwise_source
-core/wwise/lua/wwise_bank_reference
-core/wwise/lua/wwise_flow_callbacks
-core/wwise/lua/wwise_preview
-core/wwise/lua/wwise_visualization
-core/wwise/wwise
-
-missing_shader
 boot
-
-rendering/renderer
-rendering/performance_hud
-
-packages/fallback_resources
-packages/pre_boot
-packages/boot
-
+camera
+content
 content/
 content/art_shared/base_shaders/nature/terrain_parent_material
 content/art_shared/shading_global_lookups/ibl_iridescence_generic_lut
@@ -718,6 +44,10 @@ content/audio/bugs_stalker
 content/audio/bugs_warrior
 content/audio/custom
 content/audio/cutscenes_sfx
+content/audio/default
+content/audio/default_bank
+content/audio/default_bank_metadata
+content/audio/default_dep
 content/audio/destruction
 content/audio/env_arctic
 content/audio/env_bots
@@ -762,6 +92,8 @@ content/audio/haz_frozenflowers
 content/audio/Helldiver_IR
 content/audio/Helldiver_Standard_VO
 content/audio/Init
+content/audio/Init_bank
+content/audio/Init_dep
 content/audio/intro_logos
 content/audio/las_7
 content/audio/menu
@@ -810,6 +142,8 @@ content/audio/p18_redeemer
 content/audio/p2_peacemaker
 content/audio/p8_senator
 content/audio/plas_3_plasma_pistol
+content/audio/project
+content/audio/project_metadata
 content/audio/rev_gameplay
 content/audio/rev_ship_hub
 content/audio/samples
@@ -1765,6 +1099,7 @@ content/level_generation_settings/planet_settings/planet_setup/planet_forest_pri
 content/level_generation_settings/planet_settings/planet_setup/planet_forest_primordial_dead
 content/level_generation_settings/planet_settings/planet_setup/planet_forest_primordial_purple
 content/level_generation_settings/planet_settings/planet_setup/planet_homeworld_superearth
+content/levels/empty
 content/levels/lighting/desert/desert_day-cubemaps/reflection_probe_diffuse_bake
 content/levels/lighting/desert/desert_day-cubemaps/reflection_probe_radiance_bake
 content/levels/lighting/desert/desert_day-cubemaps/reflection_probe_specular_bake
@@ -2553,3 +1888,1583 @@ content/planet_forest_swamp/assets/terrain_materials/textures_packed/swamp_wet_m
 content/planet_forest_swamp/assets/terrain_materials/textures_packed/swamp_wet_mud_mask
 content/planet_forest_swamp/assets/terrain_materials/textures_packed/swamp_wet_mud_nms
 content/planet_forest_swamp/assets/terrain_materials/textures_packed/swamp_wet_mud_normal
+core
+core/
+core/animation/boot
+core/animation/flow/animation
+core/animation/lua/runtime/animationflowcallbacks
+core/animation/lua/runtime/animationrequires
+core/appkit/appkit
+core/appkit/lua/app
+core/appkit/lua/appkit_flow_callbacks
+core/appkit/lua/camera_wrapper
+core/appkit/lua/class
+core/appkit/lua/component_manager
+core/appkit/lua/debug_menu
+core/appkit/lua/debug_scrollbox
+core/appkit/lua/input_mapper
+core/appkit/lua/JSON
+core/appkit/lua/level_wrapper
+core/appkit/lua/loading_screen
+core/appkit/lua/main
+core/appkit/lua/player_util
+core/appkit/lua/scaleform_studio_input
+core/appkit/lua/simple_project
+core/appkit/lua/unit_controller
+core/appkit/lua/unit_link
+core/appkit/lua/util
+core/appkit/lua/world_wrapper
+core/appkit/materials/loading_screen
+core/appkit/materials/loading_screen_transfer
+core/appkit/materials/loading_screen(LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/appkit/materials/loading_screen(LDR_OUTPUT, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/appkit/materials/loading_screen(LDR_OUTPUT, SKINNED_1WEIGHT)
+core/appkit/materials/loading_screen(LDR_OUTPUT, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/appkit/materials/loading_screen(LDR_OUTPUT, SKINNED_2WEIGHTS)
+core/appkit/materials/loading_screen(LDR_OUTPUT, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/appkit/materials/loading_screen(LDR_OUTPUT, SKINNED_3WEIGHTS)
+core/appkit/materials/loading_screen(LDR_OUTPUT, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/appkit/materials/loading_screen(LDR_OUTPUT, SKINNED_4WEIGHTS)
+core/appkit/materials/loading_screen(LDR_OUTPUT)
+core/appkit/materials/loading_screen(NV_SINGLE_PASS_STEREO)
+core/appkit/materials/loading_screen(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/appkit/materials/loading_screen(SKINNED_1WEIGHT)
+core/appkit/materials/loading_screen(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/appkit/materials/loading_screen(SKINNED_2WEIGHTS)
+core/appkit/materials/loading_screen(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/appkit/materials/loading_screen(SKINNED_3WEIGHTS)
+core/appkit/materials/loading_screen(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/appkit/materials/loading_screen(SKINNED_4WEIGHTS)
+core/appkit/units/camera/camera
+core/appkit/units/camera/camera_mesh
+core/appkit/units/camera/camera_mesh_df
+core/components/flow
+core/components/light
+core/components/light_gizmo
+core/components/light_manipulator
+core/components/physical_light
+core/components/script
+core/components/tag
+core/components/templates/script_component
+core/components/transform
+core/components/unit
+core/editor_slave
+core/editor_slave/common/align
+core/editor_slave/common/array
+core/editor_slave/common/box_selection
+core/editor_slave/common/class
+core/editor_slave/common/colors
+core/editor_slave/common/dict
+core/editor_slave/common/drawing
+core/editor_slave/common/event
+core/editor_slave/common/freeflight
+core/editor_slave/common/func
+core/editor_slave/common/light_baking
+core/editor_slave/common/math
+core/editor_slave/common/nilable
+core/editor_slave/common/op
+core/editor_slave/common/picking
+core/editor_slave/common/set
+core/editor_slave/common/tuple
+core/editor_slave/common/unit_utils
+core/editor_slave/common/validation
+core/editor_slave/resources/filters/camera
+core/editor_slave/resources/filters/group
+core/editor_slave/resources/filters/level_object
+core/editor_slave/resources/filters/level_reference
+core/editor_slave/resources/filters/light
+core/editor_slave/resources/filters/marker
+core/editor_slave/resources/filters/missing
+core/editor_slave/resources/filters/note
+core/editor_slave/resources/filters/particle_effect
+core/editor_slave/resources/filters/prototype
+core/editor_slave/resources/filters/scatter_pool_settings
+core/editor_slave/resources/filters/sound
+core/editor_slave/resources/filters/spline
+core/editor_slave/resources/filters/story
+core/editor_slave/resources/filters/trigger
+core/editor_slave/resources/filters/unit
+core/editor_slave/resources/filters/volume
+core/editor_slave/resources/gui/arial
+core/editor_slave/resources/gui/arial_df
+core/editor_slave/resources/gui/checkerboard
+core/editor_slave/resources/gui/checkerboard_hdr
+core/editor_slave/resources/gui/checkerboard_hdr_transfer
+core/editor_slave/resources/gui/checkerboard_hdr(LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard_hdr(LDR_OUTPUT, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard_hdr(LDR_OUTPUT, SKINNED_1WEIGHT)
+core/editor_slave/resources/gui/checkerboard_hdr(LDR_OUTPUT, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard_hdr(LDR_OUTPUT, SKINNED_2WEIGHTS)
+core/editor_slave/resources/gui/checkerboard_hdr(LDR_OUTPUT, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard_hdr(LDR_OUTPUT, SKINNED_3WEIGHTS)
+core/editor_slave/resources/gui/checkerboard_hdr(LDR_OUTPUT, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard_hdr(LDR_OUTPUT, SKINNED_4WEIGHTS)
+core/editor_slave/resources/gui/checkerboard_hdr(LDR_OUTPUT)
+core/editor_slave/resources/gui/checkerboard_hdr(NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard_hdr(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard_hdr(SKINNED_1WEIGHT)
+core/editor_slave/resources/gui/checkerboard_hdr(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard_hdr(SKINNED_2WEIGHTS)
+core/editor_slave/resources/gui/checkerboard_hdr(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard_hdr(SKINNED_3WEIGHTS)
+core/editor_slave/resources/gui/checkerboard_hdr(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard_hdr(SKINNED_4WEIGHTS)
+core/editor_slave/resources/gui/checkerboard_transfer
+core/editor_slave/resources/gui/checkerboard(LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard(LDR_OUTPUT, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard(LDR_OUTPUT, SKINNED_1WEIGHT)
+core/editor_slave/resources/gui/checkerboard(LDR_OUTPUT, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard(LDR_OUTPUT, SKINNED_2WEIGHTS)
+core/editor_slave/resources/gui/checkerboard(LDR_OUTPUT, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard(LDR_OUTPUT, SKINNED_3WEIGHTS)
+core/editor_slave/resources/gui/checkerboard(LDR_OUTPUT, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard(LDR_OUTPUT, SKINNED_4WEIGHTS)
+core/editor_slave/resources/gui/checkerboard(LDR_OUTPUT)
+core/editor_slave/resources/gui/checkerboard(NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard(SKINNED_1WEIGHT)
+core/editor_slave/resources/gui/checkerboard(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard(SKINNED_2WEIGHTS)
+core/editor_slave/resources/gui/checkerboard(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard(SKINNED_3WEIGHTS)
+core/editor_slave/resources/gui/checkerboard(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/checkerboard(SKINNED_4WEIGHTS)
+core/editor_slave/resources/gui/depth_test_disabled
+core/editor_slave/resources/gui/join_foreground
+core/editor_slave/resources/gui/join_outline
+core/editor_slave/resources/gui/light
+core/editor_slave/resources/gui/open_sans_16
+core/editor_slave/resources/gui/options_foreground
+core/editor_slave/resources/gui/options_outline
+core/editor_slave/resources/gui/prototype
+core/editor_slave/resources/gui/split_foreground
+core/editor_slave/resources/gui/split_outline
+core/editor_slave/resources/gui/thumbnail
+core/editor_slave/resources/gui/thumbnail_foreground
+core/editor_slave/resources/gui/thumbnail_over
+core/editor_slave/resources/gui/thumbnail_press
+core/editor_slave/resources/gui/thumbnail_transfer
+core/editor_slave/resources/gui/thumbnail(LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/thumbnail(LDR_OUTPUT, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/thumbnail(LDR_OUTPUT, SKINNED_1WEIGHT)
+core/editor_slave/resources/gui/thumbnail(LDR_OUTPUT, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/thumbnail(LDR_OUTPUT, SKINNED_2WEIGHTS)
+core/editor_slave/resources/gui/thumbnail(LDR_OUTPUT, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/thumbnail(LDR_OUTPUT, SKINNED_3WEIGHTS)
+core/editor_slave/resources/gui/thumbnail(LDR_OUTPUT, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/thumbnail(LDR_OUTPUT, SKINNED_4WEIGHTS)
+core/editor_slave/resources/gui/thumbnail(LDR_OUTPUT)
+core/editor_slave/resources/gui/thumbnail(NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/thumbnail(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/thumbnail(SKINNED_1WEIGHT)
+core/editor_slave/resources/gui/thumbnail(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/thumbnail(SKINNED_2WEIGHTS)
+core/editor_slave/resources/gui/thumbnail(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/thumbnail(SKINNED_3WEIGHTS)
+core/editor_slave/resources/gui/thumbnail(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/resources/gui/thumbnail(SKINNED_4WEIGHTS)
+core/editor_slave/resources/gui/trigger
+core/editor_slave/resources/gui/viewport_gui
+core/editor_slave/resources/level_resources/reflection_probe_diffuse_bake
+core/editor_slave/resources/level_resources/reflection_probe_radiance_bake
+core/editor_slave/resources/level_resources/reflection_probe_specular_bake
+core/editor_slave/resources/level_resources/sky_neutral_blue
+core/editor_slave/resources/levels/animation_preview
+core/editor_slave/resources/levels/basic
+core/editor_slave/resources/levels/empty_level
+core/editor_slave/resources/terrain/terrain_alpha
+core/editor_slave/resources/terrain/terrain_base
+core/editor_slave/resources/terrain/terrain_blue
+core/editor_slave/resources/terrain/terrain_default_material
+core/editor_slave/resources/terrain/terrain_green
+core/editor_slave/resources/terrain/terrain_red
+core/editor_slave/resources/terrain/terrain_transparent
+core/editor_slave/stingray_editor
+core/editor_slave/stingray_editor/animation_controller_viewport
+core/editor_slave/stingray_editor/animation_controller_viewport_toolbar
+core/editor_slave/stingray_editor/asset_preview_viewport
+core/editor_slave/stingray_editor/asset_preview_viewport_toolbar
+core/editor_slave/stingray_editor/boot
+core/editor_slave/stingray_editor/box_objects
+core/editor_slave/stingray_editor/box_tool
+core/editor_slave/stingray_editor/button
+core/editor_slave/stingray_editor/button_behavior
+core/editor_slave/stingray_editor/button_normal_behavior
+core/editor_slave/stingray_editor/button_renderer
+core/editor_slave/stingray_editor/button_toggle_behavior
+core/editor_slave/stingray_editor/clip_editor_viewport
+core/editor_slave/stingray_editor/clip_editor_viewport_toolbar
+core/editor_slave/stingray_editor/common_viewport_behavior
+core/editor_slave/stingray_editor/common_viewport_toolbar_behavior
+core/editor_slave/stingray_editor/cubemap_generator
+core/editor_slave/stingray_editor/editor
+core/editor_slave/stingray_editor/editor_camera
+core/editor_slave/stingray_editor/editor_viewport
+core/editor_slave/stingray_editor/ensure
+core/editor_slave/stingray_editor/entity_component_manipulator_manager
+core/editor_slave/stingray_editor/entity_system/components/data_component
+core/editor_slave/stingray_editor/entity_system/components/flow_component
+core/editor_slave/stingray_editor/entity_system/components/render_data_component
+core/editor_slave/stingray_editor/entity_system/components/script_component
+core/editor_slave/stingray_editor/entity_system/components/tag_component
+core/editor_slave/stingray_editor/entity_system/components/transform_component
+core/editor_slave/stingray_editor/entity_system/components/unit_component
+core/editor_slave/stingray_editor/entity_system/entity
+core/editor_slave/stingray_editor/entity_system/entity_component
+core/editor_slave/stingray_editor/entity_system/entity_message
+core/editor_slave/stingray_editor/entity_system/entity_system
+core/editor_slave/stingray_editor/gizmo_manager
+core/editor_slave/stingray_editor/grid_plane
+core/editor_slave/stingray_editor/group
+core/editor_slave/stingray_editor/hover_textured_button_renderer
+core/editor_slave/stingray_editor/hud_colors
+core/editor_slave/stingray_editor/interface
+core/editor_slave/stingray_editor/level_editing
+core/editor_slave/stingray_editor/level_editor_viewport
+core/editor_slave/stingray_editor/level_editor_viewport_toolbar
+core/editor_slave/stingray_editor/level_reference
+core/editor_slave/stingray_editor/lighting
+core/editor_slave/stingray_editor/log_manager
+core/editor_slave/stingray_editor/manipulator_box_size_tool
+core/editor_slave/stingray_editor/manipulator_widgets
+core/editor_slave/stingray_editor/marker_tool
+core/editor_slave/stingray_editor/move_gizmo
+core/editor_slave/stingray_editor/move_tool
+core/editor_slave/stingray_editor/notes
+core/editor_slave/stingray_editor/object
+core/editor_slave/stingray_editor/object_creator_item
+core/editor_slave/stingray_editor/object_utils
+core/editor_slave/stingray_editor/particle_effect
+core/editor_slave/stingray_editor/physics_simulation
+core/editor_slave/stingray_editor/pivot_behaviors
+core/editor_slave/stingray_editor/place_tool
+core/editor_slave/stingray_editor/preview_manager
+core/editor_slave/stingray_editor/rect
+core/editor_slave/stingray_editor/rotate_gizmo
+core/editor_slave/stingray_editor/rotate_tool
+core/editor_slave/stingray_editor/scale_gizmo
+core/editor_slave/stingray_editor/scale_tool
+core/editor_slave/stingray_editor/scatter_manager
+core/editor_slave/stingray_editor/scatter_settings
+core/editor_slave/stingray_editor/scatter_tool
+core/editor_slave/stingray_editor/scene_element_ref
+core/editor_slave/stingray_editor/select_tool
+core/editor_slave/stingray_editor/selection
+core/editor_slave/stingray_editor/settings
+core/editor_slave/stingray_editor/simple_viewport_toolbar
+core/editor_slave/stingray_editor/skeleton_editor_viewport
+core/editor_slave/stingray_editor/skeleton_editor_viewport_toolbar
+core/editor_slave/stingray_editor/sound
+core/editor_slave/stingray_editor/spline_tool
+core/editor_slave/stingray_editor/story_teller
+core/editor_slave/stingray_editor/terrain_editor
+core/editor_slave/stingray_editor/terrain_tool
+core/editor_slave/stingray_editor/text_button_renderer
+core/editor_slave/stingray_editor/text_message_renderer
+core/editor_slave/stingray_editor/textured_button_renderer
+core/editor_slave/stingray_editor/thumbnail_generator
+core/editor_slave/stingray_editor/tool
+core/editor_slave/stingray_editor/unit
+core/editor_slave/stingray_editor/viewport_behavior
+core/editor_slave/stingray_editor/viewport_toolbar
+core/editor_slave/stingray_editor/viewport_toolbar_behavior
+core/editor_slave/stingray_editor/viewport_utils
+core/editor_slave/stingray_editor/volume_tool
+core/editor_slave/thumbnail_server
+core/editor_slave/thumbnail_server/thumbnail_server
+core/editor_slave/timpani_player
+core/editor_slave/timpani_player/timpani_player
+core/editor_slave/timpani_player/topdown
+core/editor_slave/unit_editor
+core/editor_slave/unit_editor/boot
+core/editor_slave/unit_editor/camera_element
+core/editor_slave/unit_editor/core_unit_element
+core/editor_slave/unit_editor/editor_camera
+core/editor_slave/unit_editor/element
+core/editor_slave/unit_editor/element_id
+core/editor_slave/unit_editor/light_element
+core/editor_slave/unit_editor/mesh_element
+core/editor_slave/unit_editor/mover_element
+core/editor_slave/unit_editor/parentable_unit_element
+core/editor_slave/unit_editor/physics_actor_element
+core/editor_slave/unit_editor/scene_graph_element
+core/editor_slave/unit_editor/select_tool
+core/editor_slave/unit_editor/selection
+core/editor_slave/unit_editor/settings
+core/editor_slave/unit_editor/snap_point_element
+core/editor_slave/unit_editor/transform_element
+core/editor_slave/unit_editor/unit_editor
+core/editor_slave/unit_editor/unit_object
+core/editor_slave/units/material_shapes/default
+core/editor_slave/units/material_shapes/sphere
+core/editor_slave/units/preview/floor_mat
+core/editor_slave/units/preview/preview_box
+core/editor_slave/units/preview/preview_floor
+core/editor_slave/units/preview/preview_hill
+core/editor_slave/units/preview/preview_platform
+core/editor_slave/units/preview/preview_wall
+core/editor_slave/units/preview/textures/checkerbox_25_percent_luminance
+core/editor_slave/units/preview/textures/checkerbox_55_percent_luminance
+core/editor_slave/units/preview/wall_mat
+core/editor_slave/units/skydome/skybox_1
+core/editor_slave/units/skydome/skydome
+core/editor_slave/units/skydome/skydome_transfer
+core/editor_slave/units/skydome/skydome(LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/editor_slave/units/skydome/skydome(LDR_OUTPUT, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/editor_slave/units/skydome/skydome(LDR_OUTPUT, SKINNED_1WEIGHT)
+core/editor_slave/units/skydome/skydome(LDR_OUTPUT, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/units/skydome/skydome(LDR_OUTPUT, SKINNED_2WEIGHTS)
+core/editor_slave/units/skydome/skydome(LDR_OUTPUT, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/units/skydome/skydome(LDR_OUTPUT, SKINNED_3WEIGHTS)
+core/editor_slave/units/skydome/skydome(LDR_OUTPUT, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/units/skydome/skydome(LDR_OUTPUT, SKINNED_4WEIGHTS)
+core/editor_slave/units/skydome/skydome(LDR_OUTPUT)
+core/editor_slave/units/skydome/skydome(NV_SINGLE_PASS_STEREO)
+core/editor_slave/units/skydome/skydome(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/editor_slave/units/skydome/skydome(SKINNED_1WEIGHT)
+core/editor_slave/units/skydome/skydome(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/units/skydome/skydome(SKINNED_2WEIGHTS)
+core/editor_slave/units/skydome/skydome(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/units/skydome/skydome(SKINNED_3WEIGHTS)
+core/editor_slave/units/skydome/skydome(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/editor_slave/units/skydome/skydome(SKINNED_4WEIGHTS)
+core/editor_slave/units/sound_source_icon/sound_source_icon
+core/entities/physical_lights/light_gizmo_component
+core/entities/physical_lights/light_gizmos
+core/entities/physical_lights/physical_light
+core/entities/vector_fields/global_direction/global_direction
+core/entities/vector_fields/global_sine/global_sine
+core/entities/vector_fields/sphere_push_pull/sphere_push_pull
+core/entities/vector_fields/sphere_whirl/sphere_whirl
+core/fallback_resources/fallback_resources
+core/fallback_resources/missing_flow
+core/fallback_resources/missing_material
+core/fallback_resources/missing_particles
+core/fallback_resources/missing_texture
+core/fallback_resources/missing_unit
+core/flow_nodes/_read_me
+core/flow_nodes/animation
+core/flow_nodes/application
+core/flow_nodes/camera
+core/flow_nodes/conversion
+core/flow_nodes/data
+core/flow_nodes/debug
+core/flow_nodes/effect
+core/flow_nodes/entity
+core/flow_nodes/event
+core/flow_nodes/input
+core/flow_nodes/level
+core/flow_nodes/light
+core/flow_nodes/material
+core/flow_nodes/math
+core/flow_nodes/physics
+core/flow_nodes/script
+core/flow_nodes/timpani
+core/flow_nodes/unit
+core/flow_nodes/utility
+core/flow_nodes/variable
+core/humanik/humanik
+core/humanik/lua/humanik
+core/humanik/lua/humanik_flow_callbacks
+core/import_config/import_config
+core/import_config/texture_format_spec
+core/object_creator_items/box_light
+core/object_creator_items/camera
+core/object_creator_items/cone
+core/object_creator_items/cube
+core/object_creator_items/cubemap_probe
+core/object_creator_items/cylinder
+core/object_creator_items/directional_light
+core/object_creator_items/entity
+core/object_creator_items/icons/bot_target
+core/object_creator_items/icons/box_light
+core/object_creator_items/icons/camera
+core/object_creator_items/icons/cone
+core/object_creator_items/icons/cube
+core/object_creator_items/icons/cubemap_probe
+core/object_creator_items/icons/cylinder
+core/object_creator_items/icons/directional_light
+core/object_creator_items/icons/helpers
+core/object_creator_items/icons/light
+core/object_creator_items/icons/marker
+core/object_creator_items/icons/objects
+core/object_creator_items/icons/omni_light
+core/object_creator_items/icons/plane
+core/object_creator_items/icons/prototype
+core/object_creator_items/icons/sphere
+core/object_creator_items/icons/spline
+core/object_creator_items/icons/spot_light
+core/object_creator_items/icons/stair
+core/object_creator_items/icons/terrain
+core/object_creator_items/icons/tools
+core/object_creator_items/icons/trigger
+core/object_creator_items/icons/volume
+core/object_creator_items/light
+core/object_creator_items/marker
+core/object_creator_items/omni_light
+core/object_creator_items/plane
+core/object_creator_items/prototype
+core/object_creator_items/sphere
+core/object_creator_items/spline
+core/object_creator_items/spot_light
+core/object_creator_items/stairs
+core/object_creator_items/terrain
+core/object_creator_items/trigger
+core/object_creator_items/volume
+core/performance_hud/debug
+core/performance_hud/gui
+core/performance_hud/performance_hud
+core/physx_metadata/physx_320_android
+core/physx_metadata/physx_320_ios
+core/physx_metadata/physx_320_macosx
+core/physx_metadata/physx_320_win32
+core/physx_metadata/physx_323_android
+core/physx_metadata/physx_323_ios
+core/physx_metadata/physx_323_macosx
+core/physx_metadata/physx_323_ps4
+core/physx_metadata/physx_323_win32
+core/physx_metadata/physx_323_win32_64bit
+core/physx_metadata/physx_323_xb1
+core/physx_metadata/physx_324_android
+core/physx_metadata/physx_324_ios
+core/physx_metadata/physx_324_macosx
+core/physx_metadata/physx_324_ps4
+core/physx_metadata/physx_324_win32
+core/physx_metadata/physx_324_win32_64bit
+core/physx_metadata/physx_324_xb1
+core/physx_metadata/physx_332_android
+core/physx_metadata/physx_332_ios
+core/physx_metadata/physx_332_ps4
+core/physx_metadata/physx_332_win32
+core/physx_metadata/physx_332_win32_64bit
+core/physx_metadata/physx_332_xb1
+core/physx_metadata/physx_333_android
+core/physx_metadata/physx_333_ios
+core/physx_metadata/physx_333_ps4
+core/physx_metadata/physx_333_web
+core/physx_metadata/physx_333_win32
+core/physx_metadata/physx_333_win32_64bit
+core/physx_metadata/physx_333_xb1
+core/physx_metadata/physx_334_android
+core/physx_metadata/physx_334_ios
+core/physx_metadata/physx_334_linux
+core/physx_metadata/physx_334_ps4
+core/physx_metadata/physx_334_uwp
+core/physx_metadata/physx_334_web
+core/physx_metadata/physx_334_win32
+core/physx_metadata/physx_334_win32_64bit
+core/physx_metadata/physx_334_xb1
+core/renderables/light
+core/scaleform_studio/lua/scaleform_studio_flow_callbacks
+core/scaleform_studio/scaleform_studio
+core/scripts/preprocessor
+core/scripts/smoketest
+core/shader_nodes/abs
+core/shader_nodes/add
+core/shader_nodes/add#default
+core/shader_nodes/billboard_position
+core/shader_nodes/billboard_rotation
+core/shader_nodes/billboard_rotation#default
+core/shader_nodes/billboard_size
+core/shader_nodes/billboard_size#default
+core/shader_nodes/blend_normals
+core/shader_nodes/bump
+core/shader_nodes/bump#default
+core/shader_nodes/ceil
+core/shader_nodes/clamp
+core/shader_nodes/constant_scalar
+core/shader_nodes/constant_scalar#default
+core/shader_nodes/constant_vector2
+core/shader_nodes/constant_vector3
+core/shader_nodes/constant_vector4
+core/shader_nodes/construct_vector2
+core/shader_nodes/construct_vector3
+core/shader_nodes/construct_vector3#default
+core/shader_nodes/construct_vector4
+core/shader_nodes/cos
+core/shader_nodes/cross
+core/shader_nodes/current_time
+core/shader_nodes/ddx
+core/shader_nodes/ddy
+core/shader_nodes/decal_parallax
+core/shader_nodes/decal_tangent_to_world
+core/shader_nodes/decal_uv
+core/shader_nodes/decal_uv#default
+core/shader_nodes/depth_fade
+core/shader_nodes/desaturation
+core/shader_nodes/discard
+core/shader_nodes/distance
+core/shader_nodes/dither
+core/shader_nodes/dither#default
+core/shader_nodes/div
+core/shader_nodes/div#default
+core/shader_nodes/domain_sample_texture
+core/shader_nodes/dot
+core/shader_nodes/eye_vector
+core/shader_nodes/flipbook
+core/shader_nodes/floor
+core/shader_nodes/floor#default
+core/shader_nodes/fmod
+core/shader_nodes/fmod#default
+core/shader_nodes/frac
+core/shader_nodes/fresnel
+core/shader_nodes/graph_common
+core/shader_nodes/graph_common#default_node_sampler
+core/shader_nodes/hsv_to_rgb
+core/shader_nodes/if
+core/shader_nodes/if#bvec_block
+core/shader_nodes/if#default
+core/shader_nodes/invert
+core/shader_nodes/invert#default
+core/shader_nodes/last_time
+core/shader_nodes/length
+core/shader_nodes/lerp
+core/shader_nodes/lerp#default
+core/shader_nodes/light_color
+core/shader_nodes/light_vector
+core/shader_nodes/material_variable
+core/shader_nodes/material_variable#default
+core/shader_nodes/max
+core/shader_nodes/min
+core/shader_nodes/mul
+core/shader_nodes/mul#default
+core/shader_nodes/normalize
+core/shader_nodes/normalize#default
+core/shader_nodes/object_to_world
+core/shader_nodes/option
+core/shader_nodes/orientation_forward
+core/shader_nodes/orientation_position
+core/shader_nodes/orientation_right
+core/shader_nodes/orientation_up
+core/shader_nodes/panner
+core/shader_nodes/parallax
+core/shader_nodes/parallax#default
+core/shader_nodes/pixel_position
+core/shader_nodes/pixel_position#default
+core/shader_nodes/power
+core/shader_nodes/reflect
+core/shader_nodes/refract
+core/shader_nodes/rgb_to_hsv
+core/shader_nodes/rotator
+core/shader_nodes/sample_cube
+core/shader_nodes/sample_texture
+core/shader_nodes/sample_texture#default
+core/shader_nodes/shell_layer
+core/shader_nodes/shell_layer#default
+core/shader_nodes/shell_length
+core/shader_nodes/shell_length#default
+core/shader_nodes/sin
+core/shader_nodes/smoothstep
+core/shader_nodes/square_root
+core/shader_nodes/subtract
+core/shader_nodes/subtract#default
+core/shader_nodes/sun_direction
+core/shader_nodes/tangent_to_world
+core/shader_nodes/tangent_to_world#default
+core/shader_nodes/terrain_base_normal
+core/shader_nodes/terrain_blend_mask
+core/shader_nodes/terrain_blend_mask#default
+core/shader_nodes/terrain_height
+core/shader_nodes/terrain_uv
+core/shader_nodes/terrain_uv#default
+core/shader_nodes/texture_coordinate0
+core/shader_nodes/texture_coordinate0#default
+core/shader_nodes/texture_coordinate1
+core/shader_nodes/texture_coordinate2
+core/shader_nodes/texture_coordinate3
+core/shader_nodes/texture_coordinate4
+core/shader_nodes/vegetation_bending
+core/shader_nodes/vertex_binormal
+core/shader_nodes/vertex_color0
+core/shader_nodes/vertex_color0#default
+core/shader_nodes/vertex_position
+core/shader_nodes/vertex_sample_texture
+core/shader_nodes/vertex_sample_texture#default
+core/shader_nodes/vertex_tangent
+core/shader_nodes/world_space_normal
+core/shader_nodes/world_space_normal#default
+core/shader_nodes/world_space_position
+core/shader_nodes/world_space_position#default
+core/shader_nodes/world_to_object
+core/shader_nodes/world_to_tangent
+core/stingray_renderer
+core/stingray_renderer/editor_visualization/albedo_color
+core/stingray_renderer/editor_visualization/ao
+core/stingray_renderer/editor_visualization/ao_material
+core/stingray_renderer/editor_visualization/ao_ssao
+core/stingray_renderer/editor_visualization/atlased_shadow_mapping
+core/stingray_renderer/editor_visualization/auto_exposure
+core/stingray_renderer/editor_visualization/baker_materials
+core/stingray_renderer/editor_visualization/bloom
+core/stingray_renderer/editor_visualization/density
+core/stingray_renderer/editor_visualization/diffuse_ambient
+core/stingray_renderer/editor_visualization/dof
+core/stingray_renderer/editor_visualization/ies_atlas
+core/stingray_renderer/editor_visualization/lighting_no_postfx
+core/stingray_renderer/editor_visualization/lightmap_texels
+core/stingray_renderer/editor_visualization/metallic
+core/stingray_renderer/editor_visualization/normals
+core/stingray_renderer/editor_visualization/reconstructed_normal
+core/stingray_renderer/editor_visualization/reflection_probe_volumes
+core/stingray_renderer/editor_visualization/roughness
+core/stingray_renderer/editor_visualization/specular_color
+core/stingray_renderer/editor_visualization/ssr
+core/stingray_renderer/editor_visualization/ssr_mask
+core/stingray_renderer/editor_visualization/stable_depth
+core/stingray_renderer/editor_visualization/sun_shadow
+core/stingray_renderer/editor_visualization/sun_shadow_map
+core/stingray_renderer/editor_visualization/taa_ao_lerp
+core/stingray_renderer/editor_visualization/taa_hdr0_clamp
+core/stingray_renderer/editor_visualization/taa_hdr0_jitter
+core/stingray_renderer/editor_visualization/taa_hdr0_lerp
+core/stingray_renderer/editor_visualization/velocity
+core/stingray_renderer/entities/reflection_probe/probe
+core/stingray_renderer/entities/reflection_probe/reflection_probe
+core/stingray_renderer/entities/reflection_probe/reflection_probe_data
+core/stingray_renderer/entities/reflection_probe/reflection_probe_manipulator
+core/stingray_renderer/entities/reflection_probe/reflective
+core/stingray_renderer/environments/color_grading_identity
+core/stingray_renderer/environments/default_shading_environment
+core/stingray_renderer/environments/env_materials
+core/stingray_renderer/environments/midday/diffuse_cube
+core/stingray_renderer/environments/midday/midday
+core/stingray_renderer/environments/midday/midday_shading_environment
+core/stingray_renderer/environments/midday/radiance_cube
+core/stingray_renderer/environments/midday/skydome
+core/stingray_renderer/environments/midday/specular_cube
+core/stingray_renderer/environments/outdoor
+core/stingray_renderer/helper_units/decals/decal
+core/stingray_renderer/helper_units/decals/decal_box
+core/stingray_renderer/helper_units/occluder_box/gizmo
+core/stingray_renderer/helper_units/occluder_box/icons/occluder_box
+core/stingray_renderer/helper_units/occluder_box/occluder_box
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe_caster
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe_caster(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe_caster(DECORATION)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe_caster(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe_caster(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe_caster(SKINNED_1WEIGHT)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe_caster(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe_caster(SKINNED_2WEIGHTS)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe_caster(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe_caster(SKINNED_3WEIGHTS)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe_caster(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe_caster(SKINNED_4WEIGHTS)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe_transfer
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(DECORATION)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(OPAQUE_FORWARD, LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(OPAQUE_FORWARD, LDR_OUTPUT)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(SKINNED_1WEIGHT)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(SKINNED_2WEIGHTS)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(SKINNED_3WEIGHTS)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/helper_units/reflection_probe/reflection_probe(SKINNED_4WEIGHTS)
+core/stingray_renderer/light_baker
+core/stingray_renderer/light_baker/light_baker
+core/stingray_renderer/light_baker/standalone
+core/stingray_renderer/light_baker/standalone/light_baker
+core/stingray_renderer/light_baker/standalone/sjson
+core/stingray_renderer/lookup_tables
+core/stingray_renderer/lookup_tables/generator
+core/stingray_renderer/lookup_tables/generator/generate_luts
+core/stingray_renderer/lookup_tables/ibl_brdf_lut
+core/stingray_renderer/lookup_tables/ibl_specular_brdf_lut
+core/stingray_renderer/lookup_tables/noise
+core/stingray_renderer/lookup_tables/noise_3d
+core/stingray_renderer/lookup_tables/noise_array
+core/stingray_renderer/lookup_tables/sss_lut
+core/stingray_renderer/mini_renderer
+core/stingray_renderer/output_nodes/decal_base
+core/stingray_renderer/output_nodes/decal_base#decal
+core/stingray_renderer/output_nodes/decal_base#decal_common
+core/stingray_renderer/output_nodes/decal_base#emissive
+core/stingray_renderer/output_nodes/decal_base#selection
+core/stingray_renderer/output_nodes/light_base
+core/stingray_renderer/output_nodes/particle_base
+core/stingray_renderer/output_nodes/particle_base#billboard
+core/stingray_renderer/output_nodes/particle_base#clamp_point_no_mip
+core/stingray_renderer/output_nodes/particle_base#shadow_caster
+core/stingray_renderer/output_nodes/particle_base#shadow_map
+core/stingray_renderer/output_nodes/probe_base
+core/stingray_renderer/output_nodes/probe_base#debug_visualization
+core/stingray_renderer/output_nodes/probe_base#debug_visualization_wireframe
+core/stingray_renderer/output_nodes/probe_base#reflection_probe
+core/stingray_renderer/output_nodes/standard_base
+core/stingray_renderer/output_nodes/standard_base#blend_shapes
+core/stingray_renderer/output_nodes/standard_base#clamp_point_no_mip
+core/stingray_renderer/output_nodes/standard_base#culling_base
+core/stingray_renderer/output_nodes/standard_base#depth_only
+core/stingray_renderer/output_nodes/standard_base#emissive
+core/stingray_renderer/output_nodes/standard_base#gbuffer_base
+core/stingray_renderer/output_nodes/standard_base#gbuffer_material
+core/stingray_renderer/output_nodes/standard_base#material_transfer
+core/stingray_renderer/output_nodes/standard_base#patch_interpolators
+core/stingray_renderer/output_nodes/standard_base#selection
+core/stingray_renderer/output_nodes/standard_base#shadow_caster
+core/stingray_renderer/output_nodes/standard_base#shadow_map
+core/stingray_renderer/output_nodes/standard_base#shell_material
+core/stingray_renderer/output_nodes/standard_base#transparent
+core/stingray_renderer/output_nodes/standard_base#transparent_base
+core/stingray_renderer/output_nodes/standard_base#transparent_double_sided_ccw
+core/stingray_renderer/output_nodes/standard_base#transparent_double_sided_cw
+core/stingray_renderer/output_nodes/terrain_base
+core/stingray_renderer/output_nodes/terrain_base#depth_only
+core/stingray_renderer/output_nodes/terrain_base#selection
+core/stingray_renderer/output_nodes/terrain_base#shadow_caster
+core/stingray_renderer/output_nodes/terrain_base#terrain
+core/stingray_renderer/output_nodes/terrain_base#terrain_shared
+core/stingray_renderer/output_nodes/ui_base
+core/stingray_renderer/output_nodes/unlit_base
+core/stingray_renderer/output_nodes/unlit_base#culling_base
+core/stingray_renderer/output_nodes/unlit_base#macros
+core/stingray_renderer/output_nodes/unlit_base#material_transfer
+core/stingray_renderer/output_nodes/unlit_base#selection
+core/stingray_renderer/output_nodes/unlit_base#unlit
+core/stingray_renderer/proxy_geometry/light_proxies
+core/stingray_renderer/proxy_geometry/shadow_cutter
+core/stingray_renderer/renderer
+core/stingray_renderer/shader_import/global_textures
+core/stingray_renderer/shader_import/no_uvs
+core/stingray_renderer/shader_import/no_uvs_caster
+core/stingray_renderer/shader_import/no_uvs_caster(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_caster(DECORATION)
+core/stingray_renderer/shader_import/no_uvs_caster(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_caster(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_caster(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/no_uvs_caster(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_caster(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/no_uvs_caster(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_caster(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/no_uvs_caster(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_caster(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/no_uvs_transfer
+core/stingray_renderer/shader_import/no_uvs_transparent
+core/stingray_renderer/shader_import/no_uvs_transparent_caster
+core/stingray_renderer/shader_import/no_uvs_transparent_caster(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent_caster(DECORATION)
+core/stingray_renderer/shader_import/no_uvs_transparent_caster(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent_caster(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent_caster(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/no_uvs_transparent_caster(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent_caster(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/no_uvs_transparent_caster(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent_caster(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/no_uvs_transparent_caster(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent_caster(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/no_uvs_transparent_transfer
+core/stingray_renderer/shader_import/no_uvs_transparent(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent(DECORATION)
+core/stingray_renderer/shader_import/no_uvs_transparent(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/no_uvs_transparent(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION)
+core/stingray_renderer/shader_import/no_uvs_transparent(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/no_uvs_transparent(OPAQUE_FORWARD, LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/no_uvs_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/no_uvs_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/no_uvs_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/no_uvs_transparent(OPAQUE_FORWARD, LDR_OUTPUT)
+core/stingray_renderer/shader_import/no_uvs_transparent(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/no_uvs_transparent(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/no_uvs_transparent(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/no_uvs_transparent(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs_transparent(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/no_uvs(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs(DECORATION)
+core/stingray_renderer/shader_import/no_uvs(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/no_uvs(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION)
+core/stingray_renderer/shader_import/no_uvs(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/no_uvs(OPAQUE_FORWARD, LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/no_uvs(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/no_uvs(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/no_uvs(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/no_uvs(OPAQUE_FORWARD, LDR_OUTPUT)
+core/stingray_renderer/shader_import/no_uvs(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/no_uvs(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/no_uvs(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/no_uvs(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/no_uvs(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard
+core/stingray_renderer/shader_import/standard_caster
+core/stingray_renderer/shader_import/standard_caster(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_caster(DECORATION)
+core/stingray_renderer/shader_import/standard_caster(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_caster(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_caster(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_caster(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_caster(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_caster(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_caster(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_caster(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_caster(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_fur
+core/stingray_renderer/shader_import/standard_fur_caster
+core/stingray_renderer/shader_import/standard_fur_caster(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur_caster(DECORATION)
+core/stingray_renderer/shader_import/standard_fur_caster(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur_caster(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur_caster(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_fur_caster(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur_caster(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_fur_caster(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur_caster(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_fur_caster(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur_caster(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_fur_transfer
+core/stingray_renderer/shader_import/standard_fur(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur(DECORATION)
+core/stingray_renderer/shader_import/standard_fur(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard_fur(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION)
+core/stingray_renderer/shader_import/standard_fur(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard_fur(OPAQUE_FORWARD, LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_fur(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_fur(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_fur(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_fur(OPAQUE_FORWARD, LDR_OUTPUT)
+core/stingray_renderer/shader_import/standard_fur(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_fur(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_fur(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_fur(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_fur(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_masked
+core/stingray_renderer/shader_import/standard_masked_caster
+core/stingray_renderer/shader_import/standard_masked_caster(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked_caster(DECORATION)
+core/stingray_renderer/shader_import/standard_masked_caster(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked_caster(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked_caster(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_masked_caster(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked_caster(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_masked_caster(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked_caster(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_masked_caster(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked_caster(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_masked_transfer
+core/stingray_renderer/shader_import/standard_masked(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(DECORATION)
+core/stingray_renderer/shader_import/standard_masked(FBX_EMISSIVE, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(FBX_EMISSIVE, DECORATION)
+core/stingray_renderer/shader_import/standard_masked(FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard_masked(FBX_EMISSIVE, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(FBX_EMISSIVE, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(FBX_EMISSIVE, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_masked(FBX_EMISSIVE, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(FBX_EMISSIVE, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_masked(FBX_EMISSIVE, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(FBX_EMISSIVE, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_masked(FBX_EMISSIVE, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(FBX_EMISSIVE, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_masked(FBX_EMISSIVE)
+core/stingray_renderer/shader_import/standard_masked(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard_masked(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, DECORATION)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_masked(OPAQUE_FORWARD, LDR_OUTPUT)
+core/stingray_renderer/shader_import/standard_masked(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_masked(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_masked(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_masked(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_masked(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma
+core/stingray_renderer/shader_import/standard_rma_caster
+core/stingray_renderer/shader_import/standard_rma_caster(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_caster(DECORATION)
+core/stingray_renderer/shader_import/standard_rma_caster(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_caster(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_caster(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_rma_caster(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_caster(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_caster(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_caster(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_caster(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_caster(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_opacity
+core/stingray_renderer/shader_import/standard_rma_opacity_caster
+core/stingray_renderer/shader_import/standard_rma_opacity_caster(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity_caster(DECORATION)
+core/stingray_renderer/shader_import/standard_rma_opacity_caster(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity_caster(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity_caster(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_rma_opacity_caster(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity_caster(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_opacity_caster(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity_caster(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_opacity_caster(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity_caster(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_opacity_transfer
+core/stingray_renderer/shader_import/standard_rma_opacity(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity(DECORATION)
+core/stingray_renderer/shader_import/standard_rma_opacity(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard_rma_opacity(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION)
+core/stingray_renderer/shader_import/standard_rma_opacity(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard_rma_opacity(OPAQUE_FORWARD, LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_rma_opacity(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_opacity(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_opacity(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_opacity(OPAQUE_FORWARD, LDR_OUTPUT)
+core/stingray_renderer/shader_import/standard_rma_opacity(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_rma_opacity(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_opacity(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_opacity(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_opacity(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_transfer
+core/stingray_renderer/shader_import/standard_rma_transparent
+core/stingray_renderer/shader_import/standard_rma_transparent_caster
+core/stingray_renderer/shader_import/standard_rma_transparent_caster(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent_caster(DECORATION)
+core/stingray_renderer/shader_import/standard_rma_transparent_caster(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent_caster(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent_caster(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_rma_transparent_caster(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent_caster(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_transparent_caster(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent_caster(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_transparent_caster(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent_caster(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_transparent_transfer
+core/stingray_renderer/shader_import/standard_rma_transparent(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent(DECORATION)
+core/stingray_renderer/shader_import/standard_rma_transparent(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard_rma_transparent(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION)
+core/stingray_renderer/shader_import/standard_rma_transparent(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard_rma_transparent(OPAQUE_FORWARD, LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_rma_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_transparent(OPAQUE_FORWARD, LDR_OUTPUT)
+core/stingray_renderer/shader_import/standard_rma_transparent(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_rma_transparent(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_transparent(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma_transparent(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma_transparent(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma(DECORATION)
+core/stingray_renderer/shader_import/standard_rma(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard_rma(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION)
+core/stingray_renderer/shader_import/standard_rma(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard_rma(OPAQUE_FORWARD, LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_rma(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma(OPAQUE_FORWARD, LDR_OUTPUT)
+core/stingray_renderer/shader_import/standard_rma(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_rma(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_rma(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_rma(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_transfer
+core/stingray_renderer/shader_import/standard_transparent
+core/stingray_renderer/shader_import/standard_transparent_caster
+core/stingray_renderer/shader_import/standard_transparent_caster(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent_caster(DECORATION)
+core/stingray_renderer/shader_import/standard_transparent_caster(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent_caster(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent_caster(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_transparent_caster(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent_caster(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_transparent_caster(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent_caster(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_transparent_caster(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent_caster(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_transparent_transfer
+core/stingray_renderer/shader_import/standard_transparent(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(DECORATION)
+core/stingray_renderer/shader_import/standard_transparent(FBX_EMISSIVE, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(FBX_EMISSIVE, DECORATION)
+core/stingray_renderer/shader_import/standard_transparent(FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard_transparent(FBX_EMISSIVE, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(FBX_EMISSIVE, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(FBX_EMISSIVE, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_transparent(FBX_EMISSIVE, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(FBX_EMISSIVE, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_transparent(FBX_EMISSIVE, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(FBX_EMISSIVE, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_transparent(FBX_EMISSIVE, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(FBX_EMISSIVE, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_transparent(FBX_EMISSIVE)
+core/stingray_renderer/shader_import/standard_transparent(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard_transparent(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, DECORATION)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard_transparent(OPAQUE_FORWARD, LDR_OUTPUT)
+core/stingray_renderer/shader_import/standard_transparent(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard_transparent(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard_transparent(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard_transparent(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard_transparent(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(DECORATION)
+core/stingray_renderer/shader_import/standard(FBX_EMISSIVE, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(FBX_EMISSIVE, DECORATION)
+core/stingray_renderer/shader_import/standard(FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard(FBX_EMISSIVE, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(FBX_EMISSIVE, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(FBX_EMISSIVE, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard(FBX_EMISSIVE, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(FBX_EMISSIVE, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard(FBX_EMISSIVE, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(FBX_EMISSIVE, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard(FBX_EMISSIVE, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(FBX_EMISSIVE, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard(FBX_EMISSIVE)
+core/stingray_renderer/shader_import/standard(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, DECORATION)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/standard(OPAQUE_FORWARD, LDR_OUTPUT)
+core/stingray_renderer/shader_import/standard(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/standard(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/standard(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/standard(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/standard(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/vray
+core/stingray_renderer/shader_import/vray_caster
+core/stingray_renderer/shader_import/vray_caster(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_caster(DECORATION)
+core/stingray_renderer/shader_import/vray_caster(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_caster(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_caster(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/vray_caster(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_caster(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/vray_caster(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_caster(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/vray_caster(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_caster(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/vray_transfer
+core/stingray_renderer/shader_import/vray_transparent
+core/stingray_renderer/shader_import/vray_transparent_caster
+core/stingray_renderer/shader_import/vray_transparent_caster(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent_caster(DECORATION)
+core/stingray_renderer/shader_import/vray_transparent_caster(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent_caster(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent_caster(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/vray_transparent_caster(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent_caster(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/vray_transparent_caster(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent_caster(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/vray_transparent_caster(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent_caster(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/vray_transparent_transfer
+core/stingray_renderer/shader_import/vray_transparent(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(DECORATION)
+core/stingray_renderer/shader_import/vray_transparent(FBX_EMISSIVE, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(FBX_EMISSIVE, DECORATION)
+core/stingray_renderer/shader_import/vray_transparent(FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/vray_transparent(FBX_EMISSIVE, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(FBX_EMISSIVE, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(FBX_EMISSIVE, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/vray_transparent(FBX_EMISSIVE, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(FBX_EMISSIVE, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/vray_transparent(FBX_EMISSIVE, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(FBX_EMISSIVE, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/vray_transparent(FBX_EMISSIVE, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(FBX_EMISSIVE, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/vray_transparent(FBX_EMISSIVE)
+core/stingray_renderer/shader_import/vray_transparent(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/vray_transparent(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, DECORATION)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/vray_transparent(OPAQUE_FORWARD, LDR_OUTPUT)
+core/stingray_renderer/shader_import/vray_transparent(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/vray_transparent(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/vray_transparent(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/vray_transparent(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray_transparent(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/vray(DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(DECORATION)
+core/stingray_renderer/shader_import/vray(FBX_EMISSIVE, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(FBX_EMISSIVE, DECORATION)
+core/stingray_renderer/shader_import/vray(FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/vray(FBX_EMISSIVE, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(FBX_EMISSIVE, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(FBX_EMISSIVE, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/vray(FBX_EMISSIVE, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(FBX_EMISSIVE, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/vray(FBX_EMISSIVE, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(FBX_EMISSIVE, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/vray(FBX_EMISSIVE, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(FBX_EMISSIVE, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/vray(FBX_EMISSIVE)
+core/stingray_renderer/shader_import/vray(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/vray(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, DECORATION)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, DECORATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, DECORATION)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, FBX_EMISSIVE)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT, SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_import/vray(OPAQUE_FORWARD, LDR_OUTPUT)
+core/stingray_renderer/shader_import/vray(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(SKINNED_1WEIGHT)
+core/stingray_renderer/shader_import/vray(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(SKINNED_2WEIGHTS)
+core/stingray_renderer/shader_import/vray(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(SKINNED_3WEIGHTS)
+core/stingray_renderer/shader_import/vray(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shader_import/vray(SKINNED_4WEIGHTS)
+core/stingray_renderer/shader_libraries/atmosphere
+core/stingray_renderer/shader_libraries/baker
+core/stingray_renderer/shader_libraries/baker_filtering
+core/stingray_renderer/shader_libraries/checkerboard_resolve
+core/stingray_renderer/shader_libraries/color_management
+core/stingray_renderer/shader_libraries/color_management#color_management
+core/stingray_renderer/shader_libraries/common
+core/stingray_renderer/shader_libraries/common#ambient
+core/stingray_renderer/shader_libraries/common#clamp
+core/stingray_renderer/shader_libraries/common#clamp_anisotropic
+core/stingray_renderer/shader_libraries/common#clamp_anisotropic_srgb
+core/stingray_renderer/shader_libraries/common#clamp_linear
+core/stingray_renderer/shader_libraries/common#clamp_linear_srgb
+core/stingray_renderer/shader_libraries/common#clamp_point
+core/stingray_renderer/shader_libraries/common#clamp_point_srgb
+core/stingray_renderer/shader_libraries/common#common
+core/stingray_renderer/shader_libraries/common#default
+core/stingray_renderer/shader_libraries/common#default_stencil_reject_msb
+core/stingray_renderer/shader_libraries/common#depth_only
+core/stingray_renderer/shader_libraries/common#fog
+core/stingray_renderer/shader_libraries/common#gbuffer_access
+core/stingray_renderer/shader_libraries/common#gbuffer_ambient
+core/stingray_renderer/shader_libraries/common#gbuffer_material
+core/stingray_renderer/shader_libraries/common#opacity
+core/stingray_renderer/shader_libraries/common#opacity_add
+core/stingray_renderer/shader_libraries/common#opacity_mul
+core/stingray_renderer/shader_libraries/common#opacity_stencil_reject_msb
+core/stingray_renderer/shader_libraries/common#shadow_caster
+core/stingray_renderer/shader_libraries/common#skinning
+core/stingray_renderer/shader_libraries/common#space_conversion
+core/stingray_renderer/shader_libraries/common#taa_offsets
+core/stingray_renderer/shader_libraries/common#wrap_anisotropic
+core/stingray_renderer/shader_libraries/common#wrap_anisotropic_srgb
+core/stingray_renderer/shader_libraries/common#wrap_linear
+core/stingray_renderer/shader_libraries/common#wrap_linear_srgb
+core/stingray_renderer/shader_libraries/common#wrap_point
+core/stingray_renderer/shader_libraries/common#wrap_point_srgb
+core/stingray_renderer/shader_libraries/cubemap
+core/stingray_renderer/shader_libraries/default_shaders
+core/stingray_renderer/shader_libraries/development
+core/stingray_renderer/shader_libraries/fsr
+core/stingray_renderer/shader_libraries/fxaa
+core/stingray_renderer/shader_libraries/imp_utilities
+core/stingray_renderer/shader_libraries/lighting
+core/stingray_renderer/shader_libraries/lighting_common
+core/stingray_renderer/shader_libraries/lighting_common#brdf
+core/stingray_renderer/shader_libraries/lighting_common#clustered_shading
+core/stingray_renderer/shader_libraries/lighting_common#lighting
+core/stingray_renderer/shader_libraries/missing_billboard
+core/stingray_renderer/shader_libraries/multi_res_blending
+core/stingray_renderer/shader_libraries/particle_billboard
+core/stingray_renderer/shader_libraries/placeholders
+core/stingray_renderer/shader_libraries/post_processing
+core/stingray_renderer/shader_libraries/post_processing_common
+core/stingray_renderer/shader_libraries/sampling_common
+core/stingray_renderer/shader_libraries/screen_space_ambient_occlusion
+core/stingray_renderer/shader_libraries/screen_space_global_illumination
+core/stingray_renderer/shader_libraries/screen_space_reflections
+core/stingray_renderer/shader_libraries/shadow_map_common
+core/stingray_renderer/shader_libraries/shadow_map_common#shadow_bias
+core/stingray_renderer/shader_libraries/shadow_map_common#shadow_map
+core/stingray_renderer/shader_libraries/shadow_map_common#shadow_map_filtering
+core/stingray_renderer/shader_libraries/terrain_utilities
+core/stingray_renderer/shader_libraries/vr
+core/stingray_renderer/shader_libraries/vr_common
+core/stingray_renderer/shader_libraries/vr_common#vr_common
+core/stingray_renderer/shader_libraries/water
+core/stingray_renderer/shader_nodes/sample_skydome
+core/stingray_renderer/shader_nodes/sample_skydome#default
+core/stingray_renderer/shader_nodes/skydome_intensity
+core/stingray_renderer/shader_nodes/skydome_intensity#default
+core/stingray_renderer/shaders/deferred_reflection_box
+core/stingray_renderer/shaders/deferred_reflection_box(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shaders/particle_default
+core/stingray_renderer/shaders/particle_default_caster
+core/stingray_renderer/shaders/particle_default_caster(EXTERNAL_ROTATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shaders/particle_default_caster(EXTERNAL_ROTATION)
+core/stingray_renderer/shaders/particle_default_caster(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shaders/particle_default_caster(TANGENT_LOCKED, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shaders/particle_default_caster(TANGENT_LOCKED)
+core/stingray_renderer/shaders/particle_default(EXTERNAL_ROTATION, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shaders/particle_default(EXTERNAL_ROTATION)
+core/stingray_renderer/shaders/particle_default(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shaders/particle_default(TANGENT_LOCKED, NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shaders/particle_default(TANGENT_LOCKED)
+core/stingray_renderer/shaders/terrain_basic
+core/stingray_renderer/shaders/terrain_basic_caster
+core/stingray_renderer/shaders/terrain_basic(NV_SINGLE_PASS_STEREO)
+core/stingray_renderer/shaders/terrain_default
+core/stingray_renderer/shading_environment_components/asset_color_grading
+core/stingray_renderer/shading_environment_components/atmosphere
+core/stingray_renderer/shading_environment_components/auto_exposure
+core/stingray_renderer/shading_environment_components/bloom
+core/stingray_renderer/shading_environment_components/cascaded_shadow_mapping
+core/stingray_renderer/shading_environment_components/cloud_shadows
+core/stingray_renderer/shading_environment_components/color_grading
+core/stingray_renderer/shading_environment_components/concussion
+core/stingray_renderer/shading_environment_components/confusion
+core/stingray_renderer/shading_environment_components/desaturate_highlight
+core/stingray_renderer/shading_environment_components/directional_light_2
+core/stingray_renderer/shading_environment_components/dof
+core/stingray_renderer/shading_environment_components/dof_circular
+core/stingray_renderer/shading_environment_components/exposure
+core/stingray_renderer/shading_environment_components/far_scatter_control
+core/stingray_renderer/shading_environment_components/film_grain
+core/stingray_renderer/shading_environment_components/fog
+core/stingray_renderer/shading_environment_components/global_lighting
+core/stingray_renderer/shading_environment_components/global_utility
+core/stingray_renderer/shading_environment_components/heathaze
+core/stingray_renderer/shading_environment_components/hologram_drop_select_variables
+core/stingray_renderer/shading_environment_components/hologram_variables
+core/stingray_renderer/shading_environment_components/hud
+core/stingray_renderer/shading_environment_components/lens_flares_global
+core/stingray_renderer/shading_environment_components/lens_quality
+core/stingray_renderer/shading_environment_components/motion_blur
+core/stingray_renderer/shading_environment_components/parametric_color_grading
+core/stingray_renderer/shading_environment_components/post_effects
+core/stingray_renderer/shading_environment_components/render_utility
+core/stingray_renderer/shading_environment_components/showroom_probe_override
+core/stingray_renderer/shading_environment_components/snow_control
+core/stingray_renderer/shading_environment_components/snow_resources
+core/stingray_renderer/shading_environment_components/space_probe_backdrop
+core/stingray_renderer/shading_environment_components/ssao
+core/stingray_renderer/shading_environment_components/ssgi
+core/stingray_renderer/shading_environment_components/ssr
+core/stingray_renderer/shading_environment_components/tone_mapping
+core/stingray_renderer/shading_environment_components/vignette
+core/stingray_renderer/shading_environment_components/volumetric_clouds
+core/stingray_renderer/shading_environment_components/volumetric_clouds_dynamic
+core/stingray_renderer/shading_environment_components/volumetric_clouds_lighting
+core/stingray_renderer/shading_environment_components/volumetric_clouds_shadows
+core/stingray_renderer/shading_environment_components/water_surface
+core/stingray_renderer/shading_environment_components/weathering_resources
+core/stingray_renderer/tools/cubemap_filtering
+core/texture_categories/albedo
+core/texture_categories/albedo_opacity
+core/texture_categories/hdri
+core/texture_categories/ibl-probe
+core/texture_categories/ies
+core/texture_categories/linear_greyscale
+core/texture_categories/normal
+core/texture_categories/roughness_metallic_ao
+core/texture_categories/uncompressed
+core/types/color
+core/types/component
+core/types/entity
+core/types/gradient
+core/types/range
+core/types/rotation
+core/types/transform
+core/types/vector2
+core/types/vector3
+core/units/camera
+core/units/camera_df
+core/units/camera_mesh
+core/units/camera_mesh_df
+core/units/cubemap_probe
+core/units/gizmo
+core/units/gizmo_transfer
+core/units/gizmo_transparent
+core/units/gizmo_transparent_transfer
+core/units/gizmo_transparent(LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/units/gizmo_transparent(LDR_OUTPUT, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/units/gizmo_transparent(LDR_OUTPUT, SKINNED_1WEIGHT)
+core/units/gizmo_transparent(LDR_OUTPUT, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/units/gizmo_transparent(LDR_OUTPUT, SKINNED_2WEIGHTS)
+core/units/gizmo_transparent(LDR_OUTPUT, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/units/gizmo_transparent(LDR_OUTPUT, SKINNED_3WEIGHTS)
+core/units/gizmo_transparent(LDR_OUTPUT, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/units/gizmo_transparent(LDR_OUTPUT, SKINNED_4WEIGHTS)
+core/units/gizmo_transparent(LDR_OUTPUT)
+core/units/gizmo_transparent(NV_SINGLE_PASS_STEREO)
+core/units/gizmo_transparent(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/units/gizmo_transparent(SKINNED_1WEIGHT)
+core/units/gizmo_transparent(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/units/gizmo_transparent(SKINNED_2WEIGHTS)
+core/units/gizmo_transparent(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/units/gizmo_transparent(SKINNED_3WEIGHTS)
+core/units/gizmo_transparent(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/units/gizmo_transparent(SKINNED_4WEIGHTS)
+core/units/gizmo(LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/units/gizmo(LDR_OUTPUT, SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/units/gizmo(LDR_OUTPUT, SKINNED_1WEIGHT)
+core/units/gizmo(LDR_OUTPUT, SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/units/gizmo(LDR_OUTPUT, SKINNED_2WEIGHTS)
+core/units/gizmo(LDR_OUTPUT, SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/units/gizmo(LDR_OUTPUT, SKINNED_3WEIGHTS)
+core/units/gizmo(LDR_OUTPUT, SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/units/gizmo(LDR_OUTPUT, SKINNED_4WEIGHTS)
+core/units/gizmo(LDR_OUTPUT)
+core/units/gizmo(NV_SINGLE_PASS_STEREO)
+core/units/gizmo(SKINNED_1WEIGHT, NV_SINGLE_PASS_STEREO)
+core/units/gizmo(SKINNED_1WEIGHT)
+core/units/gizmo(SKINNED_2WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/units/gizmo(SKINNED_2WEIGHTS)
+core/units/gizmo(SKINNED_3WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/units/gizmo(SKINNED_3WEIGHTS)
+core/units/gizmo(SKINNED_4WEIGHTS, NV_SINGLE_PASS_STEREO)
+core/units/gizmo(SKINNED_4WEIGHTS)
+core/units/light
+core/units/light_source
+core/units/primitives/cone_primitive
+core/units/primitives/cube_primitive
+core/units/primitives/cylinder_primitive
+core/units/primitives/plane_primitive
+core/units/primitives/primitive_material
+core/units/primitives/sphere_primitive
+core/units/primitives/stairs_primitive
+core/units/prototype
+core/units/transparent
+core/units/transparent_caster
+core/units/transparent_transfer
+core/units/transparent(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/units/transparent(HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/units/transparent(NV_SINGLE_PASS_STEREO)
+core/units/transparent(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING, NV_SINGLE_PASS_STEREO)
+core/units/transparent(OPAQUE_FORWARD, LDR_OUTPUT, HAS_LIGHTMAP_BAKED_DIFFUSE_LIGHTING)
+core/units/transparent(OPAQUE_FORWARD, LDR_OUTPUT, NV_SINGLE_PASS_STEREO)
+core/units/transparent(OPAQUE_FORWARD, LDR_OUTPUT)
+core/units/volume
+core/units/wwise_source
+core/wwise/lua/wwise_bank_reference
+core/wwise/lua/wwise_flow_callbacks
+core/wwise/lua/wwise_preview
+core/wwise/lua/wwise_visualization
+core/wwise/wwise
+hide_helper_mesh
+missing_shader
+packages/boot
+packages/fallback_resources
+packages/pre_boot
+rendering/performance_hud
+rendering/renderer
