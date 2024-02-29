@@ -17,6 +17,8 @@ project(
 )
 list(APPEND CMAKE_MESSAGE_INDENT "[${PROJECT_NAME}] ")
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON CACHE "Generate position independent code.")
+
 ################################################################################
 # Modules
 ################################################################################
@@ -210,6 +212,10 @@ if(MSVC)
 	target_compile_options(${PROJECT_NAME} PRIVATE
 		"/EHa"
 		"/Zc:__cplusplus"
+	)
+else()
+	target_compile_options(${PROJECT_NAME} PRIVATE
+		"-fPIC"
 	)
 endif()
 
