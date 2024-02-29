@@ -36,6 +36,7 @@ jobs:
         cp $workspace\README.adoc $workspace\package\
         cp $workspace\LICENSE.adoc $workspace\package\
         cp $workspace\hellextractor.ps1 $workspace\package\
+        cp $workspace\hellextractor.bat $workspace\package\
         Compress-Archive -Path $workspace\package\* -DestinationPath $workspace\hellextractor.zip
       shell: pwsh
     
