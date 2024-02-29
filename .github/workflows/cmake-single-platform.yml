@@ -7,9 +7,10 @@ on:
       - '.github/ISSUE_TEMPLATE/**'
       - 'extra/**'
   pull_request:
-    - '.github/ISSUE_TEMPLATE/**'
-    - 'extra/**'
     branches: [ root ]
+    paths-ignore:
+      - '.github/ISSUE_TEMPLATE/**'
+      - 'extra/**'
   workflow_dispatch:
 
 env:
