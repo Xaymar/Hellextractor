@@ -327,12 +327,21 @@ int32_t mode_extract(std::vector<std::string> const& args)
 
 			// Remove pre-conversion data.
 			if (std::filesystem::exists(base_file_path)) {
-				if (verbosity >= 0)
-					std::cout << "  d " << base_file_name.generic_string() << std::endl;
-				if (!is_dry) {
-					std::filesystem::remove(base_file_path);
+				// Ensure that the default name is not a possible output.
+				bool is_output = false;
+				for (auto output : outputs) {
+					if (permutations[0].second == output.second.second)
+						is_output = true;
 				}
-				stats_removed++;
+
+				if (!is_output) {
+					if (verbosity >= 0)
+						std::cout << "  d " << base_file_name.generic_string() << std::endl;
+					if (!is_dry) {
+						std::filesystem::remove(base_file_path);
+					}
+					stats_removed++;
+				}
 			}
 
 			// Go through each output.
