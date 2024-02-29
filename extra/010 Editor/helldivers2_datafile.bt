@@ -19,7 +19,7 @@
     #define IS_INCLUDE
     #define HELLDIVERS2_DATAFILE_INCLUDE
 #endif
-#include "helldivers2_common.bt"
+#include "common.bt"
 #ifdef HELLDIVERS2_DATAFILE_INCLUDE
     #undef IS_INCLUDE
 #endif

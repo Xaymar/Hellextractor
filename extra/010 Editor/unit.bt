@@ -309,8 +309,9 @@ struct unit_t {
             uint32_t __unk_commonhash[count] <format=hex>;
 			LittleEndian();
             
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
+            // Overlaps into __unk4/__unk5.
+            //uint32_t __unk <format=hex>;
+            //uint32_t __unk <format=hex>;
         } __unk1;
     }
     
