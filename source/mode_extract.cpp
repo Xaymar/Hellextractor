@@ -14,6 +14,7 @@
 #include <regex>
 #include <set>
 #include <unordered_set>
+#include "converter.hpp"
 #include "endian.h"
 #include "hash_db.hpp"
 #include "hd2_data.hpp"
@@ -248,6 +249,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		std::cout << "Found " << files.size() << " files." << std::endl;
 
 	// Export files (if not in dry run mode)
+	size_t stats_total    = 0;
 	size_t stats_written  = 0;
 	size_t stats_renamed  = 0;
 	size_t stats_removed  = 0;
@@ -260,6 +262,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 	}
 	for (auto const& file : files) {
 		auto meta = file.second;
+		stats_total++;
 
 		auto translations = [](uint64_t hash, std::list<hellextractor::hash_db>& primary, std::list<hellextractor::hash_db>& secondary) {
 			std::vector<std::string> translations;
@@ -307,107 +310,198 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		}
 
 		// Generate a proper file path.
-		auto   file_name   = std::filesystem::path(permutations[0].first).replace_extension(permutations[0].second);
-		auto   file_path   = output_path / file_name;
-		bool   file_exists = std::filesystem::exists(file_path);
-		size_t data_size   = (meta.main_size + meta.gpu_size + meta.stream_size);
+		auto base_file_name = std::filesystem::path(permutations[0].first).replace_extension(permutations[0].second);
+		auto base_file_path = output_path / base_file_name;
 
-		if (verbosity >= 1)
-			std::cout << "  " << file_name.generic_string() << std::endl;
-
-		// If the user provided a filter, use it now.
-		if (output_filter.has_value()) {
-			if (!std::regex_match(file_name.generic_string(), output_filter.value())) {
-				if (verbosity >= 1)
-					std::cout << "  f " << file_name.generic_string() << std::endl;
-				stats_filtered++;
-				continue;
-			}
-		}
-
-		bool needs_export = true;
-		bool had_rename   = false;
 		if (!is_dry) {
-			std::filesystem::create_directories(file_path.parent_path());
+			std::filesystem::create_directories(base_file_path.parent_path());
 		}
 
-		// Check if the target file is a different size.
-		if (file_exists) {
-			needs_export = std::filesystem::file_size(file_path) != data_size;
-		}
+		// Try to create a converter for the file type.
+		auto converter = hellextractor::converter::registry::find(meta);
+		if (converter) {
+			auto outputs = converter->outputs();
 
-		// Rename any existing files.
-		if (rename) {
-			for (size_t idx = 1; idx < permutations.size(); idx++) {
-				auto lfile = std::filesystem::path(permutations[idx].first).replace_extension(permutations[idx].second);
-				auto lpath = output_path / lfile;
+			stats_total--;
+			stats_total += outputs.size();
 
-				if (lfile == file_name) {
-					// This should be impossible, but lets deal with it anyway. We don't want weird behavior.
+			// Go through each output.
+			for (auto output : outputs) {
+				bool do_export = true;
+
+				// Figure out the file name and absolute path.
+				auto file_name = std::filesystem::path(permutations[0].first).replace_extension(output.second.second);
+				auto file_path = output_path / file_name;
+
+				if (verbosity >= 1)
+					std::cout << "  " << file_name.generic_string() << std::endl;
+
+				// If the user provided a filter, use it now to exclude files they may not want.
+				if (output_filter.has_value() && (!std::regex_match(file_name.generic_string(), output_filter.value()))) {
+					if (verbosity >= 1)
+						std::cout << "  f " << file_name.generic_string() << std::endl;
+					stats_filtered++;
 					continue;
 				}
 
-				if (std::filesystem::exists(lpath)) {
-					if (needs_export && (std::filesystem::file_size(lpath) == data_size) && !file_exists) {
-						if (verbosity >= 0)
-							std::cout << "  r " << file_name.generic_string() << " <- " << lfile.generic_string() << std::endl;
-						if (!is_dry) {
-							std::filesystem::rename(lpath, file_path);
+				// Check if the existing file needs to be exported again.
+				bool file_exists = std::filesystem::exists(file_path);
+				if (file_exists) {
+					do_export = (std::filesystem::file_size(file_path) != output.second.first);
+				}
+
+				// Rename or delete older files if the user requested it.
+				if (rename) {
+					auto renamedeleter = [&file_name, &file_path, &do_export, &stats_renamed, &stats_removed, &is_dry, &verbosity, &output_path, &output, &file_exists](std::filesystem::path path) {
+						auto old_file_name = path;
+						auto old_file_path = output_path / old_file_name;
+
+						// Ensure we do not try to rename or delete the main file.
+						if (old_file_path == file_path) {
+							return;
 						}
-						needs_export = false;
-						had_rename   = true;
-						stats_renamed++;
-					} else {
-						if (verbosity >= 0)
-							std::cout << "  d " << lfile.generic_string() << std::endl;
-						if (!is_dry) {
-							std::filesystem::remove(lpath);
+
+						// If the old file exists...
+						if (std::filesystem::exists(old_file_path)) {
+							// Then attempt to rename the file if it is the correct size, and we need to export, and the target doesn't exist.
+							if ((std::filesystem::file_size(old_file_path) == output.second.first) && do_export && !file_exists) {
+								if (verbosity >= 0)
+									std::cout << "  r " << old_file_name.generic_string() << " -> " << file_name.generic_string() << " <- " << std::endl;
+								if (!is_dry) {
+									std::filesystem::rename(old_file_path, file_path);
+								}
+								do_export   = false; // This automatically handles the case where we have multiple files.
+								file_exists = true;
+								stats_renamed++;
+							} else {
+								if (verbosity >= 0)
+									std::cout << "  d " << old_file_name.generic_string() << std::endl;
+								if (!is_dry) {
+									std::filesystem::remove(old_file_path);
+								}
+								stats_removed++;
+							}
 						}
-						stats_removed++;
+					};
+
+					// Go through all permutations.
+					for (size_t idx = 1; idx < permutations.size(); idx++) {
+						renamedeleter(std::filesystem::path(permutations[idx].first).concat(".").concat(permutations[idx].second).concat(".").concat(output.second.second));
+					}
+				}
+
+				// Finally, if we still need to export things, do so.
+				if (do_export) {
+					if (verbosity >= 0)
+						std::cout << "  e " << file_name.generic_string() << std::endl;
+
+					if (!is_dry) {
+						converter->extract(output.first, file_path);
+					}
+					stats_written++;
+				} else {
+					if (verbosity >= 1)
+						std::cout << "  s " << base_file_name.generic_string() << std::endl;
+					stats_skipped++;
+				}
+			}
+		} else {
+			bool   needs_export = true;
+			bool   had_rename   = false;
+			size_t data_size    = (meta.main_size + meta.gpu_size + meta.stream_size);
+
+			if (verbosity >= 1)
+				std::cout << "  " << base_file_name.generic_string() << std::endl;
+
+			// If the user provided a filter, use it now.
+			if (output_filter.has_value()) {
+				if (!std::regex_match(base_file_name.generic_string(), output_filter.value())) {
+					if (verbosity >= 1)
+						std::cout << "  f " << base_file_name.generic_string() << std::endl;
+					stats_filtered++;
+					continue;
+				}
+			}
+
+			// Check if the target file is a different size.
+			bool file_exists = std::filesystem::exists(base_file_path);
+			if (file_exists) {
+				needs_export = std::filesystem::file_size(base_file_path) != data_size;
+			}
+
+			// Rename any existing files.
+			if (rename) {
+				for (size_t idx = 1; idx < permutations.size(); idx++) {
+					auto lfile = std::filesystem::path(permutations[idx].first).replace_extension(permutations[idx].second);
+					auto lpath = output_path / lfile;
+
+					if (lfile == base_file_name) {
+						// This should be impossible, but lets deal with it anyway. We don't want weird behavior.
+						continue;
+					}
+
+					if (std::filesystem::exists(lpath)) {
+						if (needs_export && (std::filesystem::file_size(lpath) == data_size) && !file_exists) {
+							if (verbosity >= 0)
+								std::cout << "  r " << base_file_name.generic_string() << " <- " << lfile.generic_string() << std::endl;
+							if (!is_dry) {
+								std::filesystem::rename(lpath, base_file_path);
+							}
+							needs_export = false;
+							had_rename   = true;
+							stats_renamed++;
+						} else {
+							if (verbosity >= 0)
+								std::cout << "  d " << lfile.generic_string() << std::endl;
+							if (!is_dry) {
+								std::filesystem::remove(lpath);
+							}
+							stats_removed++;
+						}
 					}
 				}
 			}
-		}
 
-		if (needs_export) {
-			if (verbosity >= 0)
-				std::cout << "  e " << file_name.generic_string() << std::endl;
+			if (needs_export) {
+				if (verbosity >= 0)
+					std::cout << "  e " << base_file_name.generic_string() << std::endl;
 
-			if (!is_dry) {
-				std::ofstream stream{file_path, std::ios::trunc | std::ios::binary | std::ios::out};
-				if (!stream || stream.bad() || !stream.is_open()) {
-					throw std::runtime_error(string_printf("Failed to export '%s'.", file_name.generic_string().c_str()));
-				}
-				stream.flush();
-
-				if (meta.main_size) {
-					if (verbosity >= 1)
-						std::cout << "        Writing main section..." << std::endl;
-					stream.write(reinterpret_cast<char const*>(meta.main), meta.main_size);
+				if (!is_dry) {
+					std::ofstream stream{base_file_path, std::ios::trunc | std::ios::binary | std::ios::out};
+					if (!stream || stream.bad() || !stream.is_open()) {
+						throw std::runtime_error(string_printf("Failed to export '%s'.", base_file_name.generic_string().c_str()));
+					}
 					stream.flush();
-				}
 
-				if (meta.stream_size) {
-					if (verbosity >= 1)
-						std::cout << "        Writing stream section..." << std::endl;
-					stream.write(reinterpret_cast<char const*>(meta.stream), meta.stream_size);
-					stream.flush();
-				}
+					if (meta.main_size) {
+						if (verbosity >= 1)
+							std::cout << "        Writing main section..." << std::endl;
+						stream.write(reinterpret_cast<char const*>(meta.main), meta.main_size);
+						stream.flush();
+					}
 
-				if (meta.gpu_size) {
-					if (verbosity >= 1)
-						std::cout << "        Writing gpu section..." << std::endl;
-					stream.write(reinterpret_cast<char const*>(meta.gpu), meta.gpu_size);
-					stream.flush();
-				}
+					if (meta.stream_size) {
+						if (verbosity >= 1)
+							std::cout << "        Writing stream section..." << std::endl;
+						stream.write(reinterpret_cast<char const*>(meta.stream), meta.stream_size);
+						stream.flush();
+					}
 
-				stream.close();
+					if (meta.gpu_size) {
+						if (verbosity >= 1)
+							std::cout << "        Writing gpu section..." << std::endl;
+						stream.write(reinterpret_cast<char const*>(meta.gpu), meta.gpu_size);
+						stream.flush();
+					}
+
+					stream.close();
+				}
+				stats_written++;
+			} else {
+				if (verbosity >= 1)
+					std::cout << "  s " << base_file_name.generic_string() << std::endl;
+				stats_skipped++;
 			}
-			stats_written++;
-		} else {
-			if (verbosity >= 1)
-				std::cout << "  s " << file_name.generic_string() << std::endl;
-			stats_skipped++;
 		}
 	}
 
