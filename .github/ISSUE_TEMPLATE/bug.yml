@@ -1,0 +1,15 @@
+name: Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: ["type:bug", triage"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: "Describe the Bug"
+      description: "Please include expected and actual behavior, as well as reproduction steps."
+  - type: input
+    id: commit
+    attributes:
+      label: "Last known working version"
+      description: "Which was the last version you had working? Leave blank if you don't know."
