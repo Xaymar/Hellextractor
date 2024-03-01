@@ -13,8 +13,8 @@
 
 #if __BIG_ENDIAN__
 #define htole16(x) ((uint16_t)(((x) >> 8) & 0xFF) | ((uint16_t)((x)&0xFF) << 8))
-#define htole32(x) (((uint32_t)htobe16(((x) >> 16) & 0xFFFF)) | ((uint32_t)htobe16((x)&0xFFFF) << 16))
-#define htole64(x) (((uint64_t)htobe32(((x) >> 32) & 0xFFFFFFFF)) | ((uint64_t)htobe32((x)&0xFFFFFFFF) << 32))
+#define htole32(x) (((uint32_t)htole16(((x) >> 16) & 0xFFFF)) | ((uint32_t)htole16((x)&0xFFFF) << 16))
+#define htole64(x) (((uint64_t)htole32(((x) >> 32) & 0xFFFFFFFF)) | ((uint64_t)htole32((x)&0xFFFFFFFF) << 32))
 #define htobe16(x) (x)
 #define htobe32(x) (x)
 #define htobe64(x) (x)
