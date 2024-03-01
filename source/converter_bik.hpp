@@ -10,7 +10,7 @@
 
 #pragma once
 #include "converter.hpp"
-#include "hd2_bik.hpp"
+#include "stingray_bik.hpp"
 #include "stingray_data.hpp"
 
 namespace hellextractor::converter {

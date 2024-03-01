@@ -10,8 +10,8 @@
 
 #pragma once
 #include "converter.hpp"
-#include "hd2_wwise_bank.hpp"
 #include "stingray_data.hpp"
+#include "stingray_wwise_bank.hpp"
 
 namespace hellextractor::converter {
 	class wwise_bank : public base {

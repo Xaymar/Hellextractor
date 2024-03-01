@@ -10,8 +10,8 @@
 
 #pragma once
 #include "converter.hpp"
-#include "hd2_wwise_stream.hpp"
 #include "stingray_data.hpp"
+#include "stingray_wwise_stream.hpp"
 
 namespace hellextractor::converter {
 	class wwise_stream : public base {

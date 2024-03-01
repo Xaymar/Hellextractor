@@ -10,8 +10,8 @@
 
 #pragma once
 #include "converter.hpp"
-#include "hd2_texture.hpp"
 #include "stingray_data.hpp"
+#include "stingray_texture.hpp"
 
 namespace hellextractor::converter {
 	class texture : public base {
