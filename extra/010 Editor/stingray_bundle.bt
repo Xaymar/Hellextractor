@@ -27,6 +27,10 @@
 struct stingray_bundle_t {
     uint32_t __unk;
     uint32_t count;
+    // Vermintide 1's format differs.
+    //uint32_t __unk;
+    //uint32_t __unk;
+    //uint32_t __unk;
     struct {
         uint32_t count;
         struct {

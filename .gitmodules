@@ -4,3 +4,6 @@
 [submodule "cmake/clang"]
 	path = cmake/clang
 	url = https://github.com/Xaymar/cmake-clang
+[submodule "third-party/zlib-ng"]
+	path = third-party/zlib-ng
+	url = https://github.com/zlib-ng/zlib-ng

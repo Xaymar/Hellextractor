@@ -41,6 +41,7 @@ struct stingray_stream_t {
 	LittleEndian();
     uint32_t __unk <format=decimal>;
     uint32_t __unk <format=hex>;
+    do {
     struct {
         uint32_t size <format=decimal>;
         struct {
@@ -57,7 +58,8 @@ struct stingray_stream_t {
         }        
         char data[size - 6];
         uint32_t adler32;
-    } zlib[2] <optimize=false>;
+    } zlib <optimize=false>;
+    } while (FTell() != FileSize());
 };
 
 #ifndef IS_INCLUDE
