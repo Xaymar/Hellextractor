@@ -11,20 +11,21 @@
 #pragma once
 #include <filesystem>
 #include <map>
+#include "stingray.hpp"
 
 namespace hellextractor {
 	class hash_db {
-		std::map<uint64_t, std::string> _strings;
-		std::map<std::string, uint64_t> _hashes;
+		std::map<stingray::hash_t, std::string> _strings;
+		std::map<std::string, stingray::hash_t> _hashes;
 
 		public:
 		~hash_db();
 		hash_db();
 		hash_db(std::filesystem::path db_file);
 
-		std::map<uint64_t, std::string> const& strings();
+		std::map<stingray::hash_t, std::string> const& strings();
 
-		std::map<std::string, uint64_t> const& hashes();
+		std::map<std::string, stingray::hash_t> const& hashes();
 	};
 
 } // namespace hellextractor

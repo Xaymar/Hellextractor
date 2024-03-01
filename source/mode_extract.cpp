@@ -273,7 +273,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		auto meta = file.second;
 		stats_total++;
 
-		auto translations = [](uint64_t hash, std::list<hellextractor::hash_db>& primary, std::list<hellextractor::hash_db>& secondary) {
+		auto translations = [](stingray::hash_t hash, std::list<hellextractor::hash_db>& primary, std::list<hellextractor::hash_db>& secondary) {
 			std::vector<std::string> translations;
 
 			for (auto& db : primary) {
@@ -295,7 +295,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		};
 
 		// Match the name with the name databases.
-		auto file_names = translations(static_cast<uint64_t>(meta.file.id), namedbs, strings);
+		auto file_names = translations(meta.file.id, namedbs, strings);
 		if (file_names.size() > 0) {
 			++stats_names;
 		}
@@ -303,7 +303,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		file_names.emplace_back(string_printf("%016" PRIx64, bswap64((uint64_t)meta.file.id)));
 
 		// Match the type with the type databases.
-		auto file_types = translations(static_cast<uint64_t>(meta.file.type), typedbs, strings);
+		auto file_types = translations(meta.file.type, typedbs, strings);
 		if (file_types.size() > 0) {
 			++stats_types;
 		}

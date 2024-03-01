@@ -57,19 +57,19 @@ hellextractor::hash_db::hash_db(std::filesystem::path db_file) : _strings(), _ha
 		}
 
 		// Everything else gets added.
-		uint64_t hash = *reinterpret_cast<uint64_t const*>(hasher->hash(line.data(), line.length()).data());
+		stingray::hash_t hash = *reinterpret_cast<stingray::hash_t const*>(hasher->hash(line.data(), line.length()).data());
 
 		_hashes.emplace(line, hash);
 		_strings.emplace(hash, line);
 	}
 }
 
-std::map<uint64_t, std::string> const& hellextractor::hash_db::strings()
+std::map<stingray::hash_t, std::string> const& hellextractor::hash_db::strings()
 {
 	return _strings;
 }
 
-std::map<std::string, uint64_t> const& hellextractor::hash_db::hashes()
+std::map<std::string, stingray::hash_t> const& hellextractor::hash_db::hashes()
 {
 	return _hashes;
 }
