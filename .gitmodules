@@ -7,3 +7,9 @@
 [submodule "third-party/zlib-ng"]
 	path = third-party/zlib-ng
 	url = https://github.com/zlib-ng/zlib-ng
+[submodule "third-party/json"]
+	path = third-party/json
+	url = https://github.com/nlohmann/json
+[submodule "third-party/nlohmann-json"]
+	path = third-party/nlohmann-json
+	url = https://github.com/nlohmann/json
