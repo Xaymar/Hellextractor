@@ -22,7 +22,7 @@ static std::string_view constexpr help = "Convert text into hash";
 
 int32_t mode_hash(std::vector<std::string> const& args)
 {
-	auto inst = hellextractor::hash::instance::create(hellextractor::hash::type::MURMURHASH64A);
+	auto inst = hellextractor::hash::instance::create(hellextractor::hash::type::MURMUR_64A);
 
 	bool show_help = false;
 	if (args.size() == 1) {

@@ -31,7 +31,7 @@ hellextractor::hash_db::hash_db(std::filesystem::path db_file) : _strings(), _ha
 		throw std::runtime_error(string_printf("Failed to open file '%s'", db_file.generic_u8string().c_str()));
 	}
 
-	auto hasher = hellextractor::hash::instance::create(hash::type::MURMURHASH64A);
+	auto hasher = hellextractor::hash::instance::create(hash::type::MURMUR_64A);
 
 	// Parse line by line.
 	std::string line;

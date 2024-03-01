@@ -185,11 +185,11 @@ class hash_md5 : public hash_bcrypt {
 static auto hash_md5_factory = hash_list(hellextractor::hash::type::MD5, []() { return std::make_shared<hash_md5>(); });
 #endif
 
-class hash_murmurhash64a : public hellextractor::hash::instance {
+class hash_murmur_64a : public hellextractor::hash::instance {
 	std::vector<char> _buf;
 
 	public:
-	hash_murmurhash64a() : hellextractor::hash::instance()
+	hash_murmur_64a() : hellextractor::hash::instance()
 	{
 		_buf.resize(sizeof(uint64_t), 0);
 	}
@@ -245,4 +245,22 @@ class hash_murmurhash64a : public hellextractor::hash::instance {
 		return _buf;
 	}
 };
-static auto hash_murmurhash64a_factory = hash_list(hellextractor::hash::type::MURMURHASH64A, []() { return std::make_shared<hash_murmurhash64a>(); });
+static auto hash_murmur_64a_fac = hash_list(hellextractor::hash::type::MURMUR_64A, []() { return std::make_shared<hash_murmur_64a>(); });
+
+class hash_murmur_stingray32 : public hash_murmur_64a {
+	std::vector<char> _buf;
+
+	public:
+	hash_murmur_stingray32() : hash_murmur_64a() {}
+
+	std::vector<char> hash(void const* ptr, size_t length) override
+	{
+		// Stingray's 32bit hashes are the upper 32 bits of the hash.
+		auto     buf  = hash_murmur_64a::hash(ptr, length);
+		uint64_t hash = *reinterpret_cast<uint64_t*>(buf.data());
+		buf.resize(4);
+		*reinterpret_cast<uint32_t*> = hash >> 32;
+		return _buf;
+	}
+};
+static auto hash_murmur_stingray32_fac = hash_list(hellextractor::hash::type::MURMUR_STINGRAY32, []() { return std::make_shared<hash_murmur_stingray32>(); });

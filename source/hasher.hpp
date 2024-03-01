@@ -21,7 +21,8 @@ namespace hellextractor {
 			MD2,
 			MD4,
 			MD5,
-			MURMURHASH64A,
+			MURMUR_64A,
+			MURMUR_STINGRAY32,
 		};
 
 		class instance {

@@ -26,11 +26,11 @@ namespace helldivers2 {
 
 		private:
 		helldivers2::data_110000F0::meta_t _meta;
-		header_t const*           _header;
-		uint8_t const*            _data_header;
-		size_t                    _data_header_sz;
-		uint8_t const*            _data;
-		size_t                    _data_sz;
+		header_t const*                    _header;
+		uint8_t const*                     _data_header;
+		size_t                             _data_header_sz;
+		uint8_t const*                     _data;
+		size_t                             _data_sz;
 
 		public:
 		~bik();
