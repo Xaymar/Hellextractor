@@ -4,37 +4,39 @@
 // Additional thanks to:
 // - https://reshax.com/topic/507-helldivers-2-model-extraction-help/?do=findComment&comment=2009&_rid=1957
 
-// 0x05106B81DCD58A13
-// 0x18DEAD01056B72E9
-// 0x1d59bd6687db6b33
-// 0x2a0a70acfe476e1d
-// 0xeac0b497876adedf
-// 0x57A13425279979D7
-// 0x5F7203C8F280DAB8
-// 0x9199BB50B6896F02
+// 336bdb8766bd591d 1d59bd6687db6b33 // "havok_phyiscs" DTZxPorter
+// 1d6e47feac700a2a 2a0a70acfe476e1d // "build_identifiers" DTZxPorter
+// dfde6a8797b4c0ea eac0b497876adedf // "materials" DTZxPorter, but we already have material
+// d77999272534a157 57a13425279979d7 // "havok_iks" DTZxPorter
+// 026f89b650bb9991 9199bb50b6896f02 // There's a total of 3 files that have this.
 
-actions
+action
 actor
 akd
 anim_clip
 anim_controller
 anim_skeleton
 animation
+animation_curve
 animation_curves
 animation_set
 apb
 apd
 apk
+apng
 apx
 baked_lighting
 bik
 bin
 blend_set
 blend_shapes
+bmp
 bnk
 bones
 bsi
+build_identifier
 cache
+camera_shake
 capture_settings
 character
 chm
@@ -64,6 +66,7 @@ dll
 dylib
 editor
 editorconfig
+entities
 entity
 eot
 eslintignore
@@ -75,14 +78,26 @@ flow
 flow_editor
 flow_node_definitions
 font
+font_atlas
 font_material
 fs
+geometry_group
+geometry_groups
 gif
 gitignore
 gitkeep
 gizmo
 gizmo_material
-h
+havok_ai
+havok_ais
+havok_capture
+havok_captures
+havok_cloth
+havok_cloths
+havok_ik
+havok_iks
+havok_physics_property
+havok_physics_propertys
 HeightField
 htm
 html
@@ -99,9 +114,11 @@ iobj
 ipdb
 ivf
 jar
+jpeg
 jpg
 js
 json
+jxl
 keys
 LabSample
 less
@@ -114,9 +131,12 @@ main
 manifest
 material
 material_transfer
+material_transfers
+materials
 mc3
 md
 mesh
+meshes
 metallib
 mlm
 mod
@@ -134,14 +154,18 @@ object_filter
 otf
 package
 pak
+particle
 particle_editor
+particle_editors
 particles
 patch
 pdb
 pdf
 physics
 physics_data
+physics_datas
 physics_properties
+physics_property
 physx_metadata
 pit
 plist
@@ -154,8 +178,15 @@ ps4
 qss
 render_config
 render_config_extension
+render_config_extensions
+render_configs
 renderable
+renderables
 resource
+resources
+runtime_font
+runtime_font_atlas
+runtime_font_atlases
 s2d
 s2dactor
 s2dproj
@@ -170,16 +201,26 @@ settings
 sh
 shader
 shader_import
+shader_libraries
+shader_library
 shader_library_group
+shader_library_groups
 shader_node
 shader_source
+shaders
 shading_environment
 shading_environment_mapping
+shading_environment_mappings
 shading_environment_template
+shading_environment_templates
+shading_environments
 sjson
 slug_album
 sound_environment
 speedtree
+speedtree_resource
+speedtree_resources
+speedtrees
 spu_job
 state_machine
 statemachine_editor
@@ -187,6 +228,7 @@ stingray_plugin
 stingray_plugin_disabled
 stingray_project
 stingray-asset-server-directory
+string
 strings
 surface_properties
 svg
@@ -195,6 +237,7 @@ texture
 texture_category
 texture_template
 tga
+tiff
 timestamp
 timpani_bank
 timpani_master
@@ -218,6 +261,7 @@ w8
 wasm
 wav
 wcmdline
+webp
 win32
 win64
 wlayout
