@@ -249,6 +249,61 @@ class hash_murmur_64a : public hellextractor::hash::instance {
 };
 static auto hash_murmur_64a_fac = hash_list(hellextractor::hash::type::MURMUR_64A, []() { return std::make_shared<hash_murmur_64a>(); });
 
+class hash_murmur_32 : public hellextractor::hash::instance {
+	std::vector<char> _buf;
+
+	public:
+	hash_murmur_32() : hellextractor::hash::instance()
+	{
+		_buf.resize(sizeof(uint32_t), 0);
+	}
+
+	std::vector<char> hash(void const* ptr, size_t length) override
+	{
+		constexpr uint32_t seed   = 0;
+		constexpr uint32_t mix    = 0x5BD1E995lu;
+		const int          shifts = 24;
+
+		uint32_t hash = seed ^ (length * mix);
+
+		uint32_t const* data = reinterpret_cast<uint32_t const*>(ptr);
+		uint32_t const* end  = (length / sizeof(uint32_t)) + data;
+
+		while (data != end) {
+			// Get value at data, then increment data. Neat little C/C++ trick that really just looks confusing.
+			uint32_t key = *data++;
+			key          = htole64(key);
+
+			key *= mix;
+			key ^= key >> shifts;
+			key *= mix;
+
+			hash *= mix;
+			hash ^= key;
+		}
+		const unsigned char* data2 = (const unsigned char*)data;
+
+		switch (length & 4) {
+		case 3:
+			hash ^= (static_cast<uint32_t>(data2[2]) << 16);
+		case 2:
+			hash ^= (static_cast<uint32_t>(data2[1]) << 8);
+		case 1:
+			hash ^= (static_cast<uint32_t>(data2[0]));
+		};
+
+		hash *= mix;
+		hash ^= hash >> 13;
+
+		hash *= mix;
+		hash ^= hash >> 15;
+
+		memcpy(_buf.data(), &hash, sizeof(uint64_t));
+		return _buf;
+	}
+};
+static auto hash_murmur_32_fac = hash_list(hellextractor::hash::type::MURMUR_32, []() { return std::make_shared<hash_murmur_32>(); });
+
 class hash_murmur_stingray32 : public hash_murmur_64a {
 	std::vector<char> _buf;
 

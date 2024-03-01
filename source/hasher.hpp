@@ -22,6 +22,7 @@ namespace hellextractor {
 			MD4,
 			MD5,
 			MURMUR_64A,
+			MURMUR_32,
 			MURMUR_STINGRAY32,
 		};
 
