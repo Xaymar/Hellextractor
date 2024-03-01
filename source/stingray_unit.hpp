@@ -141,6 +141,21 @@ namespace stingray {
 			// stingray::unit::mesh_group_t group[groups];
 		};
 
+		struct unit_node_t {
+			uint32_t count;
+			uint32_t __unk00;
+			uint32_t __unk01;
+			uint32_t __unk02;
+
+			struct {
+				float rotation[3 * 3]; // ToDo: Get a proper vector, matrix, quaternion math library
+				float translation[3];
+				float scale[3];
+				float skew;
+			} trss;
+			float matrix[16];
+		};
+
 		struct unit_materials_t {
 			uint32_t count;
 			//stingray::thin_hash_t keys[count];
