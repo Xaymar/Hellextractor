@@ -14,6 +14,7 @@
 #include <map>
 #include <memory>
 #include <stdexcept>
+#include "endian.h"
 
 typedef std::function<std::shared_ptr<hellextractor::hash::instance>()> hash_fn_t;
 typedef std::map<hellextractor::hash::type, hash_fn_t>                  hash_list_t;
@@ -208,6 +209,7 @@ class hash_murmur_64a : public hellextractor::hash::instance {
 		while (data != end) {
 			// Get value at data, then increment data. Neat little C/C++ trick that really just looks confusing.
 			uint64_t key = *data++;
+			key = htole64(key);
 
 			key *= mix;
 			key ^= key >> shifts;
@@ -259,7 +261,7 @@ class hash_murmur_stingray32 : public hash_murmur_64a {
 		auto     buf  = hash_murmur_64a::hash(ptr, length);
 		uint64_t hash = *reinterpret_cast<uint64_t*>(buf.data());
 		buf.resize(4);
-		*reinterpret_cast<uint32_t*> = hash >> 32;
+		*reinterpret_cast<uint32_t*>(buf.data()) = (hash >> 32);
 		return _buf;
 	}
 };
