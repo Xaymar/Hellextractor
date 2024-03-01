@@ -18,6 +18,9 @@
 #define htobe16(x) (x)
 #define htobe32(x) (x)
 #define htobe64(x) (x)
+#define eflip16(x) htole16(x)
+#define eflip32(x) htole32(x)
+#define eflip64(x) htole64(x)
 #else
 #define htobe16(x) ((uint16_t)(((x) >> 8) & 0xFF) | ((uint16_t)((x)&0xFF) << 8))
 #define htobe32(x) (((uint32_t)htobe16(((x) >> 16) & 0xFFFF)) | ((uint32_t)htobe16((x)&0xFFFF) << 16))
@@ -25,6 +28,9 @@
 #define htole16(x) (x)
 #define htole32(x) (x)
 #define htole64(x) (x)
+#define eflip16(x) htobe16(x)
+#define eflip32(x) htobe32(x)
+#define eflip64(x) htobe64(x)
 #endif
 
 #define le16toh(x) htole16(x)

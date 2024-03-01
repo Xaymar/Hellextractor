@@ -50,31 +50,6 @@ int32_t mode_extract(std::vector<std::string> const& args)
 	bool show_help = false;
 	if (args.size() == 1) {
 		show_help = true;
-	} else {
-		if ((args[1] == "-h") || (args[1] == "--help")) {
-			show_help = true;
-		}
-	}
-	if (show_help) {
-		auto self = std::filesystem::path(args[0]).filename();
-		std::cout << self.generic_string() << " " << name << " [options] data_file_or_path [...]" << std::endl;
-		std::cout << "Exports all data from the given " << std::endl;
-		std::cout << std::endl;
-		std::cout << "Options" << std::endl;
-		std::cout << "  -h, --help            Show this help" << std::endl;
-		std::cout << "  -o, --output <path>   Set output directory" << std::endl;
-		std::cout << "  -i, --input <regex>   Only include input files matching the regular expression. Default is to exclude any file with an extension." << std::endl;
-		std::cout << "  -f, --filter <regex>  Only include output files matching the regular expression. Will be run after any translation tables have been applied." << std::endl;
-		std::cout << "  -t, --types <path>    Add a database file to the Type Hash translation table. Will search the most recently added one first, then continue until there's none left, then search the Strings Hash translation tables." << std::endl;
-		std::cout << "  -n, --names <path>    Add a database file to the Name Hash translation table. Will search the most recently added one first, then continue until there's none left, then search the Strings Hash translation tables." << std::endl;
-		std::cout << "  -s, --strings <path>  Add a database file to the String Hash translation table." << std::endl;
-		std::cout << "  -d, --dry-run         Don't actually do anything." << std::endl;
-		std::cout << "  -r, --rename          Rename/Delete files with older or untranslated names or types." << std::endl;
-		std::cout << "  -q, --quiet           Decrease verbosity of output." << std::endl;
-		std::cout << "  -v, --verbose         Increase verbosity of output." << std::endl;
-		std::cout << "  -x, --index <path>    Generate an hash -> file index (csv) for use in external tools." << std::endl;
-		std::cout << std::endl;
-		return 1;
 	}
 
 	std::optional<std::regex>                 input_filter;
@@ -93,7 +68,9 @@ int32_t mode_extract(std::vector<std::string> const& args)
 	for (size_t edx = args.size(), idx = 1; idx < edx; ++idx) {
 		auto arg = args[idx];
 		if (arg[0] == '-') {
-			if ((arg == "-o") || (arg == "--output")) {
+			if ((arg == "-h") || (arg == "--help")) {
+				show_help = true;
+			} else if ((arg == "-o") || (arg == "--output")) {
 				if ((idx + 1) < edx) {
 					output_path = std::filesystem::absolute(args[idx + 1]);
 					++idx;
@@ -165,6 +142,28 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		} else {
 			input_paths.insert(std::filesystem::path(arg));
 		}
+	}
+
+	if (show_help) {
+		auto self = std::filesystem::path(args[0]).filename();
+		std::cout << self.generic_string() << " " << name << " [options] data_file_or_path [...]" << std::endl;
+		std::cout << "Exports all data from the given " << std::endl;
+		std::cout << std::endl;
+		std::cout << "Options" << std::endl;
+		std::cout << "  -h, --help            Show this help" << std::endl;
+		std::cout << "  -o, --output <path>   Set output directory" << std::endl;
+		std::cout << "  -i, --input <regex>   Only include input files matching the regular expression. Default is to exclude any file with an extension." << std::endl;
+		std::cout << "  -f, --filter <regex>  Only include output files matching the regular expression. Will be run after any translation tables have been applied." << std::endl;
+		std::cout << "  -t, --types <path>    Add a database file to the Type Hash translation table. Will search the most recently added one first, then continue until there's none left, then search the Strings Hash translation tables." << std::endl;
+		std::cout << "  -n, --names <path>    Add a database file to the Name Hash translation table. Will search the most recently added one first, then continue until there's none left, then search the Strings Hash translation tables." << std::endl;
+		std::cout << "  -s, --strings <path>  Add a database file to the String Hash translation table." << std::endl;
+		std::cout << "  -d, --dry-run         Don't actually do anything." << std::endl;
+		std::cout << "  -r, --rename          Rename/Delete files with older or untranslated names or types." << std::endl;
+		std::cout << "  -q, --quiet           Decrease verbosity of output." << std::endl;
+		std::cout << "  -v, --verbose         Increase verbosity of output." << std::endl;
+		std::cout << "  -x, --index <path>    Generate an hash -> file index (csv) for use in external tools." << std::endl;
+		std::cout << std::endl;
+		return 1;
 	}
 
 	// Load translation tables...
@@ -300,16 +299,16 @@ int32_t mode_extract(std::vector<std::string> const& args)
 		if (file_names.size() > 0) {
 			++stats_names;
 		}
-		file_names.emplace_back(string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.id)));
-		file_names.emplace_back(string_printf("%016" PRIx64, htole64((uint64_t)meta.file.id)));
+		file_names.emplace_back(string_printf("%016" PRIx64, (uint64_t)meta.file.id));
+		file_names.emplace_back(string_printf("%016" PRIx64, eflip64((uint64_t)meta.file.id)));
 
 		// Match the type with the type databases.
 		auto file_types = translations(static_cast<uint64_t>(meta.file.type), typedbs, strings);
 		if (file_types.size() > 0) {
 			++stats_types;
 		}
-		file_types.emplace_back(string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.type)));
-		file_types.emplace_back(string_printf("%016" PRIx64, htole64((uint64_t)meta.file.type)));
+		file_types.emplace_back(string_printf("%016" PRIx64, (uint64_t)meta.file.type));
+		file_types.emplace_back(string_printf("%016" PRIx64, eflip64((uint64_t)meta.file.type)));
 
 		// Generate all permutations.
 		std::vector<std::pair<std::string, std::string>> permutations;
@@ -329,8 +328,8 @@ int32_t mode_extract(std::vector<std::string> const& args)
 
 		if (index_stream.is_open() && !is_dry) {
 			index_stream //
-				<< string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.id)) << "," //
-				<< string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.type)) << "," //
+				<< string_printf("%016" PRIx64, (uint64_t)meta.file.id) << "," //
+				<< string_printf("%016" PRIx64, (uint64_t)meta.file.type) << "," //
 				<< base_file_name.generic_string() //
 				<< std::endl;
 		}
@@ -376,8 +375,8 @@ int32_t mode_extract(std::vector<std::string> const& args)
 
 				if (index_stream.is_open() && !is_dry) {
 					index_stream //
-						<< string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.id)) << "," //
-						<< string_printf("%016" PRIx64, htobe64((uint64_t)meta.file.type)) << "," //
+						<< string_printf("%016" PRIx64, (uint64_t)meta.file.id) << "," //
+						<< string_printf("%016" PRIx64, (uint64_t)meta.file.type) << "," //
 						<< file_name.generic_string() << "," //
 						<< output.first //
 						<< std::endl;
