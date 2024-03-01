@@ -154,19 +154,19 @@ struct unit_t {
         uint32_t __unk <format=hex>;
         uint32_t __unk <format=hex>;
         
-        uint32_t __unkoffset <format=decimal>;
-        uint32_t __unkoffset <format=decimal>;
-        uint32_t __unkoffset <format=decimal>;
-        uint32_t __unkoffset <format=decimal>;
+        uint32_t __unkoffset0 <format=decimal>;
+        uint32_t node_list_offset <format=decimal>;
+        uint32_t __unkoffset2 <format=decimal>;
+        uint32_t __unkoffset3 <format=decimal>;
         
         uint32_t __unk <format=hex>;
         uint32_t __unk <format=hex>;
         uint32_t __unk <format=hex>;
-        uint32_t __unkoffset <format=decimal>;
+        uint32_t __unkoffset4 <format=decimal>;
         
-        uint32_t __unkoffset <format=decimal>;
+        uint32_t __unkoffset5 <format=decimal>;
         uint32_t __unk <format=hex>;
-        uint32_t __unkoffset <format=decimal>;
+        uint32_t __unkoffset6 <format=decimal>;
         uint32_t datatype_list_offset <format=decimal>;
         
         uint32_t mesh_data_offset <format=decimal>;
@@ -177,8 +177,8 @@ struct unit_t {
         uint32_t material_hashmap_offset <format=decimal>;
     } header;
     
-    if (header.__unkoffset[3] != 0) {
-        FSeek(header.__unkoffset[3]);
+    if (header.__unkoffset3 != 0) {
+        FSeek(header.__unkoffset3);
         struct {
             uint32_t count <format=decimal>;
             uint32_t __unk <format=hex>;
@@ -192,8 +192,8 @@ struct unit_t {
         } __unk3;
     }
     
-    if (header.__unkoffset[2] != 0) {
-        FSeek(header.__unkoffset[2]);
+    if (header.__unkoffset2 != 0) {
+        FSeek(header.__unkoffset2);
         struct {
             uint32_t count <format=decimal>;
             uint32_t __unk <format=hex>;
@@ -215,8 +215,8 @@ struct unit_t {
         } __unk2;
     }
     
-    if (header.__unkoffset[0] != 0) {
-        FSeek(header.__unkoffset[0]);
+    if (header.__unkoffset0 != 0) {
+        FSeek(header.__unkoffset0);
         struct {
             uint32_t count <format=decimal>;
             uint32_t offsets[count] <format=decimal>;
@@ -265,17 +265,21 @@ struct unit_t {
         } __unk0;
     }
     
-    if (header.__unkoffset[1] != 0) { // 
-        FSeek(header.__unkoffset[1]);
+    if (header.node_list_offset != 0) { // 
+        FSeek(header.node_list_offset);
         struct {
             uint32_t count <format=decimal>;
             uint32_t __unk <format=hex>;
             uint32_t __unk <format=hex>;
             uint32_t __unk <format=hex>;
             
-            f32mat4x4_t __unk_f32mat4x4_0[count];
-            // If the next one is the translation/rotation/scale, what is this one?
-            f32mat4x4_t __unk_f32mat4x4_1[count];
+            struct {
+                f32mat3x3_t rotation;
+                f32vec3_t translation;
+                f32vec3_t scale;
+                float skew;
+            } location[count];
+            f32mat4x4_t trss_matrix[count];
             // Potentially translation, scale and rotation in one:
             //       [0] [1] [2] [3]
             //   [0]  xX  xY  xZ   0
@@ -285,7 +289,6 @@ struct unit_t {
             // [xyz][XYZ] encode Scale and Rotation in one.
             // [t][XYZ] is translation?
             // The 4th column appears to be unused, since scale was encoded into rotation matrix.
-            // This might be OpenGL-style (transposed) instead of DirectX-style
             
             u16vec2_t __unk_u16vec2_0[count];
 			BigEndian();
@@ -300,11 +303,11 @@ struct unit_t {
             if (FTell() % 16 > 0) {
                 uint8_t __pad[16 - (FTell() % 16)] <format=hex>;
             }
-        } __unk1;
+        } nodes;
     }
     
-    if (header.__unkoffset[4] != 0) {
-        FSeek(header.__unkoffset[4]);
+    if (header.__unkoffset4 != 0) {
+        FSeek(header.__unkoffset4);
         struct {
             uint32_t length <format=decimal>;
             uint32_t __unk <format=hex>;
@@ -322,8 +325,8 @@ struct unit_t {
         } __unk4;
     }
         
-    if (header.__unkoffset[5] != 0) {
-        FSeek(header.__unkoffset[5]);
+    if (header.__unkoffset5 != 0) {
+        FSeek(header.__unkoffset5);
         struct {
             uint32_t __unk <format=hex>;
             uint32_t __unk_hash[__unk] <format=hex>;
@@ -340,8 +343,8 @@ struct unit_t {
         } __unk5; // Off by a lot. Heck.
     }
         
-    if (header.__unkoffset[6] != 0) { // 768 bytes. Suspicious.
-        FSeek(header.__unkoffset[6]);
+    if (header.__unkoffset6 != 0) { // 768 bytes. Suspicious.
+        FSeek(header.__unkoffset6);
         struct {
             uint32_t count <format=decimal>;
             uint32_t offsets[count] <format=decimal>;

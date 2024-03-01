@@ -70,15 +70,15 @@ struct f16vec3_t { half _; half _; half _; };
 struct f16vec4_t { half _; half _; half _; half _; };
 
 struct f16mat2x2_t { f16vec2_t _; f16vec2_t _; };
-struct f16mat2x3_t { f16vec2_t _; f16vec2_t _; f16vec2_t _; };
-struct f16mat2x4_t { f16vec2_t _; f16vec2_t _; f16vec2_t _; f16vec2_t _; };
+struct f16mat3x2_t { f16vec2_t _; f16vec2_t _; f16vec2_t _; };
+struct f16mat4x2_t { f16vec2_t _; f16vec2_t _; f16vec2_t _; f16vec2_t _; };
 
-struct f16mat3x2_t { f16vec3_t _; f16vec3_t _; };
+struct f16mat2x3_t { f16vec3_t _; f16vec3_t _; };
 struct f16mat3x3_t { f16vec3_t _; f16vec3_t _; f16vec3_t _; };
-struct f16mat3x4_t { f16vec3_t _; f16vec3_t _; f16vec3_t _; f16vec3_t _; };
+struct f16mat4x3_t { f16vec3_t _; f16vec3_t _; f16vec3_t _; f16vec3_t _; };
 
-struct f16mat4x2_t { f16vec4_t _; f16vec4_t _; };
-struct f16mat4x3_t { f16vec4_t _; f16vec4_t _; f16vec4_t _; };
+struct f16mat2x4_t { f16vec4_t _; f16vec4_t _; };
+struct f16mat3x4_t { f16vec4_t _; f16vec4_t _; f16vec4_t _; };
 struct f16mat4x4_t { f16vec4_t _; f16vec4_t _; f16vec4_t _; f16vec4_t _; };
 
 // Float32 Vectors & Matrices
@@ -88,15 +88,15 @@ struct f32vec3_t { single _; single _; single _; };
 struct f32vec4_t { single _; single _; single _; single _; };
 
 struct f32mat2x2_t { f32vec2_t _; f32vec2_t _; };
-struct f32mat2x3_t { f32vec2_t _; f32vec2_t _; f32vec2_t _; };
-struct f32mat2x4_t { f32vec2_t _; f32vec2_t _; f32vec2_t _; f32vec2_t _; };
+struct f32mat3x2_t { f32vec2_t _; f32vec2_t _; f32vec2_t _; };
+struct f32mat4x2_t { f32vec2_t _; f32vec2_t _; f32vec2_t _; f32vec2_t _; };
 
-struct f32mat3x2_t { f32vec3_t _; f32vec3_t _; };
+struct f32mat2x3_t { f32vec3_t _; f32vec3_t _; };
 struct f32mat3x3_t { f32vec3_t _; f32vec3_t _; f32vec3_t _; };
-struct f32mat3x4_t { f32vec3_t _; f32vec3_t _; f32vec3_t _; f32vec3_t _; };
+struct f32mat4x3_t { f32vec3_t _; f32vec3_t _; f32vec3_t _; f32vec3_t _; };
 
-struct f32mat4x2_t { f32vec4_t _; f32vec4_t _; };
-struct f32mat4x3_t { f32vec4_t _; f32vec4_t _; f32vec4_t _; };
+struct f32mat2x4_t { f32vec4_t _; f32vec4_t _; };
+struct f32mat3x4_t { f32vec4_t _; f32vec4_t _; f32vec4_t _; };
 struct f32mat4x4_t { f32vec4_t _; f32vec4_t _; f32vec4_t _; f32vec4_t _; };
 
 // Float64 Vectors & Matrices
@@ -106,15 +106,15 @@ struct f64vec3_t { double _; double _; double _; };
 struct f64vec4_t { double _; double _; double _; double _; };
 
 struct f64mat2x2_t { f64vec2_t _; f64vec2_t _; };
-struct f64mat2x3_t { f64vec2_t _; f64vec2_t _; f64vec2_t _; };
-struct f64mat2x4_t { f64vec2_t _; f64vec2_t _; f64vec2_t _; f64vec2_t _; };
+struct f64mat3x2_t { f64vec2_t _; f64vec2_t _; f64vec2_t _; };
+struct f64mat4x2_t { f64vec2_t _; f64vec2_t _; f64vec2_t _; f64vec2_t _; };
 
-struct f64mat3x2_t { f64vec3_t _; f64vec3_t _; };
+struct f64mat2x3_t { f64vec3_t _; f64vec3_t _; };
 struct f64mat3x3_t { f64vec3_t _; f64vec3_t _; f64vec3_t _; };
-struct f64mat3x4_t { f64vec3_t _; f64vec3_t _; f64vec3_t _; f64vec3_t _; };
+struct f64mat4x3_t { f64vec3_t _; f64vec3_t _; f64vec3_t _; f64vec3_t _; };
 
-struct f64mat4x2_t { f64vec4_t _; f64vec4_t _; };
-struct f64mat4x3_t { f64vec4_t _; f64vec4_t _; f64vec4_t _; };
+struct f64mat2x4_t { f64vec4_t _; f64vec4_t _; };
+struct f64mat3x4_t { f64vec4_t _; f64vec4_t _; f64vec4_t _; };
 struct f64mat4x4_t { f64vec4_t _; f64vec4_t _; f64vec4_t _; f64vec4_t _; };
 
 // Float8 Vectors
