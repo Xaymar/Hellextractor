@@ -11,26 +11,24 @@
 #pragma once
 #include <cinttypes>
 
+#define bswap16(x) ((uint16_t)(((x) >> 8) & 0xFF) | ((uint16_t)((x)&0xFF) << 8))
+#define bswap32(x) (((uint32_t)bswap16(((x) >> 16) & 0xFFFF)) | ((uint32_t)bswap16((x)&0xFFFF) << 16))
+#define bswap64(x) (((uint64_t)bswap32(((x) >> 32) & 0xFFFFFFFF)) | ((uint64_t)bswap32((x)&0xFFFFFFFF) << 32))
+
 #if __BIG_ENDIAN__
-#define htole16(x) ((uint16_t)(((x) >> 8) & 0xFF) | ((uint16_t)((x)&0xFF) << 8))
-#define htole32(x) (((uint32_t)htole16(((x) >> 16) & 0xFFFF)) | ((uint32_t)htole16((x)&0xFFFF) << 16))
-#define htole64(x) (((uint64_t)htole32(((x) >> 32) & 0xFFFFFFFF)) | ((uint64_t)htole32((x)&0xFFFFFFFF) << 32))
+#define htole16(x) bswap16(x)
+#define htole32(x) bswap32(x)
+#define htole64(x) bswap64(x)
 #define htobe16(x) (x)
 #define htobe32(x) (x)
 #define htobe64(x) (x)
-#define eflip16(x) htole16(x)
-#define eflip32(x) htole32(x)
-#define eflip64(x) htole64(x)
 #else
-#define htobe16(x) ((uint16_t)(((x) >> 8) & 0xFF) | ((uint16_t)((x)&0xFF) << 8))
-#define htobe32(x) (((uint32_t)htobe16(((x) >> 16) & 0xFFFF)) | ((uint32_t)htobe16((x)&0xFFFF) << 16))
-#define htobe64(x) (((uint64_t)htobe32(((x) >> 32) & 0xFFFFFFFF)) | ((uint64_t)htobe32((x)&0xFFFFFFFF) << 32))
 #define htole16(x) (x)
 #define htole32(x) (x)
 #define htole64(x) (x)
-#define eflip16(x) htobe16(x)
-#define eflip32(x) htobe32(x)
-#define eflip64(x) htobe64(x)
+#define htobe16(x) bswap16(x)
+#define htobe32(x) bswap32(x)
+#define htobe64(x) bswap64(x)
 #endif
 
 #define le16toh(x) htole16(x)

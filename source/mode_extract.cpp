@@ -300,7 +300,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 			++stats_names;
 		}
 		file_names.emplace_back(string_printf("%016" PRIx64, (uint64_t)meta.file.id));
-		file_names.emplace_back(string_printf("%016" PRIx64, eflip64((uint64_t)meta.file.id)));
+		file_names.emplace_back(string_printf("%016" PRIx64, bswap64((uint64_t)meta.file.id)));
 
 		// Match the type with the type databases.
 		auto file_types = translations(static_cast<uint64_t>(meta.file.type), typedbs, strings);
@@ -308,7 +308,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 			++stats_types;
 		}
 		file_types.emplace_back(string_printf("%016" PRIx64, (uint64_t)meta.file.type));
-		file_types.emplace_back(string_printf("%016" PRIx64, eflip64((uint64_t)meta.file.type)));
+		file_types.emplace_back(string_printf("%016" PRIx64, bswap64((uint64_t)meta.file.type)));
 
 		// Generate all permutations.
 		std::vector<std::pair<std::string, std::string>> permutations;
