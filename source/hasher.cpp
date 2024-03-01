@@ -272,7 +272,7 @@ class hash_murmur_32 : public hellextractor::hash::instance {
 		while (data != end) {
 			// Get value at data, then increment data. Neat little C/C++ trick that really just looks confusing.
 			uint32_t key = *data++;
-			key          = htole64(key);
+			key          = htole32(key);
 
 			key *= mix;
 			key ^= key >> shifts;
