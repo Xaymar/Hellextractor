@@ -24,15 +24,40 @@
     #undef IS_INCLUDE
 #endif
 
+enum <uint8_t> zlib_cmf_cm {
+    DEFLATE = 8,
+};
+
+enum <uint8_t> zlib_flg_flevel {
+    FASTEST = 0,
+    FAST = 1,
+    DEFAULT = 2,
+    SLOWEST = 3,
+};
+
 struct stingray_stream_t {
 	BigEndian();
     uint32_t magic_number <format=hex>;
 	LittleEndian();
     uint32_t __unk <format=decimal>;
     uint32_t __unk <format=hex>;
-    uint32_t size <format=decimal>;
-    char data[size] <format=hex>;
-    
+    struct {
+        uint32_t size <format=decimal>;
+        struct {
+            zlib_cmf_cm cm : 4;
+            uint8_t cinfo : 4 <read=Pow(2, this)>;
+        } cmf;
+        struct {
+            uint8_t fcheck : 5;
+            uint8_t fdict : 1;
+            zlib_flg_flevel flevel : 2;
+        } flg;
+        if (flg.fdict) {
+            uint32_t dict_id;
+        }        
+        char data[size - 6];
+        uint32_t adler32;
+    } zlib[2] <optimize=false>;
 };
 
 #ifndef IS_INCLUDE
