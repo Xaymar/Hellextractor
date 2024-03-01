@@ -12,7 +12,7 @@
 
 helldivers2::wwise_stream::~wwise_stream() {}
 
-helldivers2::wwise_stream::wwise_stream(helldivers2::data::meta_t meta) : _meta(meta)
+helldivers2::wwise_stream::wwise_stream(helldivers2::data_110000F0::meta_t meta) : _meta(meta)
 {
 	_header  = reinterpret_cast<decltype(_header)>(_meta.main);
 	_data    = reinterpret_cast<decltype(_data)>(_meta.stream ? _meta.stream : _meta.gpu);

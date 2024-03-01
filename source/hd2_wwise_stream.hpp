@@ -24,14 +24,14 @@ namespace helldivers2 {
 		};
 
 		private:
-		helldivers2::data::meta_t _meta;
+		helldivers2::data_110000F0::meta_t _meta;
 		header_t const*           _header;
 		uint8_t const*            _data;
 		size_t                    _data_sz;
 
 		public:
 		~wwise_stream();
-		wwise_stream(helldivers2::data::meta_t meta);
+		wwise_stream(helldivers2::data_110000F0::meta_t meta);
 
 		size_t size();
 

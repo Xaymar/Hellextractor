@@ -21,7 +21,7 @@ namespace helldivers2 {
 	typedef uint64_t file_id_t;
 	typedef uint64_t file_type_t;
 
-	class data {
+	class data_110000F0 {
 		// header_t header;
 		// type_t type[header.types];
 		// file_t file[header.files];
@@ -41,7 +41,7 @@ namespace helldivers2 {
 
 		public:
 		struct header_t {
-			uint32_t magic_number; // Should always be 0x110000F0
+			uint32_t magic_number; // Should always be 0x11, 0x00, 0x00, 0xF0
 			uint32_t types;
 			uint32_t files;
 
@@ -108,7 +108,7 @@ namespace helldivers2 {
 		};
 
 		public:
-		data(std::filesystem::path path);
+		data_110000F0(std::filesystem::path path);
 
 		size_t types() const;
 

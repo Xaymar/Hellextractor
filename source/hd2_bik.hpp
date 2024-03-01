@@ -25,7 +25,7 @@ namespace helldivers2 {
 		};
 
 		private:
-		helldivers2::data::meta_t _meta;
+		helldivers2::data_110000F0::meta_t _meta;
 		header_t const*           _header;
 		uint8_t const*            _data_header;
 		size_t                    _data_header_sz;
@@ -34,7 +34,7 @@ namespace helldivers2 {
 
 		public:
 		~bik();
-		bik(helldivers2::data::meta_t meta);
+		bik(helldivers2::data_110000F0::meta_t meta);
 
 		size_t size();
 

@@ -19,7 +19,7 @@ namespace hellextractor::converter {
 
 		public:
 		virtual ~texture();
-		texture(helldivers2::data::meta_t meta);
+		texture(helldivers2::data_110000F0::meta_t meta);
 
 		std::map<std::string, std::pair<size_t, std::string>> outputs() override;
 

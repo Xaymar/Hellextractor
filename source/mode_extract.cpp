@@ -232,7 +232,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 	// We'll load all containers into memory at once, which should ideally only require virtual memory.
 	if (verbosity >= 0)
 		std::cout << "Loading " << input_paths.size() << " containers..." << std::endl;
-	std::list<helldivers2::data> containers;
+	std::list<helldivers2::data_110000F0> containers;
 	for (auto const& path : input_paths) {
 		try {
 			containers.emplace_back(path);
@@ -246,7 +246,7 @@ int32_t mode_extract(std::vector<std::string> const& args)
 
 	// Merge all containers to get a full view of what we really have.
 	typedef std::pair<helldivers2::file_id_t, helldivers2::file_type_t> key_t;
-	typedef helldivers2::data::meta_t                                   data_t;
+	typedef helldivers2::data_110000F0::meta_t                                   data_t;
 	std::map<key_t, data_t>                                             files;
 	for (auto const& cont : containers) {
 		for (size_t i = 0; i < cont.files(); i++) {

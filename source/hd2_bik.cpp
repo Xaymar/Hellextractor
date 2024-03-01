@@ -12,7 +12,7 @@
 
 helldivers2::bik::~bik() {}
 
-helldivers2::bik::bik(helldivers2::data::meta_t meta) : _meta(meta)
+helldivers2::bik::bik(helldivers2::data_110000F0::meta_t meta) : _meta(meta)
 {
 	_header         = reinterpret_cast<decltype(_header)>(_meta.main);
 	_data_header    = reinterpret_cast<decltype(_data_header)>(reinterpret_cast<uint8_t const*>(_header) + sizeof(header_t));

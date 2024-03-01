@@ -36,21 +36,6 @@ enum unit_datatype_element_type {
     BONE_INDEX = 7,
 }; 
 
-enum unit_datatype_element_format {
-    F32VEC1 = 0,
-    F32VEC2 = 1,
-    F32VEC3 = 2,
-    
-    //XBGR = 25, or RGBA = 25, or ARGB = 25,
-    ABGR = 26,
-    
-    UNKNOWN_24 = 24, // These don't appear in vertex data.
-    UNKNOWN_25 = 25, // These don't appear in vertex data.
-    
-    F16VEC2 = 29,
-    F16VEC4 = 31,
-};
-
 struct unit_datatype_t {
 	BigEndian();
     uint32_t magic_number <format=hex>;
@@ -58,8 +43,8 @@ struct unit_datatype_t {
     
     uint32_t __unk00 <format=hex>;
     struct element_t {
-        unit_datatype_element_type type <format=decimal>;
-        unit_datatype_element_format format <format=decimal>;
+        uint32_t type <format=decimal>;
+        uint32_t format <format=decimal>;
         uint32_t layer <format=decimal>;
         uint32_t __unk00 <format=hex>;
         uint32_t __unk01 <format=hex>;
@@ -154,7 +139,7 @@ struct unit_t {
         uint32_t __unk <format=hex>;
         uint32_t __unk <format=hex>;
         BigEndian();
-        uint64_t bones_file_hash <format=hex>;
+        uint64_t bones_hash <format=hex>;
         LittleEndian();
         
         uint32_t __unk <format=hex>;
@@ -164,7 +149,7 @@ struct unit_t {
         LittleEndian();
         
         BigEndian();
-        uint64_t sometimes_bones_file_hash <format=hex>;
+        uint64_t state_machine_hash <format=hex>;
         LittleEndian();
         uint32_t __unk <format=hex>;
         uint32_t __unk <format=hex>;
@@ -199,6 +184,11 @@ struct unit_t {
             uint32_t __unk <format=hex>;
             uint32_t __unk <format=hex>;
             uint32_t __unk <format=hex>;
+            
+            // Padding to full 16b?
+            if (FTell() % 16 > 0) {
+                uint8_t __pad[16 - (FTell() % 16)] <format=hex>;
+            }
         } __unk3;
     }
     
@@ -212,40 +202,16 @@ struct unit_t {
             
             // Not the correct size?
             struct {
-                uint32_t __unk <format=hex>;
-                float width;
-                float height;
-                float depth;
-                
+                float __unkfloat[24];                
                 uint32_t __unk <format=hex>;
                 uint32_t __unk <format=hex>;
                 uint32_t __unk <format=hex>;
-                uint32_t __unk <format=hex>;
-                
-                uint32_t __unk <format=hex>;
-                uint32_t __unk <format=hex>;
-                uint32_t __unk <format=hex>;
-                uint32_t __unk <format=hex>;
-                
-                uint32_t __unk <format=hex>;
-                uint32_t __unk <format=hex>;
-                uint32_t __unk <format=hex>;
-                uint32_t __unk <format=hex>;
-                
-                uint32_t __unk <format=hex>;
-                uint32_t __unk <format=hex>;
-                uint32_t __unk <format=hex>;
-                uint32_t __unk <format=hex>;
-                
-                uint32_t __unk <format=hex>;
-                uint32_t __unk <format=hex>;
-                uint32_t __unk <format=hex>;
-                uint32_t __unk <format=hex>;
-                
-                uint32_t __unk <format=hex>;
-                uint32_t __unk <format=hex>;
-                uint32_t __unk <format=hex>;
-            } textures[count];
+            } __unk5[count];
+            
+            // Padding to full 16b?
+            if (FTell() % 16 > 0) {
+                uint8_t __pad[16 - (FTell() % 16)] <format=hex>;
+            }
         } __unk2;
     }
     
@@ -281,7 +247,7 @@ struct unit_t {
                             
                             uint32_t count <format=decimal>;
                             uint32_t data[count] <format=decimal>;
-                        } __unk;
+                        } __unk0_data1;
                     }
                     
                     FSeek(startof(this) + offset);
@@ -289,8 +255,13 @@ struct unit_t {
                     uint32_t __unk;
                     float __unk;
                     uint32_t __unk;
-                } __unk00data;
+                } __unk_data;
             };
+            
+            // Padding to full 16b?
+            if (FTell() % 16 > 0) {
+                uint8_t __pad[16 - (FTell() % 16)] <format=hex>;
+            }
         } __unk0;
     }
     
@@ -303,7 +274,19 @@ struct unit_t {
             uint32_t __unk <format=hex>;
             
             f32mat4x4_t __unk_f32mat4x4_0[count];
+            // If the next one is the translation/rotation/scale, what is this one?
             f32mat4x4_t __unk_f32mat4x4_1[count];
+            // Potentially translation, scale and rotation in one:
+            //       [0] [1] [2] [3]
+            //   [0]  xX  xY  xZ   0
+            //   [1]  yX  yY  yz   0
+            //   [2]  zX  zY  zZ   0
+            //   [3]  tX  tY  tZ   1
+            // [xyz][XYZ] encode Scale and Rotation in one.
+            // [t][XYZ] is translation?
+            // The 4th column appears to be unused, since scale was encoded into rotation matrix.
+            // This might be OpenGL-style (transposed) instead of DirectX-style
+            
             u16vec2_t __unk_u16vec2_0[count];
 			BigEndian();
             uint32_t __unk_commonhash[count] <format=hex>;
@@ -312,6 +295,11 @@ struct unit_t {
             // Overlaps into __unk4/__unk5.
             //uint32_t __unk <format=hex>;
             //uint32_t __unk <format=hex>;
+            
+            // Padding to full 16b?
+            if (FTell() % 16 > 0) {
+                uint8_t __pad[16 - (FTell() % 16)] <format=hex>;
+            }
         } __unk1;
     }
     
@@ -327,7 +315,7 @@ struct unit_t {
             uint32_t text_length;
             char text[text_length];
             
-            // Padding?
+            // Padding to full 16b?
             if ((length + 4) % 16 > 0) {
                 uint8_t __pad[16 - ((length + 4) % 16)] <format=hex>;
             }
@@ -338,35 +326,18 @@ struct unit_t {
         FSeek(header.__unkoffset[5]);
         struct {
             uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
+            uint32_t __unk_hash[__unk] <format=hex>;
             
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
+            struct {
+                uint32_t __unk <format=decimal>;
+                uint32_t __unk0 <format=decimal>;
+            } __unk1[__unk] <optimize=false>;
             
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
-            
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
-            
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
-            
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
-            uint32_t __unk <format=hex>;
-        } __unk5;
+            // Padding to full 16b?
+            if (FTell() % 16 > 0) {
+                uint8_t __pad[16 - (FTell() % 16)] <format=hex>;
+            }
+        } __unk5; // Off by a lot. Heck.
     }
         
     if (header.__unkoffset[6] != 0) { // 768 bytes. Suspicious.
@@ -396,6 +367,11 @@ struct unit_t {
                     uint32_t count1;
                     uint32_t __unkl[count1];
                 } __unk;
+            }
+            
+            // Padding to full 16b?
+            if (FTell() % 16 > 0) {
+                uint8_t __pad[16 - (FTell() % 16)] <format=hex>;
             }
         } __unk6;
     }
@@ -443,6 +419,11 @@ struct unit_t {
             uint32 keys[count] <format=hex>;
             uint64 values[count] <format=hex>;
 			LittleEndian();
+            
+            // Padding to full 16b?
+            if (FTell() % 16 > 0) {
+                uint8_t __pad[16 - (FTell() % 16)] <format=hex>;
+            }
         } materials;
     }
         
@@ -451,12 +432,11 @@ struct unit_t {
         struct {
             uint32_t count <format=decimal>;        
             uint32_t __unk <format=hex>;
-            // If everything is a single file, then __unk7 is the start of mesh data.
-            // However the evidence suggests the opposite:
-            // - All offsets are relative to the start of the gpu_resources file, not relative to the start of the unit file.
-            // - There is no pointer or value that corrects for this error anywhere.
-            // - It doesn't make sense to treat it as one file.
+            // It seems that this is the actual start of the mesh data:
+            // - All offsets are relative to the start of the gpu_resources section.
+            // - Default Autodesk Stingray does not provide an index into the stream file.
             
+            //*
             local uint64 pos = startof(this) + 8;
             
             local uint32 i;
@@ -471,46 +451,91 @@ struct unit_t {
                 
                 FSeek(pos + datatypes.datatype[dtindex].__unk03.vertex_offset + meshes.mesh[i].group[0].vertex_offset * vtxstride);
                 struct meshinfo_data_t {
-                    local uint32 j;
-                    for (j = 0; j < meshes.mesh[i].header.groups; j++) {
-                        struct {
-                            FSeek(pos + datatypes.datatype[dtindex].__unk03.vertex_offset + meshes.mesh[i].group[j].vertex_offset * vtxstride);
+                    struct {
+                        local uint32 j;
+                        local uint32 k;
+                        local uint32 l;
+                        local uint32 type;
+                        local uint32 format;
+                        for (j = 0; j < meshes.mesh[i].header.groups; j++) {
+                            FSeek(pos
+                                + datatypes.datatype[dtindex].__unk03.vertex_offset
+                                + meshes.mesh[i].group[j].vertex_offset * vtxstride
+                            );
                             struct {
-                                local uint32 k;
-                                local uint32 type;
-                                local uint32 format;
-                                for (k = 0; k < datatypes.datatype[dtindex].num_elements; k++) { // This aint looping right, chief. What the heck?
-                                    type = datatypes.datatype[dtindex].elements[k].type;
-                                    format = datatypes.datatype[dtindex].elements[k].format;
-                                    switch(format) {
-                                        case ABGR:
-                                            u8vec4_t data;
-                                            break;
-                                        case F16VEC2:
-                                            f16vec2_t data;
-                                            break;
-                                        case F32VEC3:
-                                            f32vec3_t data;
-                                            break;
-                                    }
+                                for (k = 0; k < meshes.mesh[i].group[j].vertex_count; k++) {
+                                    struct {
+                                        for (l = 0; l < datatypes.datatype[dtindex].num_elements; l++) {
+                                            type = datatypes.datatype[dtindex].elements[l].type;
+                                            format = datatypes.datatype[dtindex].elements[l].format;
+                                            switch(format) {
+                                                case 0:
+                                                    f32vec1_t data0;
+                                                    break;
+                                                case 1:
+                                                    f32vec2_t data1;
+                                                    break;
+                                                case 2:
+                                                    f32vec3_t data2;
+                                                    break;
+                                                case 3:
+                                                    f32vec4_t data3;
+                                                    break;
+                                                case 4:
+                                                    f8vec4u_t data4;
+                                                    break;
+                                                case 24:
+                                                    u16vec2_t data24;
+                                                    break;
+                                                case 25:
+                                                    f8vec4u_t data25;
+                                                    break;
+                                                case 26:
+                                                    f8vec4u_t data26;
+                                                    break;
+                                                case 28:
+                                                    f16vec1_t data28;
+                                                    break;
+                                                case 29:
+                                                    f16vec2_t data29;
+                                                    break;
+                                                case 30:
+                                                    f16vec3_t data30;
+                                                    break;
+                                                case 31:
+                                                    f16vec4_t data31;
+                                                    break;
+                                            }
+                                        }
+                                    
+                                        FSeek(pos + datatypes.datatype[dtindex].__unk03.vertex_offset + meshes.mesh[i].group[j].vertex_offset * vtxstride + k * vtxstride);
+                                        uint8_t raw[vtxstride];
+                                    } vertex <optimize=false>;
                                 }
-                            } vertex [meshes.mesh[i].group[j].vertex_count] <optimize = false>;
-                               
+                            } group;
+                        }
+                    } vertex_groups;
+                    
+                    struct {
+                        local uint32 j;
+                        for (j = 0; j < meshes.mesh[i].header.groups; j++) {
                             FSeek(pos
                                 + datatypes.datatype[dtindex].__unk03.index_offset
                                 + meshes.mesh[i].group[j].index_offset * idxstride
                             );
                             struct {
-                                if (idxstride == 4) {
-                                    uint32_t _0, _1, _2;
-                                } else {
-                                    uint16_t _0, _1, _2;
-                                }
-                            } face [meshes.mesh[i].group[j].index_count / 3] <optimize=false, size=(idxstride * 3)>;
-                        } group;
-                    }
+                                struct {
+                                    if (idxstride == 4) {
+                                        uint32_t _0, _1, _2;
+                                    } else {
+                                        uint16_t _0, _1, _2;
+                                    }
+                                } face [meshes.mesh[i].group[j].index_count / 3] <optimize=false, size=(idxstride * 3)>;
+                            } group;
+                        }
+                    } index_groups;
                 } data;
-            }
+            }//*/
         } meshdatas;
     }
     

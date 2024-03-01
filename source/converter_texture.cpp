@@ -22,11 +22,11 @@ static auto instance = hellextractor::converter::registry::do_register(
 	std::list<uint64_t>{
 		type,
 	},
-	[](helldivers2::data::meta_t meta) { return std::make_shared<hellextractor::converter::texture>(meta); });
+	[](helldivers2::data_110000F0::meta_t meta) { return std::make_shared<hellextractor::converter::texture>(meta); });
 
 hellextractor::converter::texture::~texture() {}
 
-hellextractor::converter::texture::texture(helldivers2::data::meta_t meta) : base(meta), _texture(meta) {}
+hellextractor::converter::texture::texture(helldivers2::data_110000F0::meta_t meta) : base(meta), _texture(meta) {}
 
 std::map<std::string, std::pair<size_t, std::string>> hellextractor::converter::texture::outputs()
 {

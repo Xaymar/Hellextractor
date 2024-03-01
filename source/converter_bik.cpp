@@ -21,11 +21,11 @@ static auto instance = hellextractor::converter::registry::do_register(
 	std::list<uint64_t>{
 		type,
 	},
-	[](helldivers2::data::meta_t meta) { return std::make_shared<hellextractor::converter::bik>(meta); });
+	[](helldivers2::data_110000F0::meta_t meta) { return std::make_shared<hellextractor::converter::bik>(meta); });
 
 hellextractor::converter::bik::~bik() {}
 
-hellextractor::converter::bik::bik(helldivers2::data::meta_t meta) : base(meta), _bik(meta) {}
+hellextractor::converter::bik::bik(helldivers2::data_110000F0::meta_t meta) : base(meta), _bik(meta) {}
 
 std::map<std::string, std::pair<size_t, std::string>> hellextractor::converter::bik::outputs()
 {
