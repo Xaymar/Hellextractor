@@ -8,9 +8,9 @@
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "hd2_data.hpp"
+#include "stingray_data.hpp"
 
-helldivers2::data_110000F0::data_110000F0(std::filesystem::path path)
+stingray::data_110000F0::data_110000F0(std::filesystem::path path)
 {
 	_main_path = std::filesystem::absolute(path).replace_extension();
 	_main_size = std::filesystem::file_size(_main_path);
@@ -36,12 +36,12 @@ helldivers2::data_110000F0::data_110000F0(std::filesystem::path path)
 	_ptr_data = reinterpret_cast<decltype(_ptr_data)>(&_main + sizeof(header_t) + sizeof(type_t) * _ptr->types + sizeof(file_t) * _ptr->files);
 }
 
-size_t helldivers2::data_110000F0::types() const
+size_t stingray::data_110000F0::types() const
 {
 	return _ptr->types;
 }
 
-helldivers2::data_110000F0::type_t const& helldivers2::data_110000F0::type(size_t idx) const
+stingray::data_110000F0::type_t const& stingray::data_110000F0::type(size_t idx) const
 {
 	if (idx >= types()) {
 		throw std::out_of_range("idx >= edx");
@@ -50,12 +50,12 @@ helldivers2::data_110000F0::type_t const& helldivers2::data_110000F0::type(size_
 	return _ptr_type[idx];
 }
 
-size_t helldivers2::data_110000F0::files() const
+size_t stingray::data_110000F0::files() const
 {
 	return _ptr->files;
 }
 
-helldivers2::data_110000F0::file_t const& helldivers2::data_110000F0::file(size_t idx) const
+stingray::data_110000F0::file_t const& stingray::data_110000F0::file(size_t idx) const
 {
 	if (idx >= files()) {
 		throw std::out_of_range("idx >= edx");
@@ -64,7 +64,7 @@ helldivers2::data_110000F0::file_t const& helldivers2::data_110000F0::file(size_
 	return _ptr_file[idx];
 }
 
-helldivers2::data_110000F0::meta_t helldivers2::data_110000F0::meta(size_t idx) const
+stingray::data_110000F0::meta_t stingray::data_110000F0::meta(size_t idx) const
 {
 	if (idx >= files()) {
 		throw std::out_of_range("idx >= edx");
@@ -81,7 +81,7 @@ helldivers2::data_110000F0::meta_t helldivers2::data_110000F0::meta(size_t idx) 
 	};
 }
 
-bool helldivers2::data_110000F0::has_main(size_t idx) const
+bool stingray::data_110000F0::has_main(size_t idx) const
 {
 	if (idx >= files()) {
 		throw std::out_of_range("idx >= edx");
@@ -90,7 +90,7 @@ bool helldivers2::data_110000F0::has_main(size_t idx) const
 	return (file(idx).size > 0);
 }
 
-uint8_t const* helldivers2::data_110000F0::main_data(size_t idx) const
+uint8_t const* stingray::data_110000F0::main_data(size_t idx) const
 {
 	if (idx >= files()) {
 		throw std::out_of_range("idx >= edx");
@@ -109,7 +109,7 @@ uint8_t const* helldivers2::data_110000F0::main_data(size_t idx) const
 	return &_main + file(idx).offset;
 }
 
-size_t helldivers2::data_110000F0::main_size(size_t idx) const
+size_t stingray::data_110000F0::main_size(size_t idx) const
 {
 	if (idx >= files()) {
 		throw std::out_of_range("idx >= edx");
@@ -118,7 +118,7 @@ size_t helldivers2::data_110000F0::main_size(size_t idx) const
 	return file(idx).size;
 }
 
-bool helldivers2::data_110000F0::has_stream(size_t idx) const
+bool stingray::data_110000F0::has_stream(size_t idx) const
 {
 	if (idx >= files()) {
 		throw std::out_of_range("idx >= edx");
@@ -127,7 +127,7 @@ bool helldivers2::data_110000F0::has_stream(size_t idx) const
 	return (_stream.has_value()) && (file(idx).stream_size > 0);
 }
 
-uint8_t const* helldivers2::data_110000F0::stream_data(size_t idx) const
+uint8_t const* stingray::data_110000F0::stream_data(size_t idx) const
 {
 	if (idx >= files()) {
 		throw std::out_of_range("idx >= edx");
@@ -146,7 +146,7 @@ uint8_t const* helldivers2::data_110000F0::stream_data(size_t idx) const
 	return (&(_stream.value()) + file(idx).stream_offset);
 }
 
-size_t helldivers2::data_110000F0::stream_size(size_t idx) const
+size_t stingray::data_110000F0::stream_size(size_t idx) const
 {
 	if (idx >= files()) {
 		throw std::out_of_range("idx >= edx");
@@ -159,7 +159,7 @@ size_t helldivers2::data_110000F0::stream_size(size_t idx) const
 	return file(idx).stream_size;
 }
 
-bool helldivers2::data_110000F0::has_gpu(size_t idx) const
+bool stingray::data_110000F0::has_gpu(size_t idx) const
 {
 	if (idx >= files()) {
 		throw std::out_of_range("idx >= edx");
@@ -168,7 +168,7 @@ bool helldivers2::data_110000F0::has_gpu(size_t idx) const
 	return (_gpu.has_value()) && (file(idx).gpu_size > 0);
 }
 
-uint8_t const* helldivers2::data_110000F0::gpu_data(size_t idx) const
+uint8_t const* stingray::data_110000F0::gpu_data(size_t idx) const
 {
 	if (idx >= files()) {
 		throw std::out_of_range("idx >= edx");
@@ -187,7 +187,7 @@ uint8_t const* helldivers2::data_110000F0::gpu_data(size_t idx) const
 	return (&(_gpu.value()) + file(idx).gpu_offset);
 }
 
-size_t helldivers2::data_110000F0::gpu_size(size_t idx) const
+size_t stingray::data_110000F0::gpu_size(size_t idx) const
 {
 	if (idx >= files()) {
 		throw std::out_of_range("idx >= edx");

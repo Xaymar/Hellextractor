@@ -10,26 +10,26 @@
 
 #include "hd2_wwise_stream.hpp"
 
-helldivers2::wwise_stream::~wwise_stream() {}
+stingray::wwise_stream::~wwise_stream() {}
 
-helldivers2::wwise_stream::wwise_stream(helldivers2::data_110000F0::meta_t meta) : _meta(meta)
+stingray::wwise_stream::wwise_stream(stingray::data_110000F0::meta_t meta) : _meta(meta)
 {
 	_header  = reinterpret_cast<decltype(_header)>(_meta.main);
 	_data    = reinterpret_cast<decltype(_data)>(_meta.stream ? _meta.stream : _meta.gpu);
 	_data_sz = _header->size;
 }
 
-size_t helldivers2::wwise_stream::size()
+size_t stingray::wwise_stream::size()
 {
 	return _data_sz;
 }
 
-std::string helldivers2::wwise_stream::extension()
+std::string stingray::wwise_stream::extension()
 {
 	return "wem";
 }
 
-std::list<std::pair<void const*, size_t>> helldivers2::wwise_stream::sections()
+std::list<std::pair<void const*, size_t>> stingray::wwise_stream::sections()
 {
 	return {
 		{_data, _data_sz},

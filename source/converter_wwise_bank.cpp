@@ -21,11 +21,11 @@ static auto instance = hellextractor::converter::registry::do_register(
 	std::list<uint64_t>{
 		type,
 	},
-	[](helldivers2::data_110000F0::meta_t meta) { return std::make_shared<hellextractor::converter::wwise_bank>(meta); });
+	[](stingray::data_110000F0::meta_t meta) { return std::make_shared<hellextractor::converter::wwise_bank>(meta); });
 
 hellextractor::converter::wwise_bank::~wwise_bank() {}
 
-hellextractor::converter::wwise_bank::wwise_bank(helldivers2::data_110000F0::meta_t meta) : base(meta), _data(meta) {}
+hellextractor::converter::wwise_bank::wwise_bank(stingray::data_110000F0::meta_t meta) : base(meta), _data(meta) {}
 
 std::map<std::string, std::pair<size_t, std::string>> hellextractor::converter::wwise_bank::outputs()
 {

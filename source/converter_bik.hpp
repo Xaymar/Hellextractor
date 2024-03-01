@@ -11,15 +11,15 @@
 #pragma once
 #include "converter.hpp"
 #include "hd2_bik.hpp"
-#include "hd2_data.hpp"
+#include "stingray_data.hpp"
 
 namespace hellextractor::converter {
 	class bik : public base {
-		helldivers2::bik _bik;
+		stingray::bik _bik;
 
 		public:
 		virtual ~bik();
-		bik(helldivers2::data_110000F0::meta_t meta);
+		bik(stingray::data_110000F0::meta_t meta);
 
 		std::map<std::string, std::pair<size_t, std::string>> outputs() override;
 

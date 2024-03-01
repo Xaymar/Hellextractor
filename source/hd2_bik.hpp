@@ -12,9 +12,9 @@
 #include <cinttypes>
 #include <cstddef>
 #include <list>
-#include "hd2_data.hpp"
+#include "stingray_data.hpp"
 
-namespace helldivers2 {
+namespace stingray {
 	class bik {
 		public:
 		struct header_t {
@@ -25,16 +25,16 @@ namespace helldivers2 {
 		};
 
 		private:
-		helldivers2::data_110000F0::meta_t _meta;
-		header_t const*                    _header;
-		uint8_t const*                     _data_header;
-		size_t                             _data_header_sz;
-		uint8_t const*                     _data;
-		size_t                             _data_sz;
+		stingray::data_110000F0::meta_t _meta;
+		header_t const*                 _header;
+		uint8_t const*                  _data_header;
+		size_t                          _data_header_sz;
+		uint8_t const*                  _data;
+		size_t                          _data_sz;
 
 		public:
 		~bik();
-		bik(helldivers2::data_110000F0::meta_t meta);
+		bik(stingray::data_110000F0::meta_t meta);
 
 		size_t size();
 
@@ -42,4 +42,4 @@ namespace helldivers2 {
 
 		std::list<std::pair<void const*, size_t>> sections();
 	};
-} // namespace helldivers2
+} // namespace stingray

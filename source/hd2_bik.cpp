@@ -10,9 +10,9 @@
 
 #include "hd2_bik.hpp"
 
-helldivers2::bik::~bik() {}
+stingray::bik::~bik() {}
 
-helldivers2::bik::bik(helldivers2::data_110000F0::meta_t meta) : _meta(meta)
+stingray::bik::bik(stingray::data_110000F0::meta_t meta) : _meta(meta)
 {
 	_header         = reinterpret_cast<decltype(_header)>(_meta.main);
 	_data_header    = reinterpret_cast<decltype(_data_header)>(reinterpret_cast<uint8_t const*>(_header) + sizeof(header_t));
@@ -21,17 +21,17 @@ helldivers2::bik::bik(helldivers2::data_110000F0::meta_t meta) : _meta(meta)
 	_data_sz        = _meta.stream_size ? _meta.stream_size : _meta.gpu_size;
 }
 
-size_t helldivers2::bik::size()
+size_t stingray::bik::size()
 {
 	return _data_header_sz + _data_sz;
 }
 
-std::string helldivers2::bik::extension()
+std::string stingray::bik::extension()
 {
 	return "bik";
 }
 
-std::list<std::pair<void const*, size_t>> helldivers2::bik::sections()
+std::list<std::pair<void const*, size_t>> stingray::bik::sections()
 {
 	return {
 		{_data_header, _data_header_sz},

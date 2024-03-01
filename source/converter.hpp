@@ -15,17 +15,17 @@
 #include <memory>
 #include <ostream>
 #include <string>
-#include "hd2_data.hpp"
+#include "stingray_data.hpp"
 
 namespace hellextractor::converter {
 	class base;
 
 	class registry {
 		public:
-		static std::shared_ptr<hellextractor::converter::base> find(helldivers2::data_110000F0::meta_t meta);
+		static std::shared_ptr<hellextractor::converter::base> find(stingray::data_110000F0::meta_t meta);
 
 		public:
-		typedef std::function<std::shared_ptr<hellextractor::converter::base>(helldivers2::data_110000F0::meta_t meta)> function_t;
+		typedef std::function<std::shared_ptr<hellextractor::converter::base>(stingray::data_110000F0::meta_t meta)> function_t;
 
 		struct do_register {
 			public:
@@ -35,11 +35,11 @@ namespace hellextractor::converter {
 
 	class base {
 		protected:
-		helldivers2::data_110000F0::meta_t _meta;
+		stingray::data_110000F0::meta_t _meta;
 
 		public:
 		virtual ~base();
-		base(helldivers2::data_110000F0::meta_t meta);
+		base(stingray::data_110000F0::meta_t meta);
 
 		/** Retrieve a list of outputs
 		 * 

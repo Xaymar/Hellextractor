@@ -12,9 +12,9 @@
 #include <cinttypes>
 #include <cstddef>
 #include <list>
-#include "hd2_data.hpp"
+#include "stingray_data.hpp"
 
-namespace helldivers2 {
+namespace stingray {
 	class wwise_bank {
 		public:
 		struct header_t {
@@ -24,14 +24,14 @@ namespace helldivers2 {
 		};
 
 		private:
-		helldivers2::data_110000F0::meta_t _meta;
-		header_t const*                    _header;
-		uint8_t const*                     _data;
-		size_t                             _data_sz;
+		stingray::data_110000F0::meta_t _meta;
+		header_t const*                 _header;
+		uint8_t const*                  _data;
+		size_t                          _data_sz;
 
 		public:
 		~wwise_bank();
-		wwise_bank(helldivers2::data_110000F0::meta_t meta);
+		wwise_bank(stingray::data_110000F0::meta_t meta);
 
 		size_t size();
 
@@ -39,4 +39,4 @@ namespace helldivers2 {
 
 		std::list<std::pair<void const*, size_t>> sections();
 	};
-} // namespace helldivers2
+} // namespace stingray

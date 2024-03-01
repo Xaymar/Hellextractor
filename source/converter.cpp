@@ -20,9 +20,9 @@ static registry_t& get_registry()
 	return list;
 }
 
-std::shared_ptr<hellextractor::converter::base> hellextractor::converter::registry::find(helldivers2::data_110000F0::meta_t meta)
+std::shared_ptr<hellextractor::converter::base> hellextractor::converter::registry::find(stingray::data_110000F0::meta_t meta)
 {
-	if (auto kv = get_registry().find(htobe64(meta.file.type)); kv != get_registry().end()) {
+	if (auto kv = get_registry().find(meta.file.type); kv != get_registry().end()) {
 		return kv->second(meta);
 	}
 	return nullptr;
@@ -37,7 +37,7 @@ hellextractor::converter::registry::do_register::do_register(std::list<uint64_t>
 
 hellextractor::converter::base::~base() {}
 
-hellextractor::converter::base::base(helldivers2::data_110000F0::meta_t meta) : _meta(meta) {}
+hellextractor::converter::base::base(stingray::data_110000F0::meta_t meta) : _meta(meta) {}
 
 //
 //auto filter = [](std::filesystem::path const& path) {

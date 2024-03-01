@@ -11,42 +11,72 @@
 #pragma once
 #include <cinttypes>
 #include <cstddef>
-#include <list>
-#include "stingray_data.hpp"
 
 namespace stingray {
-	class texture {
-		public:
-		struct streamable_section_t {
-			uint32_t offset;
-			uint32_t size;
-			uint16_t width;
-			uint16_t height;
-		};
+	class thin_hash_t;
 
-		struct header_t {
-			uint32_t             __unk0;
-			uint32_t             __unk1;
-			uint32_t             __unk2;
-			streamable_section_t sections[15];
-		};
-
-		private:
-		stingray::data_110000F0::meta_t _meta;
-		header_t const*                 _header;
-		uint8_t const*                  _data_header;
-		size_t                          _data_header_sz;
-		uint8_t const*                  _data;
-		size_t                          _data_sz;
+	class hash_t {
+		uint64_t _value;
 
 		public:
-		~texture();
-		texture(stingray::data_110000F0::meta_t meta);
+		hash_t(uint64_t value);
 
-		size_t size();
+		// Copy
+		hash_t(stingray::hash_t const& other);
 
-		std::string extension();
+		stingray::hash_t& operator=(stingray::hash_t const& other);
 
-		std::list<std::pair<void const*, size_t>> sections();
+		// Move
+		hash_t(stingray::hash_t&& other) noexcept;
+
+		stingray::hash_t& operator=(stingray::hash_t&& other) noexcept;
+
+		public:
+		bool operator==(stingray::hash_t const& rhs) const noexcept;
+
+		bool operator<=(stingray::hash_t const& rhs) const noexcept;
+
+		bool operator<(stingray::hash_t const& rhs) const noexcept;
+
+		bool operator>=(stingray::hash_t const& rhs) const noexcept;
+
+		bool operator>(stingray::hash_t const& rhs) const noexcept;
+
+		operator uint64_t();
+
+		operator stingray::thin_hash_t();
+
+		operator uint32_t();
 	};
+
+	class thin_hash_t {
+		uint32_t _value;
+
+		public:
+		thin_hash_t(uint32_t value);
+
+		// Copy
+		thin_hash_t(stingray::thin_hash_t const& other);
+
+		stingray::thin_hash_t& operator=(stingray::thin_hash_t const& other);
+
+		// Move
+		thin_hash_t(stingray::thin_hash_t&& other) noexcept;
+
+		stingray::thin_hash_t& operator=(stingray::thin_hash_t&& other) noexcept;
+
+		public:
+		bool operator==(stingray::thin_hash_t const& rhs) const noexcept;
+
+		bool operator<=(stingray::thin_hash_t const& rhs) const noexcept;
+
+		bool operator<(stingray::thin_hash_t const& rhs) const noexcept;
+
+		bool operator>=(stingray::thin_hash_t const& rhs) const noexcept;
+
+		bool operator>(stingray::thin_hash_t const& rhs) const noexcept;
+
+		operator uint32_t();
+	};
+
 } // namespace stingray

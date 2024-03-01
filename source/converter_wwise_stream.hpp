@@ -10,16 +10,16 @@
 
 #pragma once
 #include "converter.hpp"
-#include "hd2_data.hpp"
 #include "hd2_wwise_stream.hpp"
+#include "stingray_data.hpp"
 
 namespace hellextractor::converter {
 	class wwise_stream : public base {
-		helldivers2::wwise_stream _data;
+		stingray::wwise_stream _data;
 
 		public:
 		virtual ~wwise_stream();
-		wwise_stream(helldivers2::data_110000F0::meta_t meta);
+		wwise_stream(stingray::data_110000F0::meta_t meta);
 
 		std::map<std::string, std::pair<size_t, std::string>> outputs() override;
 

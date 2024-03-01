@@ -14,13 +14,10 @@
 #include <filesystem>
 #include <optional>
 #include <string_view>
-
 #include "mapped_file.hpp"
+#include "stingray.hpp"
 
-namespace helldivers2 {
-	typedef uint64_t file_id_t;
-	typedef uint64_t file_type_t;
-
+namespace stingray {
 	class data_110000F0 {
 		// header_t header;
 		// type_t type[header.types];
@@ -64,34 +61,34 @@ namespace helldivers2 {
 		} const* _ptr;
 
 		struct type_t {
-			uint32_t    __unk00;
-			uint32_t    __unk01;
-			file_type_t id; // Big Endian
-			uint32_t    count;
-			uint32_t    __unk02;
-			uint32_t    __unk03_always_0x10;
-			uint32_t    __unk04_always_0x40;
+			uint32_t         __unk00;
+			uint32_t         __unk01;
+			stingray::hash_t id; // Big Endian
+			uint32_t         count;
+			uint32_t         __unk02;
+			uint32_t         __unk03_always_0x10;
+			uint32_t         __unk04_always_0x40;
 		} const* _ptr_type;
 
 		struct file_t {
-			file_id_t   id; // Big Endian
-			file_type_t type; // Big Endian
-			uint32_t    offset;
-			uint32_t    __unk00;
-			uint32_t    stream_offset;
-			uint32_t    __unk01;
-			uint32_t    gpu_offset;
-			uint32_t    __unk02;
-			uint32_t    __unk03;
-			uint32_t    __unk04;
-			uint32_t    __unk05;
-			uint32_t    __unk06;
-			uint32_t    size;
-			uint32_t    stream_size;
-			uint32_t    gpu_size;
-			uint32_t    __unk07;
-			uint32_t    __unk08;
-			uint32_t    index;
+			stingray::hash_t id; // Big Endian
+			stingray::hash_t type; // Big Endian
+			uint32_t         offset;
+			uint32_t         __unk00;
+			uint32_t         stream_offset;
+			uint32_t         __unk01;
+			uint32_t         gpu_offset;
+			uint32_t         __unk02;
+			uint32_t         __unk03;
+			uint32_t         __unk04;
+			uint32_t         __unk05;
+			uint32_t         __unk06;
+			uint32_t         size;
+			uint32_t         stream_size;
+			uint32_t         gpu_size;
+			uint32_t         __unk07;
+			uint32_t         __unk08;
+			uint32_t         index;
 		} const* _ptr_file;
 
 		uint8_t const* _ptr_data;
@@ -138,7 +135,7 @@ namespace helldivers2 {
 
 		size_t gpu_size(size_t idx) const;
 	};
-} // namespace helldivers2
+} // namespace stingray
 
 /*
 namespace hd2 {

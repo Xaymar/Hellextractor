@@ -14,9 +14,9 @@
 // - gpu_resources only has mip level 2 and up again, which we won't need.
 // - File appear to be DDS, and there is a reference to TGA as well.
 
-helldivers2::texture::~texture() {}
+stingray::texture::~texture() {}
 
-helldivers2::texture::texture(helldivers2::data_110000F0::meta_t meta) : _meta(meta)
+stingray::texture::texture(stingray::data_110000F0::meta_t meta) : _meta(meta)
 {
 	_header         = reinterpret_cast<decltype(_header)>(_meta.main);
 	_data_header    = reinterpret_cast<decltype(_data_header)>(reinterpret_cast<uint8_t const*>(_header) + sizeof(header_t));
@@ -25,12 +25,12 @@ helldivers2::texture::texture(helldivers2::data_110000F0::meta_t meta) : _meta(m
 	_data_sz        = _meta.stream_size ? _meta.stream_size : _meta.gpu_size;
 }
 
-size_t helldivers2::texture::size()
+size_t stingray::texture::size()
 {
 	return _data_header_sz + _data_sz;
 }
 
-std::string helldivers2::texture::extension()
+std::string stingray::texture::extension()
 {
 #define TWOCC(a, b) ((a) | (b << 8))
 #define FOURCC(a, b, c, d) ((a) | (b << 8) | (c << 16) | (d << 24))
@@ -50,7 +50,7 @@ std::string helldivers2::texture::extension()
 	return "texture";
 }
 
-std::list<std::pair<void const*, size_t>> helldivers2::texture::sections()
+std::list<std::pair<void const*, size_t>> stingray::texture::sections()
 {
 	return {
 		{_data_header, _data_header_sz},

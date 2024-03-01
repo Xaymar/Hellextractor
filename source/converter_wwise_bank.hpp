@@ -10,16 +10,16 @@
 
 #pragma once
 #include "converter.hpp"
-#include "hd2_data.hpp"
 #include "hd2_wwise_bank.hpp"
+#include "stingray_data.hpp"
 
 namespace hellextractor::converter {
 	class wwise_bank : public base {
-		helldivers2::wwise_bank _data;
+		stingray::wwise_bank _data;
 
 		public:
 		virtual ~wwise_bank();
-		wwise_bank(helldivers2::data_110000F0::meta_t meta);
+		wwise_bank(stingray::data_110000F0::meta_t meta);
 
 		std::map<std::string, std::pair<size_t, std::string>> outputs() override;
 
