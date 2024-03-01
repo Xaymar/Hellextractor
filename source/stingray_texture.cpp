@@ -8,49 +8,52 @@
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "converter_texture.hpp"
-#include <fstream>
-#include <string_view>
-#include "converter.hpp"
-#include "endian.h"
 #include "stingray_texture.hpp"
 
-static constexpr uint64_t         type            = 0x329ec6a0c63842cdull; // texture
-static constexpr std::string_view section_default = "texture";
+// Known information
+// - gpu_resources only has mip level 2 and up again, which we won't need.
+// - File appear to be DDS, and there is a reference to TGA as well.
 
-static auto instance = hellextractor::converter::registry::do_register(
-	std::list<uint64_t>{
-		type,
-	},
-	[](stingray::data_110000F0::meta_t meta) { return std::make_shared<hellextractor::converter::texture>(meta); });
+stingray::texture::~texture() {}
 
-hellextractor::converter::texture::~texture() {}
-
-hellextractor::converter::texture::texture(stingray::data_110000F0::meta_t meta) : base(meta), _texture(meta) {}
-
-std::map<std::string, std::pair<size_t, std::string>> hellextractor::converter::texture::outputs()
+stingray::texture::texture(stingray::data_110000F0::meta_t meta) : _meta(meta)
 {
-	return {
-		{std::string{section_default},
-		 {
-			 _texture.size(),
-			 _texture.extension(),
-		 }},
-	};
+	_header         = reinterpret_cast<decltype(_header)>(_meta.main);
+	_data_header    = reinterpret_cast<decltype(_data_header)>(reinterpret_cast<uint8_t const*>(_header) + sizeof(header_t));
+	_data_header_sz = _meta.main_size - sizeof(header_t);
+	_data           = reinterpret_cast<decltype(_data)>(_meta.stream ? _meta.stream : _meta.gpu);
+	_data_sz        = _meta.stream_size ? _meta.stream_size : _meta.gpu_size;
 }
 
-void hellextractor::converter::texture::extract(std::string section, std::filesystem::path path)
+size_t stingray::texture::size()
 {
-	if (section_default == section) { // Extract "texture" section.
-		std::ofstream stream{path, std::ios::trunc | std::ios::binary | std::ios::out};
-		if (!stream || stream.bad() || !stream.is_open()) {
-			throw std::runtime_error("Unable to open output file");
-		}
+	return _data_header_sz + _data_sz;
+}
 
-		for (auto const& section : _texture.sections()) {
-			stream.write(reinterpret_cast<char const*>(section.first), section.second);
-		}
+std::string stingray::texture::extension()
+{
+#define TWOCC(a, b) ((a) | (b << 8))
+#define FOURCC(a, b, c, d) ((a) | (b << 8) | (c << 16) | (d << 24))
 
-		stream.close();
+	// Take a reasonable guess at what the actual file type is.
+	if (_meta.main_size - sizeof(header_t) >= 4) {
+		uint16_t magic16 = *reinterpret_cast<uint16_t const*>(_data_header);
+		uint32_t magic32 = *reinterpret_cast<uint32_t const*>(_data_header);
+		if (magic32 == FOURCC('D', 'D', 'S', ' ')) {
+			return "dds";
+		} else if (magic32 == FOURCC('.', 'P', 'N', 'G')) {
+			return "png";
+		}
 	}
+
+	// If we still don't know, return the default.
+	return "texture";
+}
+
+std::list<std::pair<void const*, size_t>> stingray::texture::sections()
+{
+	return {
+		{_data_header, _data_header_sz},
+		{_data, _data_sz},
+	};
 }

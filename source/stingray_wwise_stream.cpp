@@ -8,49 +8,30 @@
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "converter_texture.hpp"
-#include <fstream>
-#include <string_view>
-#include "converter.hpp"
-#include "endian.h"
-#include "stingray_texture.hpp"
+#include "stingray_wwise_stream.hpp"
 
-static constexpr uint64_t         type            = 0x329ec6a0c63842cdull; // texture
-static constexpr std::string_view section_default = "texture";
+stingray::wwise_stream::~wwise_stream() {}
 
-static auto instance = hellextractor::converter::registry::do_register(
-	std::list<uint64_t>{
-		type,
-	},
-	[](stingray::data_110000F0::meta_t meta) { return std::make_shared<hellextractor::converter::texture>(meta); });
-
-hellextractor::converter::texture::~texture() {}
-
-hellextractor::converter::texture::texture(stingray::data_110000F0::meta_t meta) : base(meta), _texture(meta) {}
-
-std::map<std::string, std::pair<size_t, std::string>> hellextractor::converter::texture::outputs()
+stingray::wwise_stream::wwise_stream(stingray::data_110000F0::meta_t meta) : _meta(meta)
 {
-	return {
-		{std::string{section_default},
-		 {
-			 _texture.size(),
-			 _texture.extension(),
-		 }},
-	};
+	_header  = reinterpret_cast<decltype(_header)>(_meta.main);
+	_data    = reinterpret_cast<decltype(_data)>(_meta.stream ? _meta.stream : _meta.gpu);
+	_data_sz = _header->size;
 }
 
-void hellextractor::converter::texture::extract(std::string section, std::filesystem::path path)
+size_t stingray::wwise_stream::size()
 {
-	if (section_default == section) { // Extract "texture" section.
-		std::ofstream stream{path, std::ios::trunc | std::ios::binary | std::ios::out};
-		if (!stream || stream.bad() || !stream.is_open()) {
-			throw std::runtime_error("Unable to open output file");
-		}
+	return _data_sz;
+}
 
-		for (auto const& section : _texture.sections()) {
-			stream.write(reinterpret_cast<char const*>(section.first), section.second);
-		}
+std::string stingray::wwise_stream::extension()
+{
+	return "wem";
+}
 
-		stream.close();
-	}
+std::list<std::pair<void const*, size_t>> stingray::wwise_stream::sections()
+{
+	return {
+		{_data, _data_sz},
+	};
 }

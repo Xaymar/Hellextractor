@@ -8,49 +8,33 @@
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "converter_texture.hpp"
-#include <fstream>
-#include <string_view>
-#include "converter.hpp"
-#include "endian.h"
-#include "stingray_texture.hpp"
+#include "stingray_bik.hpp"
 
-static constexpr uint64_t         type            = 0x329ec6a0c63842cdull; // texture
-static constexpr std::string_view section_default = "texture";
+stingray::bik::~bik() {}
 
-static auto instance = hellextractor::converter::registry::do_register(
-	std::list<uint64_t>{
-		type,
-	},
-	[](stingray::data_110000F0::meta_t meta) { return std::make_shared<hellextractor::converter::texture>(meta); });
-
-hellextractor::converter::texture::~texture() {}
-
-hellextractor::converter::texture::texture(stingray::data_110000F0::meta_t meta) : base(meta), _texture(meta) {}
-
-std::map<std::string, std::pair<size_t, std::string>> hellextractor::converter::texture::outputs()
+stingray::bik::bik(stingray::data_110000F0::meta_t meta) : _meta(meta)
 {
-	return {
-		{std::string{section_default},
-		 {
-			 _texture.size(),
-			 _texture.extension(),
-		 }},
-	};
+	_header         = reinterpret_cast<decltype(_header)>(_meta.main);
+	_data_header    = reinterpret_cast<decltype(_data_header)>(reinterpret_cast<uint8_t const*>(_header) + sizeof(header_t));
+	_data_header_sz = _meta.main_size - sizeof(header_t);
+	_data           = reinterpret_cast<decltype(_data)>(_meta.stream ? _meta.stream : _meta.gpu);
+	_data_sz        = _meta.stream_size ? _meta.stream_size : _meta.gpu_size;
 }
 
-void hellextractor::converter::texture::extract(std::string section, std::filesystem::path path)
+size_t stingray::bik::size()
 {
-	if (section_default == section) { // Extract "texture" section.
-		std::ofstream stream{path, std::ios::trunc | std::ios::binary | std::ios::out};
-		if (!stream || stream.bad() || !stream.is_open()) {
-			throw std::runtime_error("Unable to open output file");
-		}
+	return _data_header_sz + _data_sz;
+}
 
-		for (auto const& section : _texture.sections()) {
-			stream.write(reinterpret_cast<char const*>(section.first), section.second);
-		}
+std::string stingray::bik::extension()
+{
+	return "bik";
+}
 
-		stream.close();
-	}
+std::list<std::pair<void const*, size_t>> stingray::bik::sections()
+{
+	return {
+		{_data_header, _data_header_sz},
+		{_data, _data_sz},
+	};
 }
