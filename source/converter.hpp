@@ -15,6 +15,7 @@
 #include <memory>
 #include <ostream>
 #include <string>
+#include "stingray.hpp"
 #include "stingray_data.hpp"
 
 namespace hellextractor::converter {
@@ -29,7 +30,7 @@ namespace hellextractor::converter {
 
 		struct do_register {
 			public:
-			do_register(std::list<uint64_t> types, function_t fn);
+			do_register(std::list<stingray::hash_t> types, function_t fn);
 		};
 	};
 

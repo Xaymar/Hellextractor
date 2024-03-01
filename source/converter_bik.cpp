@@ -14,12 +14,11 @@
 #include "converter.hpp"
 #include "endian.h"
 
-static constexpr uint64_t         type            = 0x18fa2930f06559aaull; // bik
 static constexpr std::string_view section_default = "bik";
 
 static auto instance = hellextractor::converter::registry::do_register(
-	std::list<uint64_t>{
-		type,
+	std::list<stingray::hash_t>{
+		0x18fa2930f06559aaull,
 	},
 	[](stingray::data_110000F0::meta_t meta) { return std::make_shared<hellextractor::converter::bik>(meta); });
 

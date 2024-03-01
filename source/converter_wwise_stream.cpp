@@ -14,12 +14,11 @@
 #include "converter.hpp"
 #include "endian.h"
 
-static constexpr uint64_t         type            = 0x0e44215d23554b50ull;
 static constexpr std::string_view section_default = "wem";
 
 static auto instance = hellextractor::converter::registry::do_register(
-	std::list<uint64_t>{
-		type,
+	std::list<stingray::hash_t>{
+		0x0e44215d23554b50ull,
 	},
 	[](stingray::data_110000F0::meta_t meta) { return std::make_shared<hellextractor::converter::wwise_stream>(meta); });
 

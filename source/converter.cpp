@@ -28,7 +28,7 @@ std::shared_ptr<hellextractor::converter::base> hellextractor::converter::regist
 	return nullptr;
 }
 
-hellextractor::converter::registry::do_register::do_register(std::list<uint64_t> types, function_t fn)
+hellextractor::converter::registry::do_register::do_register(std::list<stingray::hash_t> types, function_t fn)
 {
 	for (auto& type : types) {
 		get_registry().try_emplace(type, fn);

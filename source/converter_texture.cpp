@@ -15,12 +15,11 @@
 #include "endian.h"
 #include "stingray_texture.hpp"
 
-static constexpr uint64_t         type            = 0x329ec6a0c63842cdull; // texture
 static constexpr std::string_view section_default = "texture";
 
 static auto instance = hellextractor::converter::registry::do_register(
-	std::list<uint64_t>{
-		type,
+	std::list<stingray::hash_t>{
+		0x329ec6a0c63842cdull,
 	},
 	[](stingray::data_110000F0::meta_t meta) { return std::make_shared<hellextractor::converter::texture>(meta); });
 

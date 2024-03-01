@@ -14,12 +14,11 @@
 #include "converter.hpp"
 #include "endian.h"
 
-static constexpr uint64_t         type            = 0x99d750e6d37b5a53ull;
 static constexpr std::string_view section_default = "bnk";
 
 static auto instance = hellextractor::converter::registry::do_register(
-	std::list<uint64_t>{
-		type,
+	std::list<stingray::hash_t>{
+		0x99d750e6d37b5a53ull,
 	},
 	[](stingray::data_110000F0::meta_t meta) { return std::make_shared<hellextractor::converter::wwise_bank>(meta); });
 

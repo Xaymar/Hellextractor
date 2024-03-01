@@ -11,21 +11,21 @@
 #include "stingray.hpp"
 #include "endian.h"
 
-stingray::hash_t::hash_t(uint64_t value) : _value(value) {}
-
-stingray::hash_t::hash_t(stingray::hash_t const& other) : _value(other._value) {}
-
 stingray::hash_t& stingray::hash_t::operator=(stingray::hash_t const& other)
 {
 	_value = other._value;
 	return *this;
 }
 
-stingray::hash_t::hash_t(stingray::hash_t&& other) noexcept : _value(other._value) {}
-
 stingray::hash_t& stingray::hash_t::operator=(stingray::hash_t&& other) noexcept
 {
 	_value = other._value;
+	return *this;
+}
+
+stingray::hash_t& stingray::hash_t::operator=(uint64_t other) noexcept
+{
+	_value = other;
 	return *this;
 }
 
@@ -54,24 +54,20 @@ bool stingray::hash_t::operator>(stingray::hash_t const& rhs) const noexcept
 	return _value > rhs._value;
 }
 
-stingray::hash_t::operator uint64_t()
+stingray::hash_t::operator uint64_t() const noexcept
 {
 	return htobe64(_value);
 }
 
-stingray::hash_t::operator stingray::thin_hash_t()
+stingray::hash_t::operator stingray::thin_hash_t() const noexcept
 {
 	return {htobe64(_value) >> 32};
 }
 
-stingray::hash_t::operator uint32_t()
+stingray::hash_t::operator uint32_t() const noexcept
 {
 	return htobe64(_value) >> 32;
 }
-
-stingray::thin_hash_t::thin_hash_t(uint32_t value) : _value(value) {}
-
-stingray::thin_hash_t::thin_hash_t(stingray::thin_hash_t const& other) : _value(other._value) {}
 
 stingray::thin_hash_t& stingray::thin_hash_t::operator=(stingray::thin_hash_t const& other)
 {
@@ -79,11 +75,15 @@ stingray::thin_hash_t& stingray::thin_hash_t::operator=(stingray::thin_hash_t co
 	return *this;
 }
 
-stingray::thin_hash_t::thin_hash_t(stingray::thin_hash_t&& other) noexcept : _value(other._value) {}
-
 stingray::thin_hash_t& stingray::thin_hash_t::operator=(stingray::thin_hash_t&& other) noexcept
 {
 	_value = other._value;
+	return *this;
+}
+
+stingray::thin_hash_t& stingray::thin_hash_t::operator=(uint32_t other) noexcept
+{
+	_value = other;
 	return *this;
 }
 
@@ -112,7 +112,7 @@ bool stingray::thin_hash_t::operator>(thin_hash_t const& rhs) const noexcept
 	return _value > rhs._value;
 }
 
-stingray::thin_hash_t::operator uint32_t()
+stingray::thin_hash_t::operator uint32_t() const noexcept
 {
 	return htobe32(_value);
 }
