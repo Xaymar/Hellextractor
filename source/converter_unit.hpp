@@ -15,7 +15,7 @@
 
 namespace hellextractor::converter {
 	class unit : public base {
-		stingray::unit _meta;
+		stingray::unit::unit _meta;
 
 		public:
 		virtual ~unit();
