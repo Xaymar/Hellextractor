@@ -88,7 +88,9 @@ gitignore
 gitkeep
 gizmo
 gizmo_material
+hash_lookup
 havok_ai
+havok_ai_properties
 havok_ais
 havok_capture
 havok_captures
@@ -234,6 +236,7 @@ surface_properties
 svg
 template
 texture
+texture_atlas
 texture_category
 texture_template
 tga
