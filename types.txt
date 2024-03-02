@@ -82,6 +82,7 @@ font
 font_atlas
 font_material
 fs
+geleta
 geometry_group
 geometry_groups
 gif
