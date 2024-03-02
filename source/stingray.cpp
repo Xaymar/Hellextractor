@@ -56,17 +56,17 @@ bool stingray::hash_t::operator>(stingray::hash_t const& rhs) const noexcept
 
 stingray::hash_t::operator uint64_t() const noexcept
 {
-	return htobe64(_value);
+	return (_value);
 }
 
 stingray::hash_t::operator stingray::thin_hash_t() const noexcept
 {
-	return {htobe64(_value) >> 32};
+	return {(_value) >> 32};
 }
 
 stingray::hash_t::operator uint32_t() const noexcept
 {
-	return htobe64(_value) >> 32;
+	return (_value) >> 32;
 }
 
 stingray::thin_hash_t& stingray::thin_hash_t::operator=(stingray::thin_hash_t const& other)
@@ -114,5 +114,5 @@ bool stingray::thin_hash_t::operator>(thin_hash_t const& rhs) const noexcept
 
 stingray::thin_hash_t::operator uint32_t() const noexcept
 {
-	return htobe32(_value);
+	return (_value);
 }
